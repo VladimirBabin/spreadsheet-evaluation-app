@@ -1,0 +1,62 @@
+package com.vladimir_babin.wix_grow.spreadsheet_evaluator.utils;
+
+import com.vladimir_babin.wix_grow.spreadsheet_evaluator.Sheet;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.vladimir_babin.wix_grow.spreadsheet_evaluator.utils.Formulas.*;
+
+public class SheetComputer {
+
+    public static Sheet computeSheet(Sheet sheet) {
+        if (sheet.getData() == null) {
+            return sheet;
+        }
+        Sheet<Object> resultSheet = new Sheet<>();
+        resultSheet.setId(sheet.getId());
+        List<List<Object>> listOfResultRows = new ArrayList<>();
+        Sheet<Cell> cellSheet = replaceObjectsWithCells(sheet);
+        for (List<Cell> listOfCells : cellSheet.getData()) {
+            List<Object> rowOfResultObjects = new ArrayList<>();
+            for (Cell cell : listOfCells) {
+                Cell result = checkIfCellHasFormulaAndCompute(cell, cellSheet);
+                rowOfResultObjects.add(result.getValue());
+            }
+            listOfResultRows.add(rowOfResultObjects);
+        }
+        resultSheet.setData(listOfResultRows);
+        return resultSheet;
+    }
+
+
+    static private Sheet<Cell> replaceObjectsWithCells (Sheet<Object> sheet) {
+        Sheet<Cell> sheetResult = new Sheet<>();
+        sheetResult.setId(sheet.getId());
+        List<List<Cell>> listOfRows = new ArrayList<>();
+        for (List<Object> listOfObjects : sheet.getData()) {
+            List<Cell> rowOfCells = new ArrayList<>();
+            for (Object object : listOfObjects) {
+                Cell cell = new Cell(object);
+                if (object instanceof Number) {
+                    cell.setType(Cell.Type.NUMERIC);
+                } else if (object instanceof Boolean) {
+                    cell.setType(Cell.Type.BOOLEAN);
+                } else if (object instanceof String) {
+                    String stringObj = object.toString();
+                    if (stringObj.startsWith("=")) {
+                        cell.setType(Cell.Type.FORMULA);
+                    } else {
+                        cell.setType(Cell.Type.STRING);
+                    }
+                }
+                rowOfCells.add(cell);
+            }
+            listOfRows.add(rowOfCells);
+        }
+        sheetResult.setData(listOfRows);
+        return sheetResult;
+    }
+
+
+}
