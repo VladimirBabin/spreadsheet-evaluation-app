@@ -1,15 +1,19 @@
-package com.vladimir_babin.wix_grow.spreadsheet_evaluator.utils;
+package com.vladimirbabin.wixgrow.spreadsheetevaluator.utils;
 
-import com.vladimir_babin.wix_grow.spreadsheet_evaluator.Sheet;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.entity.Sheet;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.vladimir_babin.wix_grow.spreadsheet_evaluator.utils.Formulas.*;
-
+@Service
 public class SheetComputer {
 
-    public static Sheet computeSheet(Sheet sheet) {
+    @Autowired
+    private FormulaComputer formulaComputer;
+
+    public Sheet computeSheet(Sheet sheet) {
         if (sheet.getData() == null) {
             return sheet;
         }
@@ -20,7 +24,7 @@ public class SheetComputer {
         for (List<Cell> listOfCells : cellSheet.getData()) {
             List<Object> rowOfResultObjects = new ArrayList<>();
             for (Cell cell : listOfCells) {
-                Cell result = checkIfCellHasFormulaAndCompute(cell, cellSheet);
+                Cell result = formulaComputer.checkIfCellHasFormulaAndCompute(cell, cellSheet);
                 rowOfResultObjects.add(result.getValue());
             }
             listOfResultRows.add(rowOfResultObjects);
@@ -39,15 +43,15 @@ public class SheetComputer {
             for (Object object : listOfObjects) {
                 Cell cell = new Cell(object);
                 if (object instanceof Number) {
-                    cell.setType(Cell.Type.NUMERIC);
+                    cell.setType(Type.NUMERIC);
                 } else if (object instanceof Boolean) {
-                    cell.setType(Cell.Type.BOOLEAN);
+                    cell.setType(Type.BOOLEAN);
                 } else if (object instanceof String) {
                     String stringObj = object.toString();
                     if (stringObj.startsWith("=")) {
-                        cell.setType(Cell.Type.FORMULA);
+                        cell.setType(Type.FORMULA);
                     } else {
-                        cell.setType(Cell.Type.STRING);
+                        cell.setType(Type.STRING);
                     }
                 }
                 rowOfCells.add(cell);

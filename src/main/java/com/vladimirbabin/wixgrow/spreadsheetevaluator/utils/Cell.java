@@ -1,4 +1,4 @@
-package com.vladimir_babin.wix_grow.spreadsheet_evaluator.utils;
+package com.vladimirbabin.wixgrow.spreadsheetevaluator.utils;
 
 public class Cell {
     private Type type;
@@ -22,13 +22,5 @@ public class Cell {
 
     public void setValue(Object value) {
         this.value = value;
-    }
-
-    enum Type {
-        STRING,
-        NUMERIC,
-        BOOLEAN,
-        FORMULA,
-        ERROR
     }
 }
