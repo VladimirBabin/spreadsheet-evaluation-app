@@ -1,4 +1,4 @@
-package com.vladimirbabin.wixgrow.spreadsheetevaluator.entity;
+package com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO;
 
 import java.util.List;
 

@@ -1,13 +1,12 @@
 package com.vladimirbabin.wixgrow.spreadsheetevaluator.service;
 
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.entity.Message;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.entity.ResultSubmission;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.entity.Sheet;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.entity.Spreadsheet;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Message;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.ResultSubmission;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Sheet;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Spreadsheet;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.utils.SheetComputer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -17,16 +16,14 @@ import java.util.List;
 
 @Service
 public class SpreadsheetClient {
-    @Autowired
-    private SheetComputer sheetComputer;
-
+    private final SheetComputer sheetComputer;
+    private final WebClient client;
+    private final String url = "https://www.wix.com/_serverless/hiring-task-spreadsheet-evaluator/sheets";
     private static Logger logger = LoggerFactory.getLogger(SpreadsheetClient.class);
 
-    private final String url = "https://www.wix.com/_serverless/hiring-task-spreadsheet-evaluator/sheets";
-    private final WebClient client;
-
-    public SpreadsheetClient() {
+    public SpreadsheetClient(SheetComputer sheetComputer) {
         this.client = WebClient.builder().build();
+        this.sheetComputer = sheetComputer;
     }
 
     public Spreadsheet getSpreadsheet() {

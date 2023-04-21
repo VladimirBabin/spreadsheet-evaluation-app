@@ -1,7 +1,7 @@
 package com.vladimirbabin.wixgrow.spreadsheetevaluator.utils;
 
 
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.entity.Sheet;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Sheet;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

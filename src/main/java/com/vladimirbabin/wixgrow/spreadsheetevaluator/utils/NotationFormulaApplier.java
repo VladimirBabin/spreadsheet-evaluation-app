@@ -1,7 +1,6 @@
 package com.vladimirbabin.wixgrow.spreadsheetevaluator.utils;
 
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.entity.Sheet;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Sheet;
 import org.springframework.stereotype.Component;
 
 @Component("NOTATION")

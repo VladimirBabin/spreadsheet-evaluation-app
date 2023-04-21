@@ -1,5 +1,6 @@
 package com.vladimirbabin.wixgrow.spreadsheetevaluator;
 
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Spreadsheet;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.service.SpreadsheetClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -18,6 +19,7 @@ public class SpreadsheetEvaluatorApplication implements CommandLineRunner {
 
     @Override
     public void run(String[] args) throws Exception {
-        client.sendEvaluatedSpreadsheetAndLogResult(client.getSpreadsheet());
+        Spreadsheet resultSpreadsheet = client.getSpreadsheet();
+        client.sendEvaluatedSpreadsheetAndLogResult(resultSpreadsheet);
     }
 }
