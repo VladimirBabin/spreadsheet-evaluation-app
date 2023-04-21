@@ -1,5 +1,6 @@
 package com.vladimirbabin.wixgrow.spreadsheetevaluator.service;
 
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.ConfigurationProperties;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Message;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.ResultSubmission;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Sheet;
@@ -18,18 +19,19 @@ import java.util.List;
 public class SpreadsheetClient {
     private final SheetComputer sheetComputer;
     private final WebClient client;
-    private final String url = "https://www.wix.com/_serverless/hiring-task-spreadsheet-evaluator/sheets";
+    private final ConfigurationProperties properties;
     private static Logger logger = LoggerFactory.getLogger(SpreadsheetClient.class);
 
-    public SpreadsheetClient(SheetComputer sheetComputer) {
+    public SpreadsheetClient(SheetComputer sheetComputer, ConfigurationProperties properties) {
         this.client = WebClient.builder().build();
         this.sheetComputer = sheetComputer;
+        this.properties = properties;
     }
 
     public Spreadsheet getSpreadsheet() {
         Spreadsheet spreadsheet = client
                 .get()
-                .uri(url)
+                .uri(getUrl())
                 .retrieve()
                 .bodyToMono(Spreadsheet.class)
                 .block();
@@ -54,5 +56,7 @@ public class SpreadsheetClient {
 
         logger.info(responseWithPasscode.getMessage());
     }
+
+    private String getUrl() {return properties.urlForGettingTheTask();}
 }
 

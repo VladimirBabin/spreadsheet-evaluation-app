@@ -1,12 +1,8 @@
-package com.vladimirbabin.wixgrow.spreadsheetevaluator.utils;
+package com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO;
 
-public class Cell {
+public class Input {
     private Type type;
     private Object value;
-
-    public Cell(Object value) {
-        this.value = value;
-    }
 
     public Type getType() {
         return type;
@@ -21,6 +17,10 @@ public class Cell {
     }
 
     public void setValue(Object value) {
+        this.value = value;
+    }
+
+    public Input(Object value) {
         this.value = value;
     }
 }

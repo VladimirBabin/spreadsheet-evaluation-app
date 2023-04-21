@@ -1,7 +1,10 @@
 package com.vladimirbabin.wixgrow.spreadsheetevaluator.utils;
 
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Input;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Sheet;
 
+import java.util.List;
+
 public interface FormulaApplier {
-    Cell apply(FormulaInfo formulaInfo, Sheet<Cell> sheet);
+    Input apply(List<Input> resolvedParameters, Sheet<Input> sheet);
 }

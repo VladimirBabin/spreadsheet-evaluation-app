@@ -1,31 +1,38 @@
 package com.vladimirbabin.wixgrow.spreadsheetevaluator.utils;
 
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Input;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Sheet;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Type;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.List;
 
 @Component("MULTIPLY")
 public class MultiplyFormulaApplier implements FormulaApplier {
+    Logger logger = LoggerFactory.getLogger(SumFormulaApplier.class);
     @Override
-    public Cell apply(FormulaInfo formulaInfo, Sheet<Cell> sheet) {
-        String[] arrayOfParameters = formulaInfo.getArrayOfParameters();
-        BigDecimal[] params = new BigDecimal[arrayOfParameters.length];
+    public Input apply(List<Input> resolvedParameters, Sheet<Input> sheet) {
 
-        for (int i = 0; i < arrayOfParameters.length; i++) {
-            try {
-                params[i] = new BigDecimal(arrayOfParameters[i]);
-            } catch (RuntimeException exception) {
-                Cell errorCell = new Cell("#ERROR: " + exception.getMessage());
+        for (Input parameter : resolvedParameters) {
+            if (!parameter.getType().equals(Type.NUMERIC)) {
+                logger.error("Invalid parameter type");
+                Input errorCell = new Input("#ERROR: Invalid parameter type");
                 errorCell.setType(Type.ERROR);
                 return errorCell;
             }
         }
 
-        BigDecimal resultOfMultiplication = Arrays.stream(params).reduce(BigDecimal.ONE, BigDecimal::multiply);
+        BigDecimal resultOfMultiplication = resolvedParameters
+                .stream()
+                .map(i -> i.getValue().toString())
+                .map(BigDecimal::new)
+                .reduce(BigDecimal.ONE, BigDecimal::multiply);
 
-        Cell cellResult = new Cell(resultOfMultiplication);
+        Input cellResult = new Input(resultOfMultiplication);
         cellResult.setType(Type.NUMERIC);
         return cellResult;
     }

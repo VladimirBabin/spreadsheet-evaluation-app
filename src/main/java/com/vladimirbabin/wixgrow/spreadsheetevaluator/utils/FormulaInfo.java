@@ -1,7 +1,7 @@
 package com.vladimirbabin.wixgrow.spreadsheetevaluator.utils;
 
 public class FormulaInfo {
-    String cellStringOrParameterValue;
+    private String cellStringOrParameterValue;
 
     FormulaInfo(String cellStringOrParameterValue) {
         if (cellStringOrParameterValue.startsWith("=")) {
@@ -10,7 +10,6 @@ public class FormulaInfo {
             this.cellStringOrParameterValue = cellStringOrParameterValue;
         }
     }
-
     String getCellStringOrParameterValue() {
         return cellStringOrParameterValue;
     }
@@ -18,12 +17,11 @@ public class FormulaInfo {
     String getFormulaName() {
         if (isFormula(cellStringOrParameterValue)) {
             return cellStringOrParameterValue.substring(0, cellStringOrParameterValue.indexOf("("));
-        } else {
-            if (cellStringOrParameterValue.matches("[A-Z][0-9]+")) {
-                return "NOTATION";
-            }
-            return cellStringOrParameterValue;
+        } else if (isNotation(cellStringOrParameterValue)) {
+            return "NOTATION";
         }
+        return cellStringOrParameterValue;
+
     }
 
     String getFormulaContents() {
@@ -46,5 +44,9 @@ public class FormulaInfo {
 
     boolean isFormula(String cellOrParameterStringValue) {
         return cellOrParameterStringValue.contains("(");
+    }
+
+    boolean isNotation(String cellStringOrParameterValue) {
+        return cellStringOrParameterValue.matches("[A-Z][1-9]+");
     }
 }
