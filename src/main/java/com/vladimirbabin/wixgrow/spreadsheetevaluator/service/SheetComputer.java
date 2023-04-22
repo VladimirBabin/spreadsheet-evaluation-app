@@ -1,7 +1,9 @@
-package com.vladimirbabin.wixgrow.spreadsheetevaluator.utils;
+package com.vladimirbabin.wixgrow.spreadsheetevaluator.service;
 
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Input;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Sheet;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Type;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.utils.FormulaComputer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -12,16 +14,14 @@ import java.util.List;
 @Service
 public class SheetComputer {
     private FormulaComputer formulaComputer;
-    private NotationApplier notationApplier;
     private Logger logger = LoggerFactory.getLogger(SheetComputer.class);
 
-    public SheetComputer(FormulaComputer formulaComputer, NotationApplier notationApplier) {
+    public SheetComputer(FormulaComputer formulaComputer) {
         this.formulaComputer = formulaComputer;
-        this.notationApplier = notationApplier;
     }
 
     public Sheet computeSheet(Sheet sheet) {
-        logger.info(sheet.toString());
+        logger.info("Before computation: " + sheet);
         if (sheet.getData() == null) {
             return sheet;
         }
@@ -32,18 +32,21 @@ public class SheetComputer {
         for (List<Input> listOfCells : cellSheet.getData()) {
             List<Object> rowOfResultObjects = new ArrayList<>();
             for (Input cell : listOfCells) {
-                Input result = formulaComputer.checkIfInputHasFormulaOrNotationAndCompute(cell, sheet);
-                logger.info(cell.getValue().toString());
-                rowOfResultObjects.add(result);
+                Input result;
+                if (cell.getType().equals(Type.FORMULA)) {
+                    result = formulaComputer.computeFormula(cell, sheet);
+                } else {
+                    result = cell;
+                }
+                rowOfResultObjects.add(result.getValue());
             }
             listOfResultRows.add(rowOfResultObjects);
         }
         resultSheet.setData(listOfResultRows);
+        logger.info("After computation: " + resultSheet);
         return resultSheet;
     }
-
-
-    static private Sheet<Input> replaceObjectsWithCells (Sheet<Object> sheet) {
+    static private Sheet<Input> replaceObjectsWithCells(Sheet<Object> sheet) {
         InputTypeDeterminer inputTypeDeterminer = new InputTypeDeterminer();
         Sheet<Input> sheetResult = new Sheet<>();
         sheetResult.setId(sheet.getId());
@@ -59,6 +62,4 @@ public class SheetComputer {
         sheetResult.setData(listOfRows);
         return sheetResult;
     }
-
-
 }

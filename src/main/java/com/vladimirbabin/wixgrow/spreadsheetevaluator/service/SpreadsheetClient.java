@@ -5,7 +5,6 @@ import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Message;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.ResultSubmission;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Sheet;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Spreadsheet;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.utils.SheetComputer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -20,7 +19,7 @@ public class SpreadsheetClient {
     private final SheetComputer sheetComputer;
     private final WebClient client;
     private final ConfigurationProperties properties;
-    private static Logger logger = LoggerFactory.getLogger(SpreadsheetClient.class);
+    private static final Logger logger = LoggerFactory.getLogger(SpreadsheetClient.class);
 
     public SpreadsheetClient(SheetComputer sheetComputer, ConfigurationProperties properties) {
         this.client = WebClient.builder().build();
@@ -39,7 +38,7 @@ public class SpreadsheetClient {
     }
 
     public void sendEvaluatedSpreadsheetAndLogResult(Spreadsheet initialSpreadsheet) {
-        ResultSubmission result = new ResultSubmission();
+        ResultSubmission result = new ResultSubmission(properties);
         List<Sheet> resultListOfSheets = new ArrayList<>();
         for (Sheet sheet : initialSpreadsheet.getSheets()) {
             resultListOfSheets.add(sheetComputer.computeSheet(sheet));
@@ -54,9 +53,15 @@ public class SpreadsheetClient {
                 .bodyToMono(Message.class)
                 .block();
 
-        logger.info(responseWithPasscode.getMessage());
+        if (responseWithPasscode != null) {
+            logger.info(responseWithPasscode.getMessage());
+        } else {
+            logger.info("No response");
+        }
     }
 
-    private String getUrl() {return properties.urlForGettingTheTask();}
+    private String getUrl() {
+        return properties.getUrlForGettingTheTask();
+    }
 }
 

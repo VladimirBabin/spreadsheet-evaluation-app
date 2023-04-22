@@ -2,6 +2,7 @@ package com.vladimirbabin.wixgrow.spreadsheetevaluator.utils;
 
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Input;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Type;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.service.InputTypeDeterminer;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -13,6 +14,14 @@ class InputTypeDeterminerTest {
     @ParameterizedTest
     @ValueSource(ints = {1, 0, -59, Integer.MAX_VALUE})
     public void determineNumericTypeTest(int value) {
+        Input input = new Input(value);
+        Input resultInput = inputTypeDeterminer.determineType(input);
+        assertEquals(Type.NUMERIC, resultInput.getType());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"1", "6"})
+    public void determineNumericInStringTypeTest(int value) {
         Input input = new Input(value);
         Input resultInput = inputTypeDeterminer.determineType(input);
         assertEquals(Type.NUMERIC, resultInput.getType());

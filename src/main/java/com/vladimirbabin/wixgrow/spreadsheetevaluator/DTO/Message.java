@@ -5,9 +5,7 @@ public class Message {
 
     @Override
     public String toString() {
-        return "Message{" +
-                "message='" + message + '\'' +
-                '}';
+        return "message='" + message + '\'';
     }
 
     public String getMessage() {

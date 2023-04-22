@@ -3,6 +3,7 @@ package com.vladimirbabin.wixgrow.spreadsheetevaluator.utils;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Input;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Sheet;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Type;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.service.InputTypeDeterminer;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -13,9 +14,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SumFormulaApplierTest {
     private final InputTypeDeterminer inputTypeDeterminer = new InputTypeDeterminer();
-    private final NotationApplier notationApplier = new NotationApplier(inputTypeDeterminer);
     private final SumFormulaApplier sumFormulaApplier = new SumFormulaApplier();
-    private FormulaComputer formulaComputer = new FormulaComputer(notationApplier, inputTypeDeterminer);
+    private FormulaComputer formulaComputer = new FormulaComputer(inputTypeDeterminer);
 
     @Test
     void applyForSheetWithTwoParameters() {
@@ -35,7 +35,7 @@ class SumFormulaApplierTest {
         Input expected = new Input(new BigDecimal(212234));
         expected.setType(Type.NUMERIC);
 
-        Input result = formulaComputer.checkIfInputHasFormulaOrNotationAndCompute(thirdCell, sheetWithTwoParametersFormula);
+        Input result = formulaComputer.computeFormula(thirdCell, sheetWithTwoParametersFormula);
 
         assertEquals(expected.getType(), result.getType());
         assertEquals(expected.getValue(), result.getValue());

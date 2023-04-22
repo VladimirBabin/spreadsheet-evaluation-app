@@ -20,7 +20,7 @@ public class SpreadsheetEvaluatorApplication implements CommandLineRunner {
     }
 
     @Override
-    public void run(String[] args) throws Exception {
+    public void run(String[] args) {
         Spreadsheet resultSpreadsheet = client.getSpreadsheet();
         client.sendEvaluatedSpreadsheetAndLogResult(resultSpreadsheet);
     }

@@ -1,7 +1,12 @@
 package com.vladimirbabin.wixgrow.spreadsheetevaluator.utils;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class FormulaInfo {
-    private String cellStringOrParameterValue;
+    private final String cellStringOrParameterValue;
 
     FormulaInfo(String cellStringOrParameterValue) {
         if (cellStringOrParameterValue.startsWith("=")) {
@@ -10,14 +15,11 @@ public class FormulaInfo {
             this.cellStringOrParameterValue = cellStringOrParameterValue;
         }
     }
-    String getCellStringOrParameterValue() {
-        return cellStringOrParameterValue;
-    }
 
     String getFormulaName() {
-        if (isFormula(cellStringOrParameterValue)) {
+        if (hasParameters()) {
             return cellStringOrParameterValue.substring(0, cellStringOrParameterValue.indexOf("("));
-        } else if (isNotation(cellStringOrParameterValue)) {
+        } else if (isNotation()) {
             return "NOTATION";
         }
         return cellStringOrParameterValue;
@@ -25,7 +27,7 @@ public class FormulaInfo {
     }
 
     String getFormulaContents() {
-        if (isFormula(cellStringOrParameterValue)) {
+        if (hasParameters()) {
             return cellStringOrParameterValue.substring(cellStringOrParameterValue.indexOf("(") + 1,
                     cellStringOrParameterValue.lastIndexOf(")"));
         } else {
@@ -33,20 +35,37 @@ public class FormulaInfo {
         }
     }
 
-    String[] getArrayOfParameters() {
-        if (isFormula(cellStringOrParameterValue)) {
-            return getFormulaContents().split(",\s(?![^(]*?\\))");
+    List<String> getArrayOfParameters() {
+        if (!isConcat()) {
+            return List.of(getFormulaContents().split(",\s(?![^(]*?\\))"));
         } else {
-            String [] arrayOfOneParameter = {cellStringOrParameterValue};
-            return arrayOfOneParameter;
+            return splitStringUsingCommaAndSpaceWhenNotSurroundedByQuotes(getFormulaContents());
         }
     }
 
-    boolean isFormula(String cellOrParameterStringValue) {
-        return cellOrParameterStringValue.contains("(");
+    List<String> splitStringUsingCommaAndSpaceWhenNotSurroundedByQuotes(String formulaValue) {
+        List<String> matchList = new ArrayList<>();
+        Pattern regex = Pattern.compile("[^,\\s\"]+|\"[^\"]*\"");
+        Matcher regexMatcher = regex.matcher(formulaValue);
+        while (regexMatcher.find()) {
+            matchList.add(regexMatcher.group());
+        }
+        return matchList;
     }
 
-    boolean isNotation(String cellStringOrParameterValue) {
-        return cellStringOrParameterValue.matches("[A-Z][1-9]+");
+    boolean isConcat() {
+        return getFormulaName().equals("CONCAT");
+    }
+
+    boolean hasSingleParameter() {
+        return getArrayOfParameters().size() == 1;
+    }
+
+    boolean isNotation() {
+        return this.cellStringOrParameterValue.matches("[A-Z][1-9]+");
+    }
+
+    public boolean hasParameters() {
+        return this.cellStringOrParameterValue.contains("(");
     }
 }

@@ -20,6 +20,14 @@ public class Input {
         this.value = value;
     }
 
+    @Override
+    public String toString() {
+        return "Input{" +
+                "type=" + type +
+                ", value=" + value +
+                '}';
+    }
+
     public Input(Object value) {
         this.value = value;
     }
