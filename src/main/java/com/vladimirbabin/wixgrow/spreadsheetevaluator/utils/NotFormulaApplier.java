@@ -3,8 +3,6 @@ package com.vladimirbabin.wixgrow.spreadsheetevaluator.utils;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Input;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Sheet;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Type;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
