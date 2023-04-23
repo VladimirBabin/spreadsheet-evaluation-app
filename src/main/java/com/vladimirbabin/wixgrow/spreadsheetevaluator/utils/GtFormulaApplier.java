@@ -12,6 +12,11 @@ import java.util.List;
 public class GtFormulaApplier implements FormulaApplier {
     @Override
     public Input apply(List<Input> resolvedParameters, Sheet<Input> sheet) {
+        if (resolvedParameters.size() != 2) {
+            Input errorCell = new Input("#ERROR: There has to be two parameters for GT formula");
+            errorCell.setType(Type.ERROR);
+            return errorCell;
+        }
         for (Input parameter : resolvedParameters) {
             if (!parameter.getType().equals(Type.NUMERIC)) {
                 Input errorCell = new Input("#ERROR: Invalid parameter type");
@@ -25,15 +30,5 @@ public class GtFormulaApplier implements FormulaApplier {
         Input cellResult = new Input(isGreater);
         cellResult.setType(Type.BOOLEAN);
         return cellResult;
-    }
-
-    @Override
-    public Input apply(Input singleParameter, Sheet<Input> sheet) {
-        throw new UnsupportedOperationException("This method should be used with multiple Input parameters");
-    }
-
-    @Override
-    public Input apply(String formulaContents, Sheet<Input> sheet) {
-        throw new UnsupportedOperationException("This method should be used with multiple Input parameters");
     }
 }

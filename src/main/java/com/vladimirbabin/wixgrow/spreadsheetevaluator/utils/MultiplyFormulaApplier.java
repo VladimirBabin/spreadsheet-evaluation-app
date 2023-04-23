@@ -31,14 +31,4 @@ public class MultiplyFormulaApplier implements FormulaApplier {
         Input cellResult = new Input(resultOfMultiplication);
         return cellResult;
     }
-
-    @Override
-    public Input apply(Input singleParameter, Sheet<Input> sheet) {
-        throw new UnsupportedOperationException("This method should be used with multiple Input parameters");
-    }
-
-    @Override
-    public Input apply(String formulaContents, Sheet<Input> sheet) {
-        throw new UnsupportedOperationException("This method should be used with multiple Input parameters");
-    }
 }

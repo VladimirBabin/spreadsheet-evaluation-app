@@ -10,16 +10,15 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class DivideFormulaApplierTest {
+class NotFormulaApplierTest {
+
     @Autowired
-    private DivideFormulaApplier divideFormulaApplier;
+    private NotFormulaApplier notFormulaApplier;
 
     @Autowired
     private InputTypeDeterminer inputTypeDeterminer;
@@ -27,7 +26,6 @@ class DivideFormulaApplierTest {
     private Sheet sheet;
     private Input firstCell;
     private Input secondCell;
-    private Input thirdCell;
     private Input expected;
 
     @BeforeEach
@@ -35,24 +33,18 @@ class DivideFormulaApplierTest {
         sheet = Mockito.mock(Sheet.class);
         firstCell = new Input();
         secondCell = new Input();
-        thirdCell = new Input();
         expected = new Input();
     }
 
     @Test
-    public void applyWithTwoParameters() {
-        firstCell.setValue(6);
-        firstCell.setType(Type.NUMERIC);
-        secondCell.setValue(4);
-        secondCell.setType(Type.NUMERIC);
+    public void applyWithOneParameter() {
+        firstCell.setValue(false);
+        firstCell.setType(Type.BOOLEAN);
 
-        BigDecimal expectedNumber = new BigDecimal(6).divide(new BigDecimal(4), 7, RoundingMode.FLOOR);
-        expected.setValue(expectedNumber);
-        expected.setType(Type.NUMERIC);
+        expected.setValue(true);
+        expected.setType(Type.BOOLEAN);
 
-        List<Input> parameters = List.of(firstCell, secondCell);
-
-        Input result = divideFormulaApplier.apply(parameters, sheet);
+        Input result = notFormulaApplier.apply(firstCell, sheet);
         result = inputTypeDeterminer.determineType(result);
 
         assertEquals(expected.getType(), result.getType());
@@ -60,32 +52,27 @@ class DivideFormulaApplierTest {
     }
 
     @Test
-    public void applyWithThreeParameters() {
-        firstCell.setValue(20);
-        firstCell.setType(Type.NUMERIC);
-        secondCell.setValue(5);
-        secondCell.setType(Type.NUMERIC);
-        thirdCell.setValue(2);
-        thirdCell.setType(Type.NUMERIC);
+    public void applyWithTwoParameters() {
+        firstCell.setValue(false);
+        firstCell.setType(Type.BOOLEAN);
+        secondCell.setValue(true);
+        secondCell.setType(Type.BOOLEAN);
 
-        List<Input> parameters = List.of(firstCell, secondCell, thirdCell);
+        List<Input> parameters = List.of(firstCell, secondCell);
 
-        Input result = divideFormulaApplier.apply(parameters, sheet);
+        Input result = notFormulaApplier.apply(parameters, sheet);
 
         assertTrue(result.getType().equals(Type.ERROR));
-        assertEquals("#ERROR: There has to be two parameters for DIVIDE formula", result.getValue());
+        assertEquals("#ERROR: Multiple parameters can't be applied for " + notFormulaApplier.getClass().getName()
+                , result.getValue());
     }
 
     @Test
     public void applyWithInvalidParameter() {
         firstCell.setValue("String");
         firstCell.setType(Type.STRING);
-        secondCell.setValue(212212);
-        secondCell.setType(Type.NUMERIC);
 
-        List<Input> parameters = List.of(firstCell, secondCell);
-
-        Input result = divideFormulaApplier.apply(parameters, sheet);
+        Input result = notFormulaApplier.apply(firstCell, sheet);
 
         assertTrue(result.getType().equals(Type.ERROR));
         assertEquals("#ERROR: Invalid parameter type", result.getValue());

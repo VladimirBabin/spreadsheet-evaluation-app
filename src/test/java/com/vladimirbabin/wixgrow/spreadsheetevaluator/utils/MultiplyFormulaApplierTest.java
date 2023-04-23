@@ -4,7 +4,9 @@ import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Input;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Sheet;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Type;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.service.InputTypeDeterminer;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -21,15 +23,29 @@ public class MultiplyFormulaApplierTest {
     @Autowired
     InputTypeDeterminer inputTypeDeterminer;
 
+    private Sheet sheet;
+    private Input firstCell;
+    private Input secondCell;
+    private Input thirdCell;
+    private Input expected;
+
+    @BeforeEach
+    void setUp() {
+        sheet = Mockito.mock(Sheet.class);
+        firstCell = new Input();
+        secondCell = new Input();
+        thirdCell = new Input();
+        expected = new Input();
+    }
+
     @Test
     public void applyWithTwoParameters() {
-        Sheet sheet = null;
-        Input firstCell = new Input(22);
+        firstCell.setValue(22);
         firstCell.setType(Type.NUMERIC);
-        Input secondCell = new Input(22);
+        secondCell.setValue(22);
         secondCell.setType(Type.NUMERIC);
 
-        Input expected = new Input(new BigDecimal(22*22));
+        expected.setValue(new BigDecimal(22*22));
         expected.setType(Type.NUMERIC);
 
         List<Input> parameters = List.of(firstCell, secondCell);
@@ -42,11 +58,31 @@ public class MultiplyFormulaApplierTest {
     }
 
     @Test
+    public void applyWithThreeParameters() {
+        firstCell.setValue(22);
+        firstCell.setType(Type.NUMERIC);
+        secondCell.setValue(22);
+        secondCell.setType(Type.NUMERIC);
+        thirdCell.setValue(22);
+        thirdCell.setType(Type.NUMERIC);
+
+        Input expected = new Input(new BigDecimal(22*22*22));
+        expected.setType(Type.NUMERIC);
+
+        List<Input> parameters = List.of(firstCell, secondCell, thirdCell);
+
+        Input result = multiplyFormulaApplier.apply(parameters, sheet);
+        result = inputTypeDeterminer.determineType(result);
+
+        assertEquals(expected.getType(), result.getType());
+        assertEquals(expected.getValue(), result.getValue());
+    }
+
+    @Test
     public void applyWithInvalidParameter() {
-        Sheet sheet = null;
-        Input firstCell = new Input("String");
+        firstCell.setValue("String");
         firstCell.setType(Type.STRING);
-        Input secondCell = new Input(22);
+        secondCell.setValue(212212);
         secondCell.setType(Type.NUMERIC);
 
         List<Input> parameters = List.of(firstCell, secondCell);

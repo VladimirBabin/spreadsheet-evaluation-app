@@ -4,6 +4,13 @@ public class Input {
     private Type type;
     private Object value;
 
+    public Input(Object value) {
+        this.value = value;
+    }
+
+    public Input() {
+    }
+
     public Type getType() {
         return type;
     }
@@ -26,9 +33,5 @@ public class Input {
                 "type=" + type +
                 ", value=" + value +
                 '}';
-    }
-
-    public Input(Object value) {
-        this.value = value;
     }
 }

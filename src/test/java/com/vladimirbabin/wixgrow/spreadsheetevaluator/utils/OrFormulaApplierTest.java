@@ -11,18 +11,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class GtFormulaApplierTest {
-    @Autowired
-    private GtFormulaApplier gtFormulaApplier;
+class OrFormulaApplierTest {
 
     @Autowired
-    private InputTypeDeterminer inputTypeDeterminer;
+    OrFormulaApplier orFormulaApplier;
+
+    @Autowired
+    InputTypeDeterminer inputTypeDeterminer;
 
     private Sheet sheet;
     private Input firstCell;
@@ -40,18 +40,18 @@ class GtFormulaApplierTest {
     }
 
     @Test
-    public void applyWithTwoParametersWhereFirstIsGreater() {
-        firstCell.setValue(new BigDecimal(3));
-        firstCell.setType(Type.NUMERIC);
-        secondCell.setValue(new BigDecimal(1));
-        secondCell.setType(Type.NUMERIC);
+    void applyWithTwoParametersWhenOneIsTrue() {
+        firstCell.setValue(true);
+        firstCell.setType(Type.BOOLEAN);
+        secondCell.setValue(false);
+        secondCell.setType(Type.BOOLEAN);
 
         expected.setValue(true);
         expected.setType(Type.BOOLEAN);
 
         List<Input> parameters = List.of(firstCell, secondCell);
 
-        Input result = gtFormulaApplier.apply(parameters, sheet);
+        Input result = orFormulaApplier.apply(parameters, sheet);
         result = inputTypeDeterminer.determineType(result);
 
         assertEquals(expected.getType(), result.getType());
@@ -59,18 +59,41 @@ class GtFormulaApplierTest {
     }
 
     @Test
-    public void applyWithTwoParametersWhereFirstIsNotGreater() {
-        firstCell.setValue(new BigDecimal(1));
-        firstCell.setType(Type.NUMERIC);
-        secondCell.setValue(new BigDecimal(3));
-        secondCell.setType(Type.NUMERIC);
+    public void applyWithThreeParametersWhereOneIsTrue() {
+        firstCell.setValue(false);
+        firstCell.setType(Type.BOOLEAN);
+        secondCell.setValue(false);
+        secondCell.setType(Type.BOOLEAN);
+        thirdCell.setValue(true);
+        thirdCell.setType(Type.BOOLEAN);
+
+        expected.setValue(true);
+        expected.setType(Type.BOOLEAN);
+
+        List<Input> parameters = List.of(firstCell, secondCell, thirdCell);
+
+        Input result = orFormulaApplier.apply(parameters, sheet);
+        result = inputTypeDeterminer.determineType(result);
+
+        assertEquals(expected.getType(), result.getType());
+        assertEquals(expected.getValue(), result.getValue());
+    }
+
+    @Test
+    public void applyWithThreeParametersWhereNoneIsTrue() {
+        firstCell.setValue(false);
+        firstCell.setType(Type.BOOLEAN);
+        secondCell.setValue(false);
+        secondCell.setType(Type.BOOLEAN);
+        thirdCell.setValue(false);
+        thirdCell.setType(Type.BOOLEAN);
 
         expected.setValue(false);
         expected.setType(Type.BOOLEAN);
 
-        List<Input> parameters = List.of(firstCell, secondCell);
+        List<Input> parameters = List.of(firstCell, secondCell, thirdCell);
 
-        Input result = gtFormulaApplier.apply(parameters, sheet);
+        Input result = orFormulaApplier.apply(parameters, sheet);
         result = inputTypeDeterminer.determineType(result);
 
         assertEquals(expected.getType(), result.getType());
@@ -78,31 +101,14 @@ class GtFormulaApplierTest {
     }
 
     @Test
-    public void applyWithThreeParameters() {
-        firstCell.setValue(new BigDecimal(5));
-        firstCell.setType(Type.NUMERIC);
-        secondCell.setValue(new BigDecimal(4));
-        secondCell.setType(Type.NUMERIC);
-        thirdCell.setValue(new BigDecimal(3));
-        thirdCell.setType(Type.NUMERIC);
-
-        List<Input> parameters = List.of(firstCell, secondCell, thirdCell);
-
-        Input result = gtFormulaApplier.apply(parameters, sheet);
-
-        assertTrue(result.getType().equals(Type.ERROR));
-        assertEquals("#ERROR: There has to be two parameters for GT formula", result.getValue());
-    }
-
-    @Test
     public void applyWithInvalidParameter() {
-        firstCell.setValue("String");
-        firstCell.setType(Type.STRING);
-        secondCell.setValue(new BigDecimal(22));
+        firstCell.setValue(false);
+        firstCell.setType(Type.BOOLEAN);
+        secondCell.setValue(212212);
         secondCell.setType(Type.NUMERIC);
-        List<Input> parameters = List.of(firstCell, secondCell);
 
-        Input result = gtFormulaApplier.apply(parameters, sheet);
+        List<Input> parameters = List.of(firstCell, secondCell);
+        Input result = orFormulaApplier.apply(parameters, sheet);
 
         assertTrue(result.getType().equals(Type.ERROR));
         assertEquals("#ERROR: Invalid parameter type", result.getValue());

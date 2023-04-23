@@ -28,19 +28,11 @@ public class OrFormulaApplier implements FormulaApplier {
         if (optional.isPresent()) {
             resultOfAndFormula = optional.get();
         } else {
-            throw new RuntimeException("The And formula result can't be null");
+            Input errorCell = new Input("#ERROR: The OR formula result can't be null");
+            errorCell.setType(Type.ERROR);
+            return errorCell;
         }
         Input cellResult = new Input(resultOfAndFormula);
         return cellResult;
-    }
-
-    @Override
-    public Input apply(Input singleParameter, Sheet<Input> sheet) {
-        throw new UnsupportedOperationException("This method should be used with multiple Input parameters");
-    }
-
-    @Override
-    public Input apply(String formulaContents, Sheet<Input> sheet) {
-        throw new UnsupportedOperationException("This method should be used with multiple Input parameters");
     }
 }

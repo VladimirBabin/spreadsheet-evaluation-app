@@ -2,10 +2,9 @@ package com.vladimirbabin.wixgrow.spreadsheetevaluator.utils;
 
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Input;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Sheet;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Type;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.service.InputTypeDeterminer;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component("NOTATION")
 public class NotationApplier implements FormulaApplier {
@@ -13,15 +12,6 @@ public class NotationApplier implements FormulaApplier {
 
     public NotationApplier(InputTypeDeterminer inputTypeDeterminer) {
         this.inputTypeDeterminer = inputTypeDeterminer;
-    }
-
-    public Input apply(List<Input> parameters, Sheet<Input> sheet) {
-        throw new UnsupportedOperationException("This method should be used with String parameter");
-    }
-
-    @Override
-    public Input apply(Input singleParameter, Sheet<Input> sheet) {
-        throw new UnsupportedOperationException("This method should be used with String parameter");
     }
 
     public Input apply(String formulaContents, Sheet<Input> sheet) {
