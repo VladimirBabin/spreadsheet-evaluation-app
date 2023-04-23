@@ -1,4 +1,4 @@
-package com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO;
+package com.vladimirbabin.wixgrow.spreadsheetevaluator.dto;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ public class Spreadsheet {
     private String submissionUrl;
     private List<Sheet> sheets;
 
-    public Spreadsheet() {
+    private Spreadsheet() {
     }
 
     public String getSubmissionUrl() {

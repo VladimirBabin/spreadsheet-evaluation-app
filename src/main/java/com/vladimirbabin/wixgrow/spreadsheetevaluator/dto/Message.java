@@ -1,4 +1,4 @@
-package com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO;
+package com.vladimirbabin.wixgrow.spreadsheetevaluator.dto;
 
 public class Message {
     private String message;
@@ -16,6 +16,6 @@ public class Message {
         this.message = message;
     }
 
-    public Message() {
+    private Message() {
     }
 }

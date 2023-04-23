@@ -1,4 +1,4 @@
-package com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO;
+package com.vladimirbabin.wixgrow.spreadsheetevaluator.dto;
 
 public class Input {
     private Type type;

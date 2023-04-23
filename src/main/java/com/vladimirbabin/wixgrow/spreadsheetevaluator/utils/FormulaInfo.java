@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 
 public class FormulaInfo {
     private final String cellStringOrParameterValue;
+    private final static String CONCAT = "CONCAT";
 
     FormulaInfo(String cellStringOrParameterValue) {
         if (cellStringOrParameterValue.startsWith("=")) {
@@ -37,7 +38,7 @@ public class FormulaInfo {
 
     List<String> getArrayOfParameters() {
         if (!isConcat()) {
-            return List.of(getFormulaContents().split(",\s(?![^(]*?\\))"));
+            return List.of(getFormulaContents().split(""));
         } else {
             return splitStringUsingCommaAndSpaceWhenNotSurroundedByQuotes(getFormulaContents());
         }
@@ -54,7 +55,7 @@ public class FormulaInfo {
     }
 
     boolean isConcat() {
-        return getFormulaName().equals("CONCAT");
+        return getFormulaName().equals(CONCAT);
     }
 
     boolean hasSingleParameter() {

@@ -1,10 +1,10 @@
 package com.vladimirbabin.wixgrow.spreadsheetevaluator.service;
 
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.ConfigurationProperties;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Message;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.ResultSubmission;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Sheet;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Spreadsheet;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.AppProperties;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Message;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.ResultSubmission;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Sheet;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Spreadsheet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -18,23 +18,22 @@ import java.util.List;
 public class SpreadsheetClient {
     private final SheetComputer sheetComputer;
     private final WebClient client;
-    private final ConfigurationProperties properties;
+    private final AppProperties properties;
     private static final Logger logger = LoggerFactory.getLogger(SpreadsheetClient.class);
 
-    public SpreadsheetClient(SheetComputer sheetComputer, ConfigurationProperties properties) {
+    public SpreadsheetClient(SheetComputer sheetComputer, AppProperties properties) {
         this.client = WebClient.builder().build();
         this.sheetComputer = sheetComputer;
         this.properties = properties;
     }
 
     public Spreadsheet getSpreadsheet() {
-        Spreadsheet spreadsheet = client
+        return client
                 .get()
                 .uri(getUrl())
                 .retrieve()
                 .bodyToMono(Spreadsheet.class)
                 .block();
-        return spreadsheet;
     }
 
     public void sendEvaluatedSpreadsheetAndLogResult(Spreadsheet initialSpreadsheet) {
@@ -56,7 +55,7 @@ public class SpreadsheetClient {
         if (responseWithPasscode != null) {
             logger.info(responseWithPasscode.getMessage());
         } else {
-            logger.info("No response");
+            logger.error("No response");
         }
     }
 
