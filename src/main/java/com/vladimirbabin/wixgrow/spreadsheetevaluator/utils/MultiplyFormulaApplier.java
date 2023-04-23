@@ -1,15 +1,15 @@
 package com.vladimirbabin.wixgrow.spreadsheetevaluator.utils;
 
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Input;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Sheet;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Type;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Input;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Sheet;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Type;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 @Component("MULTIPLY")
-public class MultiplyFormulaApplier implements FormulaApplier {
+public class MultiplyFormulaApplier extends FormulaApplier {
 
     @Override
     public Input apply(List<Input> resolvedParameters, Sheet<Input> sheet) {

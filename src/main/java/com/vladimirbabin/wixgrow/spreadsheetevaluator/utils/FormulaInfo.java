@@ -5,8 +5,13 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * The FormulaInfo class takes the String value of a parameter or a cell and provides with any information about the
+ * formula: it's name, contents, parameters applicable for different kind of formulas.
+ */
 public class FormulaInfo {
     private final String cellStringOrParameterValue;
+    private final static String CONCAT = "CONCAT";
 
     FormulaInfo(String cellStringOrParameterValue) {
         if (cellStringOrParameterValue.startsWith("=")) {
@@ -54,7 +59,7 @@ public class FormulaInfo {
     }
 
     boolean isConcat() {
-        return getFormulaName().equals("CONCAT");
+        return getFormulaName().equals(CONCAT);
     }
 
     boolean hasSingleParameter() {

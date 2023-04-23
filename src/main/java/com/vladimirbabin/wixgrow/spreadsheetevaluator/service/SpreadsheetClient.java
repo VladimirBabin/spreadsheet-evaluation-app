@@ -1,10 +1,10 @@
 package com.vladimirbabin.wixgrow.spreadsheetevaluator.service;
 
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.ConfigurationProperties;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Message;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.ResultSubmission;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Sheet;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Spreadsheet;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.AppProperties;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Message;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.ResultSubmission;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Sheet;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Spreadsheet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -14,27 +14,31 @@ import reactor.core.publisher.Mono;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * SpreadsheetClient class is responsible for the communication with the hub and getting the spreadsheet sheets.
+ * After receiving them it iterates through the sheets, delegating computation of each sheet to SheetComputer
+ * and sends the computation results back. After submitting the correct results it prints the response message in logger.
+ */
 @Service
 public class SpreadsheetClient {
     private final SheetComputer sheetComputer;
     private final WebClient client;
-    private final ConfigurationProperties properties;
+    private final AppProperties properties;
     private static final Logger logger = LoggerFactory.getLogger(SpreadsheetClient.class);
 
-    public SpreadsheetClient(SheetComputer sheetComputer, ConfigurationProperties properties) {
+    public SpreadsheetClient(SheetComputer sheetComputer, AppProperties properties) {
         this.client = WebClient.builder().build();
         this.sheetComputer = sheetComputer;
         this.properties = properties;
     }
 
     public Spreadsheet getSpreadsheet() {
-        Spreadsheet spreadsheet = client
+        return client
                 .get()
                 .uri(getUrl())
                 .retrieve()
                 .bodyToMono(Spreadsheet.class)
                 .block();
-        return spreadsheet;
     }
 
     public void sendEvaluatedSpreadsheetAndLogResult(Spreadsheet initialSpreadsheet) {
@@ -56,7 +60,7 @@ public class SpreadsheetClient {
         if (responseWithPasscode != null) {
             logger.info(responseWithPasscode.getMessage());
         } else {
-            logger.info("No response");
+            logger.error("No response");
         }
     }
 

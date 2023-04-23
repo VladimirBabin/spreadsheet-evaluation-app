@@ -1,8 +1,8 @@
 package com.vladimirbabin.wixgrow.spreadsheetevaluator.utils;
 
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Input;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Sheet;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Type;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Input;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Sheet;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Type;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.service.InputTypeDeterminer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,7 +10,6 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;

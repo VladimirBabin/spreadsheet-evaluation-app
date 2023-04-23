@@ -1,15 +1,15 @@
 package com.vladimirbabin.wixgrow.spreadsheetevaluator.utils;
 
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Input;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Sheet;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Type;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Input;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Sheet;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Type;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
 
 @Component("OR")
-public class OrFormulaApplier implements FormulaApplier {
+public class OrFormulaApplier extends FormulaApplier {
     @Override
     public Input apply(List<Input> resolvedParameters, Sheet<Input> sheet) {
         for (Input parameter : resolvedParameters) {

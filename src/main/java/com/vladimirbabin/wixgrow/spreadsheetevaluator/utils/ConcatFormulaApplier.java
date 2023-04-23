@@ -1,15 +1,15 @@
 package com.vladimirbabin.wixgrow.spreadsheetevaluator.utils;
 
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Input;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Sheet;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Type;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Input;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Sheet;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Type;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Component("CONCAT")
-public class ConcatFormulaApplier implements FormulaApplier {
+public class ConcatFormulaApplier extends FormulaApplier {
     @Override
     public Input apply(List<Input> resolvedParameters, Sheet<Input> sheet) {
         for (Input parameter : resolvedParameters) {
@@ -26,7 +26,6 @@ public class ConcatFormulaApplier implements FormulaApplier {
                 .map(Object::toString)
                 .map(s -> s.replace("\"", ""))
                 .collect(Collectors.joining(""));
-        Input cellResult = new Input(concatenationResult);
-        return cellResult;
+        return new Input(concatenationResult);
     }
 }

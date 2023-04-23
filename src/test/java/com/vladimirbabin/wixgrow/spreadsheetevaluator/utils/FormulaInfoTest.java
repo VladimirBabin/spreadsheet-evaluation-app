@@ -46,7 +46,7 @@ class FormulaInfoTest {
         FormulaInfo concat = new FormulaInfo("=CONCAT(\"Hello\", \", \", \"World!\")");
         List<String> expected = List.of("\"Hello\"", "\", \"", "\"World!\"");
         List<String> resultList = concat.getArrayOfParameters();
-        assertLinesMatch(expected, resultList);
+        assertEquals(expected, resultList);
     }
 
     @Test

@@ -1,8 +1,8 @@
 package com.vladimirbabin.wixgrow.spreadsheetevaluator.utils;
 
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Input;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Sheet;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Type;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Input;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Sheet;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Type;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.service.InputTypeDeterminer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The FormulaComputer class computes the formula with the help of abstract FormulaApplies class, which delegates the
+ * computation to the right FormulaApplier judging by the name of the formula. It then resolves parameters if
+ * formula has them and applies the formula. FormulaComputer checks and recursively computes the formula for parameters
+ * and formula results if the result of first computation has another formula inside.
+ */
 @Service
 public class FormulaComputer {
     @Autowired

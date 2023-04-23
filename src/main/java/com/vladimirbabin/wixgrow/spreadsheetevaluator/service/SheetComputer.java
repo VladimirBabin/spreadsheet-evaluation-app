@@ -1,8 +1,8 @@
 package com.vladimirbabin.wixgrow.spreadsheetevaluator.service;
 
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Input;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Sheet;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Type;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Input;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Sheet;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Type;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.utils.FormulaComputer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,16 +11,21 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The SheetComputer class replaces all objects in the sheets with cells that has both object and type, so that
+ * the type can be used for future computations. After that it iterates through the sheet with cells and if they
+ * contain a formula - it delegates formula computation to FormulaComputer.
+ */
 @Service
 public class SheetComputer {
-    private FormulaComputer formulaComputer;
-    private Logger logger = LoggerFactory.getLogger(SheetComputer.class);
+    private final FormulaComputer formulaComputer;
+    private static final Logger logger = LoggerFactory.getLogger(SheetComputer.class);
 
-    public SheetComputer(FormulaComputer formulaComputer) {
+    SheetComputer(FormulaComputer formulaComputer) {
         this.formulaComputer = formulaComputer;
     }
 
-    public Sheet computeSheet(Sheet sheet) {
+    Sheet computeSheet(Sheet sheet) {
         logger.info("Before computation: " + sheet);
         if (sheet.getData() == null) {
             return sheet;
@@ -46,7 +51,7 @@ public class SheetComputer {
         logger.info("After computation: " + resultSheet);
         return resultSheet;
     }
-    static private Sheet<Input> replaceObjectsWithCells(Sheet<Object> sheet) {
+    private Sheet<Input> replaceObjectsWithCells(Sheet<Object> sheet) {
         InputTypeDeterminer inputTypeDeterminer = new InputTypeDeterminer();
         Sheet<Input> sheetResult = new Sheet<>();
         sheetResult.setId(sheet.getId());
