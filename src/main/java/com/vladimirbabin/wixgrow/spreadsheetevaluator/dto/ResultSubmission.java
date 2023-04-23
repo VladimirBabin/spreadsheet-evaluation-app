@@ -1,6 +1,6 @@
-package com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO;
+package com.vladimirbabin.wixgrow.spreadsheetevaluator.dto;
 
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.ConfigurationProperties;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.AppProperties;
 
 import java.util.List;
 
@@ -8,8 +8,8 @@ public class ResultSubmission {
     private final String email;
     private List<Sheet> results;
 
-    public ResultSubmission(ConfigurationProperties properties) {
-        email = properties.getEmailForResulSubmission();
+    public ResultSubmission(AppProperties properties) {
+        email = properties.getEmailForResultSubmission();
     }
 
     public String getEmail() {

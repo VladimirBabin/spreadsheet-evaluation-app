@@ -1,8 +1,8 @@
 package com.vladimirbabin.wixgrow.spreadsheetevaluator.utils;
 
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Input;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Sheet;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Type;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Input;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Sheet;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Type;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -26,7 +26,6 @@ public class ConcatFormulaApplier implements FormulaApplier {
                 .map(Object::toString)
                 .map(s -> s.replace("\"", ""))
                 .collect(Collectors.joining(""));
-        Input cellResult = new Input(concatenationResult);
-        return cellResult;
+        return new Input(concatenationResult);
     }
 }
