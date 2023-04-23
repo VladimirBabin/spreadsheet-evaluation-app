@@ -24,6 +24,8 @@ public class InputTypeDeterminer {
                 input.setType(Type.BOOLEAN);
             } else if (NumberUtils.isParsable(value.toString())) {
                 input.setType(Type.NUMERIC);
+            } else if (stringObj.startsWith("#")) {
+                input.setType(Type.ERROR);
             } else {
                 input.setType(Type.STRING);
             }

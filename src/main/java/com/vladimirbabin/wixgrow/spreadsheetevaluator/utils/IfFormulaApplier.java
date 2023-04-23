@@ -11,9 +11,15 @@ import java.util.List;
 public class IfFormulaApplier implements FormulaApplier {
     @Override
     public Input apply(List<Input> resolvedParameters, Sheet<Input> sheet) {
+        if (resolvedParameters.size() != 3) {
+            Input errorCell = new Input("#ERROR: There has to be three parameters for IF formula");
+            errorCell.setType(Type.ERROR);
+            return errorCell;
+        }
         Input condition = resolvedParameters.get(0);
         if (!condition.getType().equals(Type.BOOLEAN)) {
-            Input errorCell = new Input("#ERROR: Invalid parameter type");
+            Input errorCell = new Input("#ERROR: Invalid parameter type: " +
+                    "first argument in IF formula should be of BOOLEAN type");
             errorCell.setType(Type.ERROR);
             return errorCell;
         }

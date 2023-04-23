@@ -13,7 +13,6 @@ public class MultiplyFormulaApplier implements FormulaApplier {
 
     @Override
     public Input apply(List<Input> resolvedParameters, Sheet<Input> sheet) {
-
         for (Input parameter : resolvedParameters) {
             if (!parameter.getType().equals(Type.NUMERIC)) {
                 Input errorCell = new Input("#ERROR: Invalid parameter type");

@@ -15,6 +15,11 @@ public class NotationApplier implements FormulaApplier {
     }
 
     public Input apply(String formulaContents, Sheet<Input> sheet) {
+        if (!formulaContents.matches("[A-Z][1-9]+")) {
+            Input errorCell = new Input("#ERROR: Invalid parameter type");
+            errorCell.setType(Type.ERROR);
+            return errorCell;
+        }
         Object resultObject = sheet.getElementByNotation(formulaContents);
         Input resultInput = inputTypeDeterminer.determineType(new Input(resultObject));
         return resultInput;

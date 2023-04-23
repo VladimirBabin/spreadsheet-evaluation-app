@@ -12,6 +12,15 @@ import java.util.stream.Collectors;
 public class ConcatFormulaApplier implements FormulaApplier {
     @Override
     public Input apply(List<Input> resolvedParameters, Sheet<Input> sheet) {
+        for (Input parameter : resolvedParameters) {
+            Type type = parameter.getType();
+            if (type.equals(Type.ERROR) || type.equals(Type.FORMULA) || type.equals(Type.NOTATION)) {
+                Input errorCell = new Input("#ERROR: Invalid parameter type");
+                errorCell.setType(Type.ERROR);
+                return errorCell;
+            }
+        }
+
         String concatenationResult = resolvedParameters.stream()
                 .map(Input::getValue)
                 .map(Object::toString)

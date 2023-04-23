@@ -13,11 +13,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
-class NotFormulaApplierTest {
+class NotationApplierTest {
     @Autowired
-    private NotFormulaApplier notFormulaApplier;
+    private NotationApplier notationApplier;
 
     @Autowired
     private InputTypeDeterminer inputTypeDeterminer;
@@ -36,14 +37,13 @@ class NotFormulaApplierTest {
     }
 
     @Test
-    public void applyWithOneParameter() {
-        firstCell.setValue(false);
-        firstCell.setType(Type.BOOLEAN);
+    public void applyWithOneNumericParameter() {
+        when(sheet.getElementByNotation("A1")).thenReturn(6);
 
-        expected.setValue(true);
-        expected.setType(Type.BOOLEAN);
+        expected.setValue(6);
+        expected.setType(Type.NUMERIC);
 
-        Input result = notFormulaApplier.apply(firstCell, sheet);
+        Input result = notationApplier.apply("A1", sheet);
         result = inputTypeDeterminer.determineType(result);
 
         assertEquals(expected.getType(), result.getType());
@@ -59,19 +59,16 @@ class NotFormulaApplierTest {
 
         List<Input> parameters = List.of(firstCell, secondCell);
 
-        Input result = notFormulaApplier.apply(parameters, sheet);
+        Input result = notationApplier.apply(parameters, sheet);
 
         assertTrue(result.getType().equals(Type.ERROR));
-        assertEquals("#ERROR: Multiple parameters can't be applied for " + notFormulaApplier.getClass().getName()
+        assertEquals("#ERROR: Multiple parameters can't be applied for " + notationApplier.getClass().getName()
                 , result.getValue());
     }
 
     @Test
     public void applyWithInvalidParameter() {
-        firstCell.setValue("String");
-        firstCell.setType(Type.STRING);
-
-        Input result = notFormulaApplier.apply(firstCell, sheet);
+        Input result = notationApplier.apply("9", sheet);
 
         assertTrue(result.getType().equals(Type.ERROR));
         assertEquals("#ERROR: Invalid parameter type", result.getValue());

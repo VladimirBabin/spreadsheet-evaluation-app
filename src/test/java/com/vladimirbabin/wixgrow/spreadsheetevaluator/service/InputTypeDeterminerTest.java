@@ -1,8 +1,7 @@
-package com.vladimirbabin.wixgrow.spreadsheetevaluator.utils;
+package com.vladimirbabin.wixgrow.spreadsheetevaluator.service;
 
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Input;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO.Type;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.service.InputTypeDeterminer;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -66,6 +65,14 @@ class InputTypeDeterminerTest {
         Input input = new Input(value);
         Input resultInput = inputTypeDeterminer.determineType(input);
         assertEquals(Type.STRING, resultInput.getType());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"# ", "#ERROR"})
+    public void determineErrorTypeTest(String value) {
+        Input input = new Input(value);
+        Input resultInput = inputTypeDeterminer.determineType(input);
+        assertEquals(Type.ERROR, resultInput.getType());
     }
 
 }
