@@ -25,9 +25,9 @@ public enum Type {
     }),
     NOTATION(Type::isNotation),
     ERROR(value -> value.toString().startsWith("#")),
-    STRING(value -> value instanceof String); //default
+    STRING(value -> value instanceof String);
 
-    private Function<Object, Boolean> deserializer;
+    private final Function<Object, Boolean> deserializer;
 
     Type(Function<Object, Boolean> deserializer) {
         this.deserializer = deserializer;

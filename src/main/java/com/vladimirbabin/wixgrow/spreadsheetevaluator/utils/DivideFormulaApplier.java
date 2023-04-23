@@ -10,7 +10,7 @@ import java.math.RoundingMode;
 import java.util.List;
 
 @Component("DIVIDE")
-public class DivideFormulaApplier implements FormulaApplier {
+public class DivideFormulaApplier extends FormulaApplier {
     @Override
     public Input apply(List<Input> resolvedParameters, Sheet<Input> sheet) {
         if (resolvedParameters.size() != 2) {

@@ -7,7 +7,7 @@ import com.vladimirbabin.wixgrow.spreadsheetevaluator.service.InputTypeDetermine
 import org.springframework.stereotype.Component;
 
 @Component("NOTATION")
-public class NotationApplier implements FormulaApplier {
+public class NotationApplier extends FormulaApplier {
     InputTypeDeterminer inputTypeDeterminer;
 
     public NotationApplier(InputTypeDeterminer inputTypeDeterminer) {

@@ -44,8 +44,8 @@ class FormulaInfoTest {
         assertEquals(List.of("A1", "A2", "B4"), sum.getArrayOfParameters());
 
         FormulaInfo concat = new FormulaInfo("=CONCAT(\"Hello\", \", \", \"World!\")");
-        List<Object> expected = List.of("\"Hello\"", "\", \"", "\"World!\"");
-        List<Object> resultList = concat.getArrayOfParameters();
+        List<String> expected = List.of("\"Hello\"", "\", \"", "\"World!\"");
+        List<String> resultList = concat.getArrayOfParameters();
         assertEquals(expected, resultList);
     }
 

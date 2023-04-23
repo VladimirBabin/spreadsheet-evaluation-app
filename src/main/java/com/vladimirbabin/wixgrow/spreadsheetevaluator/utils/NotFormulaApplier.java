@@ -6,7 +6,7 @@ import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Type;
 import org.springframework.stereotype.Component;
 
 @Component("NOT")
-public class NotFormulaApplier implements FormulaApplier {
+public class NotFormulaApplier extends FormulaApplier {
 
     @Override
     public Input apply(Input singleParameter, Sheet<Input> sheet) {

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component("OR")
-public class OrFormulaApplier implements FormulaApplier {
+public class OrFormulaApplier extends FormulaApplier {
     @Override
     public Input apply(List<Input> resolvedParameters, Sheet<Input> sheet) {
         for (Input parameter : resolvedParameters) {

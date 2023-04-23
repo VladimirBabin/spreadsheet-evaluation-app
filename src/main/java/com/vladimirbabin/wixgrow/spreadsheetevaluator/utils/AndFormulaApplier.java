@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component("AND")
-public class AndFormulaApplier implements FormulaApplier {
+public class AndFormulaApplier extends FormulaApplier {
     @Override
     public Input apply(List<Input> resolvedParameters, Sheet<Input> sheet) {
         for (Input parameter : resolvedParameters) {

@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Component("MULTIPLY")
-public class MultiplyFormulaApplier implements FormulaApplier {
+public class MultiplyFormulaApplier extends FormulaApplier {
 
     @Override
     public Input apply(List<Input> resolvedParameters, Sheet<Input> sheet) {

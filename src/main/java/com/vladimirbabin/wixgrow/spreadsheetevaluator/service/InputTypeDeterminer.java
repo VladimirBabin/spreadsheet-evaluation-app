@@ -6,6 +6,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 
+/**
+ * The InputTypeDeterminer class intakes a cell or parameter, applies the deserialize method from the Type class
+ * to each of the Type, finds the first that matches and due to the ordering in Type enums sets the correct type
+ * for the input.
+ */
 @Service
 public class InputTypeDeterminer {
 

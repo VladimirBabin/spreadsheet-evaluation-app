@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Component("EQ")
-public class EqFormulaApplier implements FormulaApplier {
+public class EqFormulaApplier extends FormulaApplier {
     @Override
     public Input apply(List<Input> resolvedParameters, Sheet<Input> sheet) {
         if (resolvedParameters.size() != 2) {

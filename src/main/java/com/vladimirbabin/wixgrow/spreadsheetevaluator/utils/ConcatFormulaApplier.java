@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component("CONCAT")
-public class ConcatFormulaApplier implements FormulaApplier {
+public class ConcatFormulaApplier extends FormulaApplier {
     @Override
     public Input apply(List<Input> resolvedParameters, Sheet<Input> sheet) {
         for (Input parameter : resolvedParameters) {

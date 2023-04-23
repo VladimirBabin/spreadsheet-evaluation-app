@@ -5,6 +5,10 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * The FormulaInfo class takes the String value of a parameter or a cell and provides with any information about the
+ * formula: it's name, contents, parameters applicable for different kind of formulas.
+ */
 public class FormulaInfo {
     private final String cellStringOrParameterValue;
     private final static String CONCAT = "CONCAT";
@@ -36,7 +40,7 @@ public class FormulaInfo {
         }
     }
 
-    List<Object> getArrayOfParameters() {
+    List<String> getArrayOfParameters() {
         if (!isConcat()) {
             return List.of(getFormulaContents().split(",\s(?![^(]*?\\))"));
         } else {
@@ -44,8 +48,8 @@ public class FormulaInfo {
         }
     }
 
-    List<Object> splitStringUsingCommaAndSpaceWhenNotSurroundedByQuotes(String formulaValue) {
-        List<Object> matchList = new ArrayList<>();
+    List<String> splitStringUsingCommaAndSpaceWhenNotSurroundedByQuotes(String formulaValue) {
+        List<String> matchList = new ArrayList<>();
         Pattern regex = Pattern.compile("[^,\\s\"]+|\"[^\"]*\"");
         Matcher regexMatcher = regex.matcher(formulaValue);
         while (regexMatcher.find()) {

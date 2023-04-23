@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component("IF")
-public class IfFormulaApplier implements FormulaApplier {
+public class IfFormulaApplier extends FormulaApplier {
     @Override
     public Input apply(List<Input> resolvedParameters, Sheet<Input> sheet) {
         if (resolvedParameters.size() != 3) {

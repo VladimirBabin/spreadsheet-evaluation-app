@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Component("GT")
-public class GtFormulaApplier implements FormulaApplier {
+public class GtFormulaApplier extends FormulaApplier {
     @Override
     public Input apply(List<Input> resolvedParameters, Sheet<Input> sheet) {
         if (resolvedParameters.size() != 2) {

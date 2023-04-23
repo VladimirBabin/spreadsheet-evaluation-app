@@ -14,6 +14,11 @@ import reactor.core.publisher.Mono;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * SpreadsheetClient class is responsible for the communication with the hub and getting the spreadsheet sheets.
+ * After receiving them it iterates through the sheets, delegating computation of each sheet to SheetComputer
+ * and sends the computation results back. After submitting the correct results it prints the response message in logger.
+ */
 @Service
 public class SpreadsheetClient {
     private final SheetComputer sheetComputer;
