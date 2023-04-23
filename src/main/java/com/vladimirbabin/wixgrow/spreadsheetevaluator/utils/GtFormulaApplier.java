@@ -17,7 +17,6 @@ public class GtFormulaApplier implements FormulaApplier {
             errorCell.setType(Type.ERROR);
             return errorCell;
         }
-        //todo: duplicate with Divide and Eq, u can think about abstract class for them
         for (Input parameter : resolvedParameters) {
             if (!parameter.getType().equals(Type.NUMERIC)) {
                 Input errorCell = new Input("#ERROR: Invalid parameter type");
@@ -27,7 +26,6 @@ public class GtFormulaApplier implements FormulaApplier {
         }
         BigDecimal first = new BigDecimal(resolvedParameters.get(0).getValue().toString());
         BigDecimal second = new BigDecimal(resolvedParameters.get(1).getValue().toString());
-        //todo end of duplicate
         boolean isGreater = first.compareTo(second) > 0;
         Input cellResult = new Input(isGreater);
         cellResult.setType(Type.BOOLEAN);

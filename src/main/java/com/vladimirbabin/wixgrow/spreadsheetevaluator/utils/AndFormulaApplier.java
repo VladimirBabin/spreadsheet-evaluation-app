@@ -12,7 +12,6 @@ import java.util.Optional;
 public class AndFormulaApplier implements FormulaApplier {
     @Override
     public Input apply(List<Input> resolvedParameters, Sheet<Input> sheet) {
-        //todo: duplicate with OrFormula, u can think about abstract class for them
         for (Input parameter : resolvedParameters) {
             if (!parameter.getType().equals(Type.BOOLEAN)) {
                 Input errorCell = new Input("#ERROR: Invalid parameter type");
@@ -27,7 +26,6 @@ public class AndFormulaApplier implements FormulaApplier {
                 .reduce(Boolean::logicalAnd);
 
         Boolean resultOfAndFormula;
-        //todo end of duplicate
 
         if (optional.isPresent()) {
             resultOfAndFormula = optional.get();

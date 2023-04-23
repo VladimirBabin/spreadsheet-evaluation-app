@@ -35,7 +35,7 @@ public class FormulaComputer {
             resultOfFormulaComputation = formulaApplier.apply(resolvedParameter, sheet);
         } else {
             List<Input> resolvedParameters = new ArrayList<>();
-            List<String> rawParameters = formulaInfo.getArrayOfParameters();
+            List<Object> rawParameters = formulaInfo.getArrayOfParameters();
             for (Object rawParameter : rawParameters) {
                 Input resolvedParameter = resolveParameter(rawParameter, sheet);
                 resolvedParameters.add(resolvedParameter);

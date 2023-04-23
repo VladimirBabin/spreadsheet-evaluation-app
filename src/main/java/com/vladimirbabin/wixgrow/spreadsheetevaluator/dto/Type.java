@@ -1,10 +1,20 @@
 package com.vladimirbabin.wixgrow.spreadsheetevaluator.dto;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
 import java.util.function.Function;
 
 public enum Type {
-
-    NUMERIC(value -> value instanceof Number),
+    NUMERIC(value -> {
+        if (value instanceof Number) {
+            return true;
+        }
+        if (!(value instanceof String)) {
+            return false;
+        }
+        String stringObj = (String) value;
+        return NumberUtils.isParsable(stringObj);
+    }),
     BOOLEAN(Type::isBoolean),
     FORMULA(value -> {
         if (!(value instanceof String)) {
@@ -33,7 +43,7 @@ public enum Type {
         } else if (!(obj instanceof String)) {
             return false;
         }
-        var stringObj = (String) obj;
+        String stringObj = (String) obj;
         return stringObj.equalsIgnoreCase("true") || stringObj.equalsIgnoreCase("false");
     }
 
@@ -41,7 +51,7 @@ public enum Type {
         if (!(obj instanceof String)) {
             return false;
         }
-        var parameter = (String) obj;
+        String parameter = (String) obj;
         return parameter.matches("[A-Z][0-9]+");
     }
 }

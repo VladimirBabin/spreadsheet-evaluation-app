@@ -36,7 +36,7 @@ public class FormulaInfo {
         }
     }
 
-    List<String> getArrayOfParameters() {
+    List<Object> getArrayOfParameters() {
         if (!isConcat()) {
             return List.of(getFormulaContents().split(",\s(?![^(]*?\\))"));
         } else {
@@ -44,8 +44,8 @@ public class FormulaInfo {
         }
     }
 
-    List<String> splitStringUsingCommaAndSpaceWhenNotSurroundedByQuotes(String formulaValue) {
-        List<String> matchList = new ArrayList<>();
+    List<Object> splitStringUsingCommaAndSpaceWhenNotSurroundedByQuotes(String formulaValue) {
+        List<Object> matchList = new ArrayList<>();
         Pattern regex = Pattern.compile("[^,\\s\"]+|\"[^\"]*\"");
         Matcher regexMatcher = regex.matcher(formulaValue);
         while (regexMatcher.find()) {
