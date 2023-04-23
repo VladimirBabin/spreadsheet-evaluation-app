@@ -38,7 +38,7 @@ public class FormulaInfo {
 
     List<String> getArrayOfParameters() {
         if (!isConcat()) {
-            return List.of(getFormulaContents().split(""));
+            return List.of(getFormulaContents().split(",\s(?![^(]*?\\))"));
         } else {
             return splitStringUsingCommaAndSpaceWhenNotSurroundedByQuotes(getFormulaContents());
         }
