@@ -1,12 +1,15 @@
-package com.vladimir_babin.wix_grow.spreadsheet_evaluator;
+package com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO;
+
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.ConfigurationProperties;
 
 import java.util.List;
 
 public class ResultSubmission {
-    private final String email = "vladimir.sol.rojo@gmail.com";
+    private final String email;
     private List<Sheet> results;
 
-    public ResultSubmission() {
+    public ResultSubmission(ConfigurationProperties properties) {
+        email = properties.getEmailForResulSubmission();
     }
 
     public String getEmail() {

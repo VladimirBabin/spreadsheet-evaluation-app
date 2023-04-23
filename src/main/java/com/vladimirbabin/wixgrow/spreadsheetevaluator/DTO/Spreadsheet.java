@@ -1,6 +1,5 @@
-package com.vladimir_babin.wix_grow.spreadsheet_evaluator;
+package com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Spreadsheet {

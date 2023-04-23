@@ -1,13 +1,11 @@
-package com.vladimir_babin.wix_grow.spreadsheet_evaluator;
+package com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO;
 
 public class Message {
     private String message;
 
     @Override
     public String toString() {
-        return "Message{" +
-                "message='" + message + '\'' +
-                '}';
+        return "message='" + message + '\'';
     }
 
     public String getMessage() {

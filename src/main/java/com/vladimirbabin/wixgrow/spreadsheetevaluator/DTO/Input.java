@@ -1,11 +1,14 @@
-package com.vladimir_babin.wix_grow.spreadsheet_evaluator.utils;
+package com.vladimirbabin.wixgrow.spreadsheetevaluator.DTO;
 
-public class Cell {
+public class Input {
     private Type type;
     private Object value;
 
-    public Cell(Object value) {
+    public Input(Object value) {
         this.value = value;
+    }
+
+    public Input() {
     }
 
     public Type getType() {
@@ -24,11 +27,11 @@ public class Cell {
         this.value = value;
     }
 
-    enum Type {
-        STRING,
-        NUMERIC,
-        BOOLEAN,
-        FORMULA,
-        ERROR
+    @Override
+    public String toString() {
+        return "Input{" +
+                "type=" + type +
+                ", value=" + value +
+                '}';
     }
 }
