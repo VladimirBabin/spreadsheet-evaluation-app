@@ -6,6 +6,9 @@ import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Type;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.service.InputTypeDeterminer;
 import org.springframework.stereotype.Component;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 @Component("NOTATION")
 public class NotationApplier extends FormulaApplier {
     InputTypeDeterminer inputTypeDeterminer;
@@ -20,6 +23,7 @@ public class NotationApplier extends FormulaApplier {
             errorCell.setType(Type.ERROR);
             return errorCell;
         }
+
         Object resultObject = sheet.getElementByNotation(formulaContents);
         Input resultInput = inputTypeDeterminer.determineType(new Input(resultObject));
         return resultInput;

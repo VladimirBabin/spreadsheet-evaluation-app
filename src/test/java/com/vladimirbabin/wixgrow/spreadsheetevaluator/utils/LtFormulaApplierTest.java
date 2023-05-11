@@ -16,12 +16,12 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class SumFormulaApplierTest {
+class LtFormulaApplierTest {
     @Autowired
-    SumFormulaApplier sumFormulaApplier;
+    private LtFormulaApplier ltFormulaApplier;
 
     @Autowired
-    InputTypeDeterminer inputTypeDeterminer;
+    private InputTypeDeterminer inputTypeDeterminer;
 
     private Sheet sheet;
     private Input firstCell;
@@ -39,18 +39,37 @@ class SumFormulaApplierTest {
     }
 
     @Test
-    void applyWithTwoParameters() {
-        firstCell.setValue(22);
+    public void applyWithTwoParametersWhereFirstIsGreater() {
+        firstCell.setValue(new BigDecimal(3));
         firstCell.setType(Type.NUMERIC);
-        secondCell.setValue(212212);
+        secondCell.setValue(new BigDecimal(1));
         secondCell.setType(Type.NUMERIC);
 
-        expected.setValue(new BigDecimal(212234));
-        expected.setType(Type.NUMERIC);
+        expected.setValue(false);
+        expected.setType(Type.BOOLEAN);
 
         List<Input> parameters = List.of(firstCell, secondCell);
 
-        Input result = sumFormulaApplier.apply(parameters, sheet);
+        Input result = ltFormulaApplier.apply(parameters, sheet);
+        result = inputTypeDeterminer.determineType(result);
+
+        assertEquals(expected.getType(), result.getType());
+        assertEquals(expected.getValue(), result.getValue());
+    }
+
+    @Test
+    public void applyWithTwoParametersWhereFirstIsNotGreater() {
+        firstCell.setValue(new BigDecimal(1));
+        firstCell.setType(Type.NUMERIC);
+        secondCell.setValue(new BigDecimal(3));
+        secondCell.setType(Type.NUMERIC);
+
+        expected.setValue(true);
+        expected.setType(Type.BOOLEAN);
+
+        List<Input> parameters = List.of(firstCell, secondCell);
+
+        Input result = ltFormulaApplier.apply(parameters, sheet);
         result = inputTypeDeterminer.determineType(result);
 
         assertEquals(expected.getType(), result.getType());
@@ -59,50 +78,30 @@ class SumFormulaApplierTest {
 
     @Test
     public void applyWithThreeParameters() {
-        firstCell.setValue(221212);
+        firstCell.setValue(new BigDecimal(5));
         firstCell.setType(Type.NUMERIC);
-        secondCell.setValue(22);
+        secondCell.setValue(new BigDecimal(4));
         secondCell.setType(Type.NUMERIC);
-        thirdCell.setValue(212);
+        thirdCell.setValue(new BigDecimal(3));
         thirdCell.setType(Type.NUMERIC);
-
-        expected.setValue(new BigDecimal(221446));
-        expected.setType(Type.NUMERIC);
 
         List<Input> parameters = List.of(firstCell, secondCell, thirdCell);
 
-        Input result = sumFormulaApplier.apply(parameters, sheet);
-        result = inputTypeDeterminer.determineType(result);
+        Input result = ltFormulaApplier.apply(parameters, sheet);
 
-        assertEquals(expected.getType(), result.getType());
-        assertEquals(expected.getValue(), result.getValue());
+        assertTrue(result.getType().equals(Type.ERROR));
+        assertEquals("#ERROR: There has to be two parameters for LT formula", result.getValue());
     }
 
     @Test
     public void applyWithInvalidParameter() {
         firstCell.setValue("String");
         firstCell.setType(Type.STRING);
-        secondCell.setValue(212212);
+        secondCell.setValue(new BigDecimal(22));
         secondCell.setType(Type.NUMERIC);
-
         List<Input> parameters = List.of(firstCell, secondCell);
-        Input result = sumFormulaApplier.apply(parameters, sheet);
 
-        assertTrue(result.getType().equals(Type.ERROR));
-        assertEquals("#ERROR: Invalid parameter type", result.getValue());
-    }
-
-    @Test
-    public void applyForInputWithCircularReference() {
-        firstCell.setValue(1);
-        firstCell.setType(Type.NUMERIC);
-        secondCell.setValue("=C1");
-        secondCell.setType(Type.NOTATION);
-        thirdCell.setValue("=SUM(A1, B1)");
-        thirdCell.setType(Type.FORMULA);
-
-        List<Input> parameters = List.of(firstCell, secondCell, thirdCell);
-        Input result = sumFormulaApplier.apply(parameters, sheet);
+        Input result = ltFormulaApplier.apply(parameters, sheet);
 
         assertTrue(result.getType().equals(Type.ERROR));
         assertEquals("#ERROR: Invalid parameter type", result.getValue());

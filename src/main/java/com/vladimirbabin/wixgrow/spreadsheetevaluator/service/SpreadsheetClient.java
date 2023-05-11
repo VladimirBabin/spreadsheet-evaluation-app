@@ -7,6 +7,7 @@ import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Sheet;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Spreadsheet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -54,6 +55,12 @@ public class SpreadsheetClient {
                 .uri(initialSpreadsheet.getSubmissionUrl())
                 .body(Mono.just(result), ResultSubmission.class)
                 .retrieve()
+                .onStatus(
+                        HttpStatus.BAD_REQUEST::equals,
+                        response -> response.bodyToMono(String.class).map(Exception::new))
+                .onStatus(
+                        HttpStatus.BAD_GATEWAY::equals,
+                        response -> response.bodyToMono(String.class).map(Exception::new))
                 .bodyToMono(Message.class)
                 .block();
 

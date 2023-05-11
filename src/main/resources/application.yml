@@ -5,5 +5,5 @@ logging.level:
   root: INFO
 
 spreadsheet:
-  url-for-getting-the-task: 'https://www.wix.com/_serverless/hiring-task-spreadsheet-evaluator/sheets'
+  url-for-getting-the-task: 'https://www.wix.com/_serverless/hiring-task-spreadsheet-evaluator/sheets?tag=is_less&tag=circular_reference'
   email-for-result-submission: 'vladimir.sol.rojo@gmail.com'

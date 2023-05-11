@@ -34,9 +34,14 @@ public class Sheet<T> {
     }
 
     public T getElementByNotation(String notation) {
+
         char[] notationArray = notation.toCharArray();
         try {
-            return data.get(notationArray[1] - 49).get(notationArray[0] - 65);
+            T toReturn = data.get(notationArray[1] - 49).get(notationArray[0] - 65);
+            if (toReturn instanceof String && notation.equals(toReturn)) {
+                throw new IllegalArgumentException("Circular reference");
+            }
+            return toReturn;
         } catch (IndexOutOfBoundsException exception) {
             exception.printStackTrace();
             throw new RuntimeException("There is no such notation in the sheet");
