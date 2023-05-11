@@ -9,9 +9,10 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Component("GT")
-public class GtFormulaApplier extends FormulaApplier {
+public class GtFormulaApplier implements FormulaApplier {
     @Override
-    public Input apply(List<Input> resolvedParameters, Sheet<Input> sheet) {
+    public Input apply(FormulaInfo formulaInfo, Sheet<Input> sheet) {
+        List<Input> resolvedParameters = formulaInfo.getResolvedParameters();
         if (resolvedParameters.size() != 2) {
             Input errorCell = new Input("#ERROR: There has to be two parameters for GT formula");
             errorCell.setType(Type.ERROR);

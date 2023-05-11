@@ -9,10 +9,11 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Component("MULTIPLY")
-public class MultiplyFormulaApplier extends FormulaApplier {
+public class MultiplyFormulaApplier implements FormulaApplier {
 
     @Override
-    public Input apply(List<Input> resolvedParameters, Sheet<Input> sheet) {
+    public Input apply(FormulaInfo formulaInfo, Sheet<Input> sheet) {
+        List<Input> resolvedParameters = formulaInfo.getResolvedParameters();
         for (Input parameter : resolvedParameters) {
             if (!parameter.getType().equals(Type.NUMERIC)) {
                 Input errorCell = new Input("#ERROR: Invalid parameter type");

@@ -9,9 +9,10 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Component("EQ")
-public class EqFormulaApplier extends FormulaApplier {
+public class EqFormulaApplier implements FormulaApplier {
     @Override
-    public Input apply(List<Input> resolvedParameters, Sheet<Input> sheet) {
+    public Input apply(FormulaInfo formulaInfo, Sheet<Input> sheet) {
+        List<Input> resolvedParameters = formulaInfo.getResolvedParameters();
         if (resolvedParameters.size() != 2) {
             Input errorCell = new Input("#ERROR: There has to be two parameters for EQ formula");
             errorCell.setType(Type.ERROR);

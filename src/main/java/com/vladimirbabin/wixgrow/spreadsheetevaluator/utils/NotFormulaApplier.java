@@ -6,10 +6,11 @@ import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Type;
 import org.springframework.stereotype.Component;
 
 @Component("NOT")
-public class NotFormulaApplier extends FormulaApplier {
+public class NotFormulaApplier implements FormulaApplier {
 
     @Override
-    public Input apply(Input singleParameter, Sheet<Input> sheet) {
+    public Input apply(FormulaInfo formulaInfo, Sheet<Input> sheet) {
+        Input singleParameter = formulaInfo.getResolvedParameters().get(0);
         if (!singleParameter.getType().equals(Type.BOOLEAN)) {
             Input errorCell = new Input("#ERROR: Invalid parameter type");
             errorCell.setType(Type.ERROR);

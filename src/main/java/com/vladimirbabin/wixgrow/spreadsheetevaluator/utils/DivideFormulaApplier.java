@@ -10,9 +10,10 @@ import java.math.RoundingMode;
 import java.util.List;
 
 @Component("DIVIDE")
-public class DivideFormulaApplier extends FormulaApplier {
+public class DivideFormulaApplier implements FormulaApplier {
     @Override
-    public Input apply(List<Input> resolvedParameters, Sheet<Input> sheet) {
+    public Input apply(FormulaInfo formulaInfo, Sheet<Input> sheet) {
+        List<Input> resolvedParameters = formulaInfo.getResolvedParameters();
         if (resolvedParameters.size() != 2) {
             Input errorCell = new Input("#ERROR: There has to be two parameters for DIVIDE formula");
             errorCell.setType(Type.ERROR);

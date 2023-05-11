@@ -10,14 +10,15 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Component("NOTATION")
-public class NotationApplier extends FormulaApplier {
+public class NotationApplier implements FormulaApplier {
     InputTypeDeterminer inputTypeDeterminer;
 
     public NotationApplier(InputTypeDeterminer inputTypeDeterminer) {
         this.inputTypeDeterminer = inputTypeDeterminer;
     }
 
-    public Input apply(String formulaContents, Sheet<Input> sheet) {
+    public Input apply(FormulaInfo formulaInfo, Sheet<Input> sheet) {
+        String formulaContents = formulaInfo.getFormulaContents();
         if (!formulaContents.matches("[A-Z][1-9]+")) {
             Input errorCell = new Input("#ERROR: Invalid parameter type");
             errorCell.setType(Type.ERROR);

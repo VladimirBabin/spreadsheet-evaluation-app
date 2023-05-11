@@ -8,9 +8,10 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component("IF")
-public class IfFormulaApplier extends FormulaApplier {
+public class IfFormulaApplier implements FormulaApplier {
     @Override
-    public Input apply(List<Input> resolvedParameters, Sheet<Input> sheet) {
+    public Input apply(FormulaInfo formulaInfo, Sheet<Input> sheet) {
+        List<Input> resolvedParameters = formulaInfo.getResolvedParameters();
         if (resolvedParameters.size() != 3) {
             Input errorCell = new Input("#ERROR: There has to be three parameters for IF formula");
             errorCell.setType(Type.ERROR);

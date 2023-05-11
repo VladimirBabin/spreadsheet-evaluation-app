@@ -28,6 +28,7 @@ class AndFormulaApplierTest {
     private Input secondCell;
     private Input thirdCell;
     private Input expected;
+    private FormulaInfo formulaInfo;
 
     @BeforeEach
     void setUp() {
@@ -50,7 +51,7 @@ class AndFormulaApplierTest {
 
         List<Input> parameters = List.of(firstCell, secondCell);
 
-        Input result = andFormulaApplier.apply(parameters, sheet);
+        Input result = andFormulaApplier.apply(formulaInfo, sheet);
         result = inputTypeDeterminer.determineType(result);
 
         assertEquals(expected.getType(), result.getType());

@@ -5,14 +5,13 @@ import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Sheet;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Type;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Optional;
 
 @Component("AND")
-public class AndFormulaApplier extends FormulaApplier {
+public class AndFormulaApplier implements FormulaApplier {
     @Override
-    public Input apply(List<Input> resolvedParameters, Sheet<Input> sheet) {
-        for (Input parameter : resolvedParameters) {
+    public Input apply(FormulaInfo formulaInfo, Sheet<Input> sheet) {
+        for (Input parameter : formulaInfo.getResolvedParameters()) {
             if (!parameter.getType().equals(Type.BOOLEAN)) {
                 Input errorCell = new Input("#ERROR: Invalid parameter type");
                 errorCell.setType(Type.ERROR);
@@ -20,7 +19,7 @@ public class AndFormulaApplier extends FormulaApplier {
             }
         }
 
-        Optional<Boolean> optional = resolvedParameters.stream()
+        Optional<Boolean> optional = formulaInfo.getResolvedParameters().stream()
                 .map(i -> i.getValue().toString())
                 .map(Boolean::parseBoolean)
                 .reduce(Boolean::logicalAnd);

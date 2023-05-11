@@ -3,18 +3,17 @@ package com.vladimirbabin.wixgrow.spreadsheetevaluator.utils;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Input;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Sheet;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Type;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 @Component("SUM")
-public class SumFormulaApplier extends FormulaApplier {
+public class SumFormulaApplier implements FormulaApplier {
 
     @Override
-    public Input apply(List<Input> resolvedParameters, Sheet<Input> sheet) {
+    public Input apply(FormulaInfo formulaInfo, Sheet<Input> sheet) {
+        List<Input> resolvedParameters = formulaInfo.getResolvedParameters();
         for (Input parameter : resolvedParameters) {
             if (!parameter.getType().equals(Type.NUMERIC)) {
                 Input errorCell = new Input("#ERROR: Invalid parameter type");

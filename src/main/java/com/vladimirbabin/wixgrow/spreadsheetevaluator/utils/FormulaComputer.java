@@ -31,12 +31,17 @@ public class FormulaComputer {
     }
 
     public Input computeFormula(Input input, Sheet<Input> sheet) {
+//      Assigning value to formulaInfo
         FormulaInfo formulaInfo = new FormulaInfo(input.getValue().toString());
+
+//      Retrieving the right formulaApplier from the Map
         FormulaApplier formulaApplier = map.get(formulaInfo.getFormulaName());
         if (formulaApplier == null) {
             throw new UnsupportedOperationException(formulaInfo.getFormulaName() + " not supported");
         }
-        Input resultOfFormulaComputation;
+
+//      If formula has no parameters (if it's a notation) - we check for Circular reference and add the notation to
+//      the set of notations for a particular call
         if (!formulaInfo.hasParameters()) {
             if (notationsSet.contains(formulaInfo.getFormulaContents())) {
                 Input errorCell = new Input("#ERROR: Circular reference");
@@ -45,26 +50,29 @@ public class FormulaComputer {
             }
             notationsSet.add(formulaInfo.getFormulaContents());
         }
-        if (!formulaInfo.hasParameters()) {
-            resultOfFormulaComputation = formulaApplier.apply(formulaInfo.getFormulaContents(), sheet);
-        } else if (formulaInfo.hasSingleParameter()) {
-            Input resolvedParameter = resolveParameter(formulaInfo.getFormulaContents(), sheet);
-            resultOfFormulaComputation = formulaApplier.apply(resolvedParameter, sheet);
-        } else {
-            List<Input> resolvedParameters = new ArrayList<>();
-            List<String> rawParameters = formulaInfo.getArrayOfParameters();
-            for (Object rawParameter : rawParameters) {
-                Input resolvedParameter = resolveParameter(rawParameter, sheet);
-                resolvedParameters.add(resolvedParameter);
-            }
-            resultOfFormulaComputation = formulaApplier.apply(resolvedParameters, sheet);
-        }
+
+//      Resolving parameters and setting the resolved parameters to formulaInfo
+        List<Input> resolvedParameters = resolveParameters(formulaInfo.getArrayOfParameters(), sheet);
+        formulaInfo.setResolvedParameters(resolvedParameters);
+
+//      Applying the formula and determining the result type
+        Input resultOfFormulaComputation = formulaApplier.apply(formulaInfo, sheet);
         resultOfFormulaComputation = inputTypeDeterminer.determineType(resultOfFormulaComputation);
+
         if (resultOfFormulaComputation.getType().equals(Type.FORMULA)) {
             resultOfFormulaComputation = computeFormula(resultOfFormulaComputation, sheet);
         }
         notationsSet.clear();
         return resultOfFormulaComputation;
+    }
+
+    private List<Input> resolveParameters(List<String> rawParameters, Sheet<Input> sheet) {
+        List<Input> resolvedParameters = new ArrayList<>();
+        for (Object rawParameter : rawParameters) {
+            Input resolvedParameter = resolveParameter(rawParameter, sheet);
+            resolvedParameters.add(resolvedParameter);
+        }
+        return resolvedParameters;
     }
 
     private Input resolveParameter(Object rawParameter, Sheet<Input> sheet) {
@@ -81,5 +89,6 @@ public class FormulaComputer {
             notationsSet.add(rawParameter.toString());
         }
         return resolvedParameter;
+
     }
 }

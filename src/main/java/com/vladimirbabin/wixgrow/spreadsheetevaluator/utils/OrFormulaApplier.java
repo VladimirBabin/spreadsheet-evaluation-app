@@ -9,9 +9,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Component("OR")
-public class OrFormulaApplier extends FormulaApplier {
+public class OrFormulaApplier implements FormulaApplier {
     @Override
-    public Input apply(List<Input> resolvedParameters, Sheet<Input> sheet) {
+    public Input apply(FormulaInfo formulaInfo, Sheet<Input> sheet) {
+        List<Input> resolvedParameters = formulaInfo.getResolvedParameters();
         for (Input parameter : resolvedParameters) {
             if (!parameter.getType().equals(Type.BOOLEAN)) {
                 Input errorCell = new Input("#ERROR: Invalid parameter type");

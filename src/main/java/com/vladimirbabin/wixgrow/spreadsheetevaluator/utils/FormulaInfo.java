@@ -1,5 +1,7 @@
 package com.vladimirbabin.wixgrow.spreadsheetevaluator.utils;
 
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Input;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -12,6 +14,15 @@ import java.util.regex.Pattern;
 public class FormulaInfo {
     private final String cellStringOrParameterValue;
     private final static String CONCAT = "CONCAT";
+    private List<Input> resolvedParameters;
+
+    public List<Input> getResolvedParameters() {
+        return resolvedParameters;
+    }
+
+    public void setResolvedParameters(List<Input> resolvedParameters) {
+        this.resolvedParameters = resolvedParameters;
+    }
 
     FormulaInfo(String cellStringOrParameterValue) {
         if (cellStringOrParameterValue.startsWith("=")) {
