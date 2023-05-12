@@ -49,7 +49,9 @@ class AndFormulaApplierTest {
         expected.setValue(true);
         expected.setType(Type.BOOLEAN);
 
+        formulaInfo = new FormulaInfo("=AND(true, true)");
         List<Input> parameters = List.of(firstCell, secondCell);
+        formulaInfo.setResolvedParameters(parameters);
 
         Input result = andFormulaApplier.apply(formulaInfo, sheet);
         result = inputTypeDeterminer.determineType(result);
@@ -70,9 +72,12 @@ class AndFormulaApplierTest {
         expected.setValue(false);
         expected.setType(Type.BOOLEAN);
 
+        formulaInfo = new FormulaInfo("=AND(true, false, true)");
         List<Input> parameters = List.of(firstCell, secondCell, thirdCell);
+        formulaInfo.setResolvedParameters(parameters);
 
-        Input result = andFormulaApplier.apply(parameters, sheet);
+
+        Input result = andFormulaApplier.apply(formulaInfo, sheet);
         result = inputTypeDeterminer.determineType(result);
 
         assertEquals(expected.getType(), result.getType());
@@ -91,9 +96,12 @@ class AndFormulaApplierTest {
         expected.setValue(true);
         expected.setType(Type.BOOLEAN);
 
+        formulaInfo = new FormulaInfo("=AND(true, true, true)");
         List<Input> parameters = List.of(firstCell, secondCell, thirdCell);
+        formulaInfo.setResolvedParameters(parameters);
 
-        Input result = andFormulaApplier.apply(parameters, sheet);
+
+        Input result = andFormulaApplier.apply(formulaInfo, sheet);
         result = inputTypeDeterminer.determineType(result);
 
         assertEquals(expected.getType(), result.getType());
@@ -107,8 +115,11 @@ class AndFormulaApplierTest {
         secondCell.setValue(212212);
         secondCell.setType(Type.NUMERIC);
 
+        formulaInfo = new FormulaInfo("=AND(false, 212212)");
         List<Input> parameters = List.of(firstCell, secondCell);
-        Input result = andFormulaApplier.apply(parameters, sheet);
+        formulaInfo.setResolvedParameters(parameters);
+
+        Input result = andFormulaApplier.apply(formulaInfo, sheet);
 
         assertTrue(result.getType().equals(Type.ERROR));
         assertEquals("#ERROR: Invalid parameter type", result.getValue());

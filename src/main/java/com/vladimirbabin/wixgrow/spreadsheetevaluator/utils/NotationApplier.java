@@ -6,9 +6,6 @@ import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Type;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.service.InputTypeDeterminer;
 import org.springframework.stereotype.Component;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
-
 @Component("NOTATION")
 public class NotationApplier implements FormulaApplier {
     InputTypeDeterminer inputTypeDeterminer;

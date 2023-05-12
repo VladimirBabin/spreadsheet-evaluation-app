@@ -1,74 +1,80 @@
 package com.vladimirbabin.wixgrow.spreadsheetevaluator.utils;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Input;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Sheet;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Type;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.service.InputTypeDeterminer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.List;
+import org.springframework.test.context.TestPropertySource;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
 
 @SpringBootTest
+@TestPropertySource("/application-test.properties")
 class NotationApplierTest {
-    @Autowired
+
     private NotationApplier notationApplier;
 
-    @Autowired
     private InputTypeDeterminer inputTypeDeterminer;
 
     private Sheet sheet;
-    private Input firstCell;
-    private Input secondCell;
-    private Input expected;
+
+    @Value("${spreadsheet.json.notation}")
+    private String sheetWithTwoNotations;
+
+    @Value("${spreadsheet.json.notations-referencing}")
+    private String sheetWithNotationsReferencingNotations;
+
 
     @BeforeEach
     void setUp() {
-        sheet = Mockito.mock(Sheet.class);
-        firstCell = new Input();
-        secondCell = new Input();
-        expected = new Input();
+        inputTypeDeterminer = new InputTypeDeterminer();
+        notationApplier = new NotationApplier(inputTypeDeterminer);
     }
 
     @Test
-    public void applyWithOneNumericParameter() {
-        when(sheet.getElementByNotation("A1")).thenReturn(6);
+    public void applyForSheetWithTwoNotations() {
+        FormulaInfo formulaInfo = new FormulaInfo("=A1");
 
-        expected.setValue(6);
-        expected.setType(Type.NUMERIC);
-
-        Input result = notationApplier.apply("A1", sheet);
-        result = inputTypeDeterminer.determineType(result);
-
-        assertEquals(expected.getType(), result.getType());
-        assertEquals(expected.getValue(), result.getValue());
+        try {
+            sheet = new ObjectMapper().readValue(sheetWithTwoNotations, Sheet.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        Input firstCell = notationApplier.apply(formulaInfo, sheet);
+        assertEquals(Type.NUMERIC, firstCell.getType());
+        assertEquals(5, firstCell.getValue());
     }
 
     @Test
-    public void applyWithTwoParameters() {
-        firstCell.setValue(false);
-        firstCell.setType(Type.BOOLEAN);
-        secondCell.setValue(true);
-        secondCell.setType(Type.BOOLEAN);
+    public void applyForSheetWithNotationsReferencingNotations() {
+        FormulaInfo formulaInfo = new FormulaInfo("=A6");
 
-        List<Input> parameters = List.of(firstCell, secondCell);
-
-        Input result = notationApplier.apply(parameters, sheet);
-
-        assertTrue(result.getType().equals(Type.ERROR));
-        assertEquals("#ERROR: Multiple parameters can't be applied for " + notationApplier.getClass().getName()
-                , result.getValue());
+        try {
+            sheet = new ObjectMapper().readValue(sheetWithNotationsReferencingNotations, Sheet.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        Input firstCell = notationApplier.apply(formulaInfo, sheet);
+        assertEquals(Type.FORMULA, firstCell.getType());
+        assertEquals("=A5", firstCell.getValue());
     }
 
     @Test
     public void applyWithInvalidParameter() {
-        Input result = notationApplier.apply("9", sheet);
+        FormulaInfo formulaInfo = new FormulaInfo("9");
+
+        try {
+            sheet = new ObjectMapper().readValue(sheetWithTwoNotations, Sheet.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        Input result = notationApplier.apply(formulaInfo, sheet);
 
         assertTrue(result.getType().equals(Type.ERROR));
         assertEquals("#ERROR: Invalid parameter type", result.getValue());
