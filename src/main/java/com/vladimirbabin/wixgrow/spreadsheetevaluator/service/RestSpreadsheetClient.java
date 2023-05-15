@@ -22,7 +22,7 @@ import java.util.List;
 @Service
 public class RestSpreadsheetClient {
     private final SheetComputer sheetComputer;
-    private final RestTemplate client;
+    private final RestTemplate template;
     private final AppProperties properties;
     private static final Logger logger = LoggerFactory.getLogger(RestSpreadsheetClient.class);
 
@@ -37,13 +37,13 @@ public class RestSpreadsheetClient {
     private String responseMessage;
 
     public RestSpreadsheetClient(SheetComputer sheetComputer, AppProperties properties, RestTemplateBuilder builder) {
-        this.client = builder.build();
+        this.template = builder.build();
         this.sheetComputer = sheetComputer;
         this.properties = properties;
     }
 
     public Spreadsheet getSpreadsheet() {
-        return client.getForEntity(getUrl(), Spreadsheet.class).getBody();
+        return template.getForEntity(getUrl(), Spreadsheet.class).getBody();
     }
 
     public void sendEvaluatedSpreadsheetAndLogResult(Spreadsheet initialSpreadsheet) {
@@ -54,7 +54,7 @@ public class RestSpreadsheetClient {
         }
         result.setResults(resultListOfSheets);
 
-        Message responseWithPasscode = client.postForEntity(initialSpreadsheet.getSubmissionUrl(),
+        Message responseWithPasscode = template.postForEntity(initialSpreadsheet.getSubmissionUrl(),
                 result, Message.class).getBody();
 
         if (responseWithPasscode != null) {
