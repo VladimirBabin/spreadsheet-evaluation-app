@@ -1,23 +1,22 @@
 package com.vladimirbabin.wixgrow.spreadsheetevaluator.controller;
 
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Spreadsheet;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.service.RestSpreadsheetClient;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.service.SpreadsheetClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequestMapping("/api")
 public class Controller {
 
-    private final RestSpreadsheetClient client;
+    private final SpreadsheetClient client;
 
-    public Controller(RestSpreadsheetClient client) {
+    public Controller(SpreadsheetClient client) {
         this.client = client;
     }
 
-    @GetMapping("/call-app")
+    @GetMapping("/spreadsheet-evaluation")
     public String callComputeSpreadsheet() {
         Spreadsheet resultSpreadsheet = client.getSpreadsheet();
         client.sendEvaluatedSpreadsheetAndLogResult(resultSpreadsheet);

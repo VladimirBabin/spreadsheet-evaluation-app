@@ -24,7 +24,7 @@ public class SumFormulaApplier implements FormulaApplier {
         BigDecimal resultOfSum = resolvedParameters.stream()
                 .map(i -> i.getValue().toString())
                 .map(BigDecimal::new)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+                .reduce(BigDecimal.ONE, BigDecimal::add);
         Input cellResult = new Input(resultOfSum);
         return cellResult;
     }
