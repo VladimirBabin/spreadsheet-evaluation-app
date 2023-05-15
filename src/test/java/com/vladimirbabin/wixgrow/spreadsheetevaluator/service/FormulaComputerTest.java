@@ -10,11 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.test.context.TestPropertySource;
-
-import javax.validation.constraints.AssertTrue;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,11 +24,17 @@ class FormulaComputerTest {
     @Value("${spreadsheet.json.sheet-13.not-with-notation}")
     private String sheetWithNotFormulaWithNotationInside;
 
-    @Value("${spreadsheet.json.notations-referencing}")
-    private String sheetWithNotationsReferencingNotations;
+    @Value("${spreadsheet.json.sheet-22.notations-referencing-in-separate-arrays}")
+    private String sheetWithNotationsReferencingNotationsInSeparateArrays;
 
-    @Value("${spreadsheet.json.notations-with-circular-reference}")
+    @Value("${spreadsheet.json.sheet-32.notations-with-circular-reference}")
     private String sheetWithCircularReferencedNotations;
+
+    @Value("${spreadsheet.json.sheet-18.formula-inside-formula}")
+    private String sheetWithFormulaWithAnotherFormulaInside;
+
+    @Value("${spreadsheet.json.sheet-21.concat-with-notations-inside}")
+    private String sheetWithConcatFormulaWithNotationsInside;
 
     private Input cell;
     private Input cell2;
@@ -62,11 +64,41 @@ class FormulaComputerTest {
     }
 
     @Test
+    public void applyForFormulaInsideAnotherFormula() {
+        cell = new Input("=IF(GT(A1, B1), A1, B1)");
+
+        try {
+            sheet = new ObjectMapper().readValue(sheetWithFormulaWithAnotherFormulaInside, Sheet.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+
+        Input result = formulaComputer.computeFormula(cell, sheet);
+        assertEquals(Type.NUMERIC, result.getType());
+        assertEquals(21221, result.getValue());
+    }
+
+    @Test
+    public void applyForConcatFormulaWithNotationsInside() {
+        cell = new Input("=CONCAT(I1, \" is \", I2)");
+
+        try {
+            sheet = new ObjectMapper().readValue(sheetWithConcatFormulaWithNotationsInside, Sheet.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+
+        Input result = formulaComputer.computeFormula(cell, sheet);
+        assertEquals(Type.STRING, result.getType());
+        assertEquals("AN is Netherlands Antilles", result.getValue());
+    }
+
+    @Test
     public void applyForNotationsChainFormula() {
         cell = new Input("=A6");
 
         try {
-            sheet = new ObjectMapper().readValue(sheetWithNotationsReferencingNotations, Sheet.class);
+            sheet = new ObjectMapper().readValue(sheetWithNotationsReferencingNotationsInSeparateArrays, Sheet.class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e.getMessage());
         }
