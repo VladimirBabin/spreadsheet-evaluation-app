@@ -7,22 +7,15 @@ import com.vladimirbabin.wixgrow.spreadsheetevaluator.service.InputTypeDetermine
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
 class AndFormulaApplierTest {
 
-    @Autowired
-    AndFormulaApplier andFormulaApplier;
-
-    @Autowired
-    InputTypeDeterminer inputTypeDeterminer;
-
+    private final AndFormulaApplier andFormulaApplier = new AndFormulaApplier();
+    private final InputTypeDeterminer inputTypeDeterminer = new InputTypeDeterminer();
     private Sheet sheet;
     private Input firstCell;
     private Input secondCell;

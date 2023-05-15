@@ -24,7 +24,7 @@ public class FormulaInfo {
         this.resolvedParameters = resolvedParameters;
     }
 
-    FormulaInfo(String cellStringOrParameterValue) {
+    public FormulaInfo(String cellStringOrParameterValue) {
         if (cellStringOrParameterValue.startsWith("=")) {
             this.cellStringOrParameterValue = cellStringOrParameterValue.substring(1);
         } else {

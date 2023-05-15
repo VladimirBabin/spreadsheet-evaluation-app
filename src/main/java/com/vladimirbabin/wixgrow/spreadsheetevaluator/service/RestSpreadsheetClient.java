@@ -7,10 +7,9 @@ import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Sheet;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Spreadsheet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,25 +20,30 @@ import java.util.List;
  * and sends the computation results back. After submitting the correct results it prints the response message in logger.
  */
 @Service
-public class SpreadsheetClient {
+public class RestSpreadsheetClient {
     private final SheetComputer sheetComputer;
-    private final WebClient client;
+    private final RestTemplate client;
     private final AppProperties properties;
-    private static final Logger logger = LoggerFactory.getLogger(SpreadsheetClient.class);
+    private static final Logger logger = LoggerFactory.getLogger(RestSpreadsheetClient.class);
 
-    public SpreadsheetClient(SheetComputer sheetComputer, AppProperties properties) {
-        this.client = WebClient.builder().build();
+    public String getResponseMessage() {
+        return responseMessage;
+    }
+
+    public void setResponseMessage(String responseMessage) {
+        this.responseMessage = responseMessage;
+    }
+
+    private String responseMessage;
+
+    public RestSpreadsheetClient(SheetComputer sheetComputer, AppProperties properties, RestTemplateBuilder builder) {
+        this.client = builder.build();
         this.sheetComputer = sheetComputer;
         this.properties = properties;
     }
 
     public Spreadsheet getSpreadsheet() {
-        return client
-                .get()
-                .uri(getUrl())
-                .retrieve()
-                .bodyToMono(Spreadsheet.class)
-                .block();
+        return client.getForEntity(getUrl(), Spreadsheet.class).getBody();
     }
 
     public void sendEvaluatedSpreadsheetAndLogResult(Spreadsheet initialSpreadsheet) {
@@ -50,22 +54,12 @@ public class SpreadsheetClient {
         }
         result.setResults(resultListOfSheets);
 
-        Message responseWithPasscode = client
-                .post()
-                .uri(initialSpreadsheet.getSubmissionUrl())
-                .body(Mono.just(result), ResultSubmission.class)
-                .retrieve()
-                .onStatus(
-                        HttpStatus.BAD_REQUEST::equals,
-                        response -> response.bodyToMono(String.class).map(Exception::new))
-                .onStatus(
-                        HttpStatus.BAD_GATEWAY::equals,
-                        response -> response.bodyToMono(String.class).map(Exception::new))
-                .bodyToMono(Message.class)
-                .block();
+        Message responseWithPasscode = client.postForEntity(initialSpreadsheet.getSubmissionUrl(),
+                result, Message.class).getBody();
 
         if (responseWithPasscode != null) {
             logger.info(responseWithPasscode.getMessage());
+            setResponseMessage(responseWithPasscode.getMessage());
         } else {
             logger.error("No response");
         }
@@ -75,4 +69,3 @@ public class SpreadsheetClient {
         return properties.getUrlForGettingTheTask();
     }
 }
-
