@@ -93,8 +93,7 @@ class SumFormulaApplierTest {
         Input result = sumFormulaApplier.apply(formulaInfo, sheet);
 
         assertTrue(result.getType().equals(Type.ERROR));
-        assertEquals("#ERROR: Invalid parameter type: received " +
-                firstCell.getValue() + " as input", result.getValue());
+        assertEquals("#ERROR: Invalid parameter type", result.getValue());
     }
 
     @Test

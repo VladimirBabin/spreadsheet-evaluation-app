@@ -24,17 +24,29 @@ class FormulaComputerTest {
     @Value("${spreadsheet.json.sheet-13.not-with-notation}")
     private String sheetWithNotFormulaWithNotationInside;
 
+    @Value("${spreadsheet.json.sheet-18.formula-inside-formula}")
+    private String sheetWithFormulaWithAnotherFormulaInside;
+
+    @Value("${spreadsheet.json.sheet-20.concat-with-notations-inside}")
+    private String sheetWithConcatFormulaWithNotationsInside;
+
+    @Value("${spreadsheet.json.sheet-21.notations-referencing-in-single-array}")
+    private String sheetWithNotationReferencingInSingleArray;
+
     @Value("${spreadsheet.json.sheet-22.notations-referencing-in-separate-arrays}")
     private String sheetWithNotationsReferencingNotationsInSeparateArrays;
+
+    @Value("${spreadsheet.json.sheet-23.notations-referencing-in-single-array-backwards}")
+    private String sheetWithConcatFormulaWithNotationsBackwards;
+
+    @Value("${spreadsheet.json.sheet-31.notations-with-single-circular-reference}")
+    private String getSheetWithCircularReferencedSingleNotation;
 
     @Value("${spreadsheet.json.sheet-32.notations-with-circular-reference}")
     private String sheetWithCircularReferencedNotations;
 
-    @Value("${spreadsheet.json.sheet-18.formula-inside-formula}")
-    private String sheetWithFormulaWithAnotherFormulaInside;
-
-    @Value("${spreadsheet.json.sheet-21.concat-with-notations-inside}")
-    private String sheetWithConcatFormulaWithNotationsInside;
+    @Value("${spreadsheet.json.sheet-33.circular-reference-between-notation-and-formula}")
+    private String sheetWithCircularReferenceBetweenNotationAndFormula;
 
     private Input cell;
     private Input cell2;
@@ -94,7 +106,22 @@ class FormulaComputerTest {
     }
 
     @Test
-    public void applyForNotationsChainFormula() {
+    public void applyForNotationsChainInSingleArray() {
+        cell = new Input("=G1");
+
+        try {
+            sheet = new ObjectMapper().readValue(sheetWithNotationReferencingInSingleArray, Sheet.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+
+        Input result = formulaComputer.computeFormula(cell, sheet);
+        assertEquals(Type.STRING, result.getType());
+        assertEquals("First", result.getValue());
+    }
+
+    @Test
+    public void applyForNotationsChainInSeparateArrays() {
         cell = new Input("=A6");
 
         try {
@@ -106,6 +133,36 @@ class FormulaComputerTest {
         Input result = formulaComputer.computeFormula(cell, sheet);
         assertEquals(Type.STRING, result.getType());
         assertEquals("First", result.getValue());
+    }
+
+    @Test
+    public void applyForNotationsChainBackwards() {
+        cell = new Input("=B1");
+
+        try {
+            sheet = new ObjectMapper().readValue(sheetWithConcatFormulaWithNotationsBackwards, Sheet.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+
+        Input result = formulaComputer.computeFormula(cell, sheet);
+        assertEquals(Type.STRING, result.getType());
+        assertEquals("Last", result.getValue());
+    }
+
+    @Test
+    public void applyForSheetWithSingleCircularReference() {
+        cell = new Input("=A1");
+
+        try {
+            sheet = new ObjectMapper().readValue(sheetWithCircularReferencedNotations, Sheet.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+
+        Input result = formulaComputer.computeFormula(cell, sheet);
+        assertEquals(Type.ERROR, result.getType());
+        assertEquals("#ERROR: Circular reference", result.getValue());
     }
 
     @Test
@@ -123,4 +180,18 @@ class FormulaComputerTest {
         assertEquals("#ERROR: Circular reference", result.getValue());
     }
 
+    @Test
+    public void applyForSheetWithCircularReferenceBetweenNotationAndFormula() {
+        cell = new Input("=C1");
+
+        try {
+            sheet = new ObjectMapper().readValue(sheetWithCircularReferenceBetweenNotationAndFormula, Sheet.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+
+        Input result = formulaComputer.computeFormula(cell, sheet);
+        assertEquals(Type.ERROR, result.getType());
+        assertEquals("#ERROR: Invalid parameter type", result.getValue());
+    }
 }
