@@ -15,16 +15,10 @@ public class DivideFormulaApplier implements FormulaApplier {
     public Input apply(FormulaInfo formulaInfo, Sheet<Input> sheet) {
         List<Input> resolvedParameters = formulaInfo.getResolvedParameters();
         if (resolvedParameters.size() != 2) {
-            Input errorCell = new Input("#ERROR: There has to be two parameters for DIVIDE formula");
-            errorCell.setType(Type.ERROR);
-            return errorCell;
+            return errorCell("There has to be two parameters for DIVIDE formula");
         }
-        for (Input parameter : resolvedParameters) {
-            if (!parameter.getType().equals(Type.NUMERIC)) {
-                Input errorCell = new Input("#ERROR: Invalid parameter type");
-                errorCell.setType(Type.ERROR);
-                return errorCell;
-            }
+        if (!validateParametersTypes(resolvedParameters, Type.NUMERIC)) {
+            return errorCell("Invalid parameter type");
         }
         BigDecimal numerator = new BigDecimal(resolvedParameters.get(0).getValue().toString());
         BigDecimal denominator = new BigDecimal(resolvedParameters.get(1).getValue().toString());

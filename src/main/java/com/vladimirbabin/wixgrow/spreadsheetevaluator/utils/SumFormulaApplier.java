@@ -14,12 +14,8 @@ public class SumFormulaApplier implements FormulaApplier {
     @Override
     public Input apply(FormulaInfo formulaInfo, Sheet<Input> sheet) {
         List<Input> resolvedParameters = formulaInfo.getResolvedParameters();
-        for (Input parameter : resolvedParameters) {
-            if (!parameter.getType().equals(Type.NUMERIC)) {
-                Input errorCell = new Input("#ERROR: Invalid parameter type");
-                errorCell.setType(Type.ERROR);
-                return errorCell;
-            }
+        if (!validateParametersTypes(resolvedParameters, Type.NUMERIC)) {
+            return errorCell("Invalid parameter type");
         }
         BigDecimal resultOfSum = resolvedParameters.stream()
                 .map(i -> i.getValue().toString())

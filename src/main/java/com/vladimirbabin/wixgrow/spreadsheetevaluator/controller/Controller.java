@@ -17,9 +17,9 @@ public class Controller {
     }
 
     @GetMapping("/spreadsheet-evaluation")
-    public String callComputeSpreadsheet() {
-        Spreadsheet resultSpreadsheet = client.getSpreadsheet();
-        client.sendEvaluatedSpreadsheetAndLogResult(resultSpreadsheet);
+    public String computeSpreadsheetEvaluation() {
+        Spreadsheet evaluatedSpreadsheet = client.getSpreadsheet();
+        client.sendEvaluatedSpreadsheetAndLogResult(evaluatedSpreadsheet);
         return client.getResponseMessage();
     }
 

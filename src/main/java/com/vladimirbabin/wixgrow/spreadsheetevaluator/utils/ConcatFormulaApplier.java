@@ -5,6 +5,7 @@ import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Sheet;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Type;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Component("CONCAT")
@@ -14,9 +15,7 @@ public class ConcatFormulaApplier implements FormulaApplier {
         for (Input parameter : formulaInfo.getResolvedParameters()) {
             Type type = parameter.getType();
             if (type.equals(Type.ERROR) || type.equals(Type.FORMULA) || type.equals(Type.NOTATION)) {
-                Input errorCell = new Input("#ERROR: Invalid parameter type");
-                errorCell.setType(Type.ERROR);
-                return errorCell;
+                return errorCell("Invalid parameter type");
             }
         }
 

@@ -13,12 +13,8 @@ public class OrFormulaApplier implements FormulaApplier {
     @Override
     public Input apply(FormulaInfo formulaInfo, Sheet<Input> sheet) {
         List<Input> resolvedParameters = formulaInfo.getResolvedParameters();
-        for (Input parameter : resolvedParameters) {
-            if (!parameter.getType().equals(Type.BOOLEAN)) {
-                Input errorCell = new Input("#ERROR: Invalid parameter type");
-                errorCell.setType(Type.ERROR);
-                return errorCell;
-            }
+        if (!validateParametersTypes(resolvedParameters, Type.BOOLEAN)) {
+            return errorCell("Invalid parameter type");
         }
         Optional<Boolean> optional = resolvedParameters.stream()
                 .map(i -> i.getValue().toString())
@@ -29,9 +25,7 @@ public class OrFormulaApplier implements FormulaApplier {
         if (optional.isPresent()) {
             resultOfAndFormula = optional.get();
         } else {
-            Input errorCell = new Input("#ERROR: The OR formula result can't be null");
-            errorCell.setType(Type.ERROR);
-            return errorCell;
+            return errorCell("The OR formula result can't be null");
         }
         Input cellResult = new Input(resultOfAndFormula);
         return cellResult;

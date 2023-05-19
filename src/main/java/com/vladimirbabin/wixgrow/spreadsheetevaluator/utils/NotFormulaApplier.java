@@ -12,14 +12,10 @@ public class NotFormulaApplier implements FormulaApplier {
     public Input apply(FormulaInfo formulaInfo, Sheet<Input> sheet) {
         Input singleParameter = formulaInfo.getResolvedParameters().get(0);
         if (formulaInfo.getResolvedParameters().size() > 1) {
-            Input errorCell = new Input("#ERROR: There has to be only one parameter for NOT formula");
-            errorCell.setType(Type.ERROR);
-            return errorCell;
+            return errorCell("There has to be only one parameter for NOT formula");
         }
         if (!singleParameter.getType().equals(Type.BOOLEAN)) {
-            Input errorCell = new Input("#ERROR: Invalid parameter type");
-            errorCell.setType(Type.ERROR);
-            return errorCell;
+            return errorCell("Invalid parameter type");
         }
         Boolean resultOfNotFormula = !Boolean.parseBoolean(singleParameter.getValue().toString());
         Input cellResult = new Input(resultOfNotFormula);

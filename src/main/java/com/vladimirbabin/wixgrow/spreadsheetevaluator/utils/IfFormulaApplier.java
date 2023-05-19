@@ -13,16 +13,11 @@ public class IfFormulaApplier implements FormulaApplier {
     public Input apply(FormulaInfo formulaInfo, Sheet<Input> sheet) {
         List<Input> resolvedParameters = formulaInfo.getResolvedParameters();
         if (resolvedParameters.size() != 3) {
-            Input errorCell = new Input("#ERROR: There has to be three parameters for IF formula");
-            errorCell.setType(Type.ERROR);
-            return errorCell;
+            return errorCell("There has to be three parameters for IF formula");
         }
         Input condition = resolvedParameters.get(0);
         if (!condition.getType().equals(Type.BOOLEAN)) {
-            Input errorCell = new Input("#ERROR: Invalid parameter type: " +
-                    "first argument in IF formula should be of BOOLEAN type");
-            errorCell.setType(Type.ERROR);
-            return errorCell;
+            return errorCell("Invalid parameter type: first argument in IF formula should be of BOOLEAN type");
         }
         boolean resultOfIfCondition = Boolean.parseBoolean(condition.getValue().toString());
         Input cellResult;

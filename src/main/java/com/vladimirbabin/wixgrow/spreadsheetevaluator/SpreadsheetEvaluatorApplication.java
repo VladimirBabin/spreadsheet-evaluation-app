@@ -10,5 +10,4 @@ public class SpreadsheetEvaluatorApplication {
     public static void main(String[] args) {
         SpringApplication.run(SpreadsheetEvaluatorApplication.class, args);
     }
-
 }

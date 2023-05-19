@@ -15,7 +15,7 @@ import org.springframework.test.context.TestPropertySource;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@TestPropertySource("/application-test.properties")
+@TestPropertySource(properties = {"spring.config.location=classpath:application-test.yml"})
 class FormulaComputerTest {
 
     @Autowired
@@ -49,7 +49,6 @@ class FormulaComputerTest {
     private String sheetWithCircularReferenceBetweenNotationAndFormula;
 
     private Input cell;
-    private Input cell2;
     private Sheet sheet;
 
 
@@ -57,7 +56,7 @@ class FormulaComputerTest {
     @Test
     public void applyForNotFormulaWithNotationInside() {
         cell = new Input("=NOT(D1)");
-        cell2 = new Input("=NOT(E2)");
+        Input cell2 = new Input("=NOT(E2)");
 
         try {
             sheet = new ObjectMapper().readValue(sheetWithNotFormulaWithNotationInside, Sheet.class);
