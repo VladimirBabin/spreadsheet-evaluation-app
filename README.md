@@ -9,7 +9,8 @@ There are 10 types of formulas the application can work with:
 - SUM
 - MULTIPLY
 - DIVIDE
-- GT (Greater Then)
+- GT (Greater than)
+- LT (Less than)
 - EQ (Equals)
 - NOT
 - AND
@@ -17,4 +18,19 @@ There are 10 types of formulas the application can work with:
 - IF
 - CONCAT
 
-Each formula has parameters that the application computes as well (in case there are more formulas in parameters or in case a parameter contains a reference to another cell.
+Each formula has parameters that the application computes as well (in case there are more formulas in parameters or in 
+case a parameter contains a reference to another cell).
+
+## Requirements
+For building and running the application you need:
+- JDK 1.8
+- Maven 3
+
+## Running the application locally
+There are several ways to run a Spring Boot application on your local machine. One way is to execute the main method in 
+the com.vladimirbabin.wixgrow.spreadsheetevaluator.SpreadsheetEvaluatorApplication class from your IDE.
+
+Alternatively you can use the Spring Boot Maven plugin like so:
+mvn spring-boot:run
+
+To start the evaluation, send a GET request to localhost:8080/api/spreadsheet-evaluation.
