@@ -29,8 +29,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.vladimir_babin.wix_grow</groupId>
-			<artifactId>Spreadsheet_Evaluator</artifactId>
+			<groupId>com.vladimirbabin.wixgrow</groupId>
+			<artifactId>spreadsheet-evaluator</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>

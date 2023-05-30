@@ -2,11 +2,18 @@ version: '3'
 
 services:
     hub:
-        user:
         build: ./hub
         ports:
           - '8081:8081'
-
     swagger:
+        build: ./swagger
+        ports:
+            - '8090:8090'
     evaluator:
+        build: ./evaluator
+        ports:
+            - '8080:8080'
     verificator:
+        build: ./verificator
+        ports:
+            - '8181:8181'
