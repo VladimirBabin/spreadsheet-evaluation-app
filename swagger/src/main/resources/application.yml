@@ -1,0 +1,5 @@
+server:
+  port: 8090
+
+spreadsheet-evaluator:
+  url-for-spreadsheet-evaluation-service: 'http://localhost:8080/api/spreadsheet-evaluation'
