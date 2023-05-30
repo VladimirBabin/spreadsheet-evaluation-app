@@ -1,7 +1,7 @@
 package com.vladimirbabin.wixgrow.spreadsheetevaluator.spreadsheet_verificator.service;
 
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Input;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Type;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.spreadsheet_verificator.dto.Input;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.spreadsheet_verificator.dto.Type;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;

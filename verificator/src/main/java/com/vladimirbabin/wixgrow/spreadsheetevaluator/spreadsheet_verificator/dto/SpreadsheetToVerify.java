@@ -1,7 +1,5 @@
 package com.vladimirbabin.wixgrow.spreadsheetevaluator.spreadsheet_verificator.dto;
 
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Sheet;
-
 import java.util.List;
 
 public class SpreadsheetToVerify {

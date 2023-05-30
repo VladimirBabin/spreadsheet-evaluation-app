@@ -1,10 +1,9 @@
 package com.vladimirbabin.wixgrow.spreadsheetevaluator.spreadsheet_verificator.service;
 
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Input;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Sheet;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Type;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.spreadsheet_verificator.dto.Input;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.spreadsheet_verificator.dto.Report;
-import org.junit.jupiter.api.Assertions;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.spreadsheet_verificator.dto.Sheet;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.spreadsheet_verificator.dto.Type;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,13 +23,22 @@ class ReportWriterTest {
     }
 
     @Test
-    public void testReportOnSheetWithEmptyArrayData() {
+    public void testReportOnSheetWithEmptyArrayDataForEmptyCorrectResult() {
         sheet.setId("sheet-0");
         sheet.setData(null);
 
         Report res = reportWriter.check(sheet);
+        assertTrue(res.getOk());
+    }
+
+    @Test
+    public void testReportOnSheetWithEmptyArrayDataForNotEmptyCorrectResult() {
+        sheet.setId("sheet-1");
+        sheet.setData(null);
+
+        Report res = reportWriter.check(sheet);
         assertFalse(res.getOk());
-        Assertions.assertEquals("invalid result: invalid sheet "
+        assertEquals("invalid result: invalid sheet "
                         + sheet.getId()
                         + ", should be not null",
                 res.getError());

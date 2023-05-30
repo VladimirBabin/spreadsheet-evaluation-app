@@ -2,12 +2,10 @@ package com.vladimirbabin.wixgrow.spreadsheetevaluator.spreadsheet_verificator.s
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Input;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Sheet;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Type;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.service.InputTypeDeterminer;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.service.SheetCellsDeterminer;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.spreadsheet_verificator.dto.Input;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.spreadsheet_verificator.dto.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,14 +17,15 @@ import java.util.stream.Collectors;
 @Service
 public class InputChecker {
 //    matrix of spreadsheet data
-    ObjectMapper objectMapper = new ObjectMapper();
-    final Map<String, List<List<Input>>> mapOfInputs;
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final Map<String, List<List<Input>>> mapOfInputs;
 
     public InputChecker() {
         List<Sheet<Object>> objectSheets = new ArrayList<>();
+
         try {
-            objectSheets = objectMapper.readValue(new File(
-                    "C:\\Users\\mi\\Spreadsheet_Verificator\\src\\main\\resources\\correct-sheets.json")
+            ClassLoader classLoader = getClass().getClassLoader();
+            objectSheets = objectMapper.readValue(new File(classLoader.getResource("correct-sheets.json").getFile())
                     , new TypeReference<List<Sheet<Object>>>(){});
         } catch (IOException e) {
             e.printStackTrace();

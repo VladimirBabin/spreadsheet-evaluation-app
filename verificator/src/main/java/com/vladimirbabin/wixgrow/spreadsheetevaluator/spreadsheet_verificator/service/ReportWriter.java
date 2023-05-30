@@ -1,8 +1,9 @@
 package com.vladimirbabin.wixgrow.spreadsheetevaluator.spreadsheet_verificator.service;
 
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Input;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Sheet;
+
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.spreadsheet_verificator.dto.Input;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.spreadsheet_verificator.dto.Report;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.spreadsheet_verificator.dto.Sheet;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

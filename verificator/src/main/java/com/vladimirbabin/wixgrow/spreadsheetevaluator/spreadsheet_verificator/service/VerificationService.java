@@ -1,13 +1,8 @@
 package com.vladimirbabin.wixgrow.spreadsheetevaluator.spreadsheet_verificator.service;
 
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.service.InputTypeDeterminer;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.service.SheetCellsDeterminer;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.spreadsheet_verificator.dto.Report;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.spreadsheet_verificator.dto.SpreadsheetToVerify;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.spreadsheet_verificator.dto.VerificationResponse;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.spreadsheet_verificator.dto.*;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.spreadsheet_verificator.exception_handling.NoSubmittedResult;
 import org.springframework.stereotype.Service;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.*;
 
 import java.util.ArrayList;
 import java.util.List;

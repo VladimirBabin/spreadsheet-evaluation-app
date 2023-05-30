@@ -2,11 +2,8 @@ package com.vladimirbabin.wixgrow.spreadsheetevaluator.spreadsheet_verificator.s
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Sheet;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Type;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.spreadsheet_verificator.dto.Report;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.spreadsheet_verificator.dto.SpreadsheetToVerify;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.spreadsheet_verificator.dto.VerificationResponse;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.spreadsheet_verificator.dto.*;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.spreadsheet_verificator.exception_handling.NoSubmittedResult;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,6 +21,13 @@ class VerificationServiceTest {
     private final ReportWriter reportWriter = new ReportWriter(inputChecker);
     private final VerificationService service = new VerificationService(reportWriter);
     private SpreadsheetToVerify spreadsheet;
+    private final ClassLoader classLoader = getClass().getClassLoader();
+    private final File correctSheets = new File(classLoader.getResource("correct-sheets.json").getFile());
+    private final File incorrectTypeSheets = new File(classLoader.getResource("incorrect-type-sheets.json").getFile());
+    private final File incorrectValueSheets = new File(classLoader.getResource("incorrect-value-sheets.json").getFile());
+
+
+
 
     @BeforeEach
     public void setUp() {
@@ -32,11 +36,12 @@ class VerificationServiceTest {
 
     @Test
     public void testForNullSpreadsheet() {
-        VerificationResponse responseDto = service.verifySpreadsheet(null);
-        assertNull(responseDto.getMessage());
-        assertEquals("invalid  result: " +
-                        "the spreadsheet can't be null"
-                , responseDto.getReports().get(0).getError());
+        Exception exception = assertThrows(NoSubmittedResult.class, () -> service.verifySpreadsheet(null));
+
+        String expectedMessage = "No result submitted, please send the result in json format";
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
     }
 
     @Test
@@ -56,10 +61,7 @@ class VerificationServiceTest {
     public void testForCorrectSpreadsheet() {
         List<Sheet> objectSheets = new ArrayList<>();
         try {
-            objectSheets = objectMapper.readValue(new File(
-                            "C:\\Users\\mi\\Spreadsheet_Verificator\\src\\main\\resources\\correct-sheets.json")
-                    , new TypeReference<>() {
-                    });
+            objectSheets = objectMapper.readValue(correctSheets, new TypeReference<>() {});
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -75,10 +77,7 @@ class VerificationServiceTest {
     public void testForSpreadsheetWithTypeMistakes() {
         List<Sheet> objectSheets = new ArrayList<>();
         try {
-            objectSheets = objectMapper.readValue(new File(
-                            "C:\\Users\\mi\\Spreadsheet_Verificator\\src\\main\\resources\\incorrect-type-sheets.json")
-                    , new TypeReference<>() {
-                    });
+            objectSheets = objectMapper.readValue(incorrectTypeSheets, new TypeReference<>() {});
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -123,10 +122,7 @@ class VerificationServiceTest {
     public void testForSpreadsheetWithValueMistakes() {
         List<Sheet> objectSheets = new ArrayList<>();
         try {
-            objectSheets = objectMapper.readValue(new File(
-                            "C:\\Users\\mi\\Spreadsheet_Verificator\\src\\main\\resources\\incorrect-value-sheets.json")
-                    , new TypeReference<>() {
-                    });
+            objectSheets = objectMapper.readValue(incorrectValueSheets, new TypeReference<>() {});
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -1,6 +1,6 @@
 package com.vladimirbabin.wixgrow.spreadsheetevaluator.spreadsheet_verificator.exception_handling;
 
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.ErrorDto;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.spreadsheet_verificator.dto.ErrorDto;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

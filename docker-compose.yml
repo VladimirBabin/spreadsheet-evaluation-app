@@ -17,3 +17,4 @@ services:
         build: ./verificator
         ports:
             - '8181:8181'
+
