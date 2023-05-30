@@ -12,12 +12,6 @@
         <module name="spreadsheet-verificator" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="spreadsheet-evaluator" target="17" />
-      <module name="spreadsheet-evaluator-swagger" target="17" />
-      <module name="spreadsheet-hub" target="17" />
-      <module name="spreadsheet-verificator" target="17" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
