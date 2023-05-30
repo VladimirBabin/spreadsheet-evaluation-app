@@ -5,7 +5,6 @@ import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Sheet;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Type;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Component("CONCAT")

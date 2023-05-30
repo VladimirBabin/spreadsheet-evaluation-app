@@ -19,10 +19,12 @@ import java.util.List;
 @Service
 public class SheetComputer {
     private final FormulaComputer formulaComputer;
+    private final SheetCellsDeterminer sheetCellsDeterminer;
     private static final Logger logger = LoggerFactory.getLogger(SheetComputer.class);
 
-    SheetComputer(FormulaComputer formulaComputer) {
+    SheetComputer(FormulaComputer formulaComputer, SheetCellsDeterminer sheetCellsDeterminer) {
         this.formulaComputer = formulaComputer;
+        this.sheetCellsDeterminer = sheetCellsDeterminer;
     }
 
     Sheet computeSheet(Sheet sheet) {
@@ -33,7 +35,7 @@ public class SheetComputer {
         Sheet<Object> resultSheet = new Sheet<>();
         resultSheet.setId(sheet.getId());
         List<List<Object>> listOfResultRows = new ArrayList<>();
-        Sheet<Input> cellSheet = replaceObjectsWithCells(sheet);
+        Sheet<Input> cellSheet = sheetCellsDeterminer.replaceObjectsWithCells(sheet);
         for (List<Input> listOfCells : cellSheet.getData()) {
             List<Object> rowOfResultObjects = new ArrayList<>();
             for (Input cell : listOfCells) {
@@ -51,20 +53,5 @@ public class SheetComputer {
         logger.info("After computation: " + resultSheet);
         return resultSheet;
     }
-    private Sheet<Input> replaceObjectsWithCells(Sheet<Object> sheet) {
-        InputTypeDeterminer inputTypeDeterminer = new InputTypeDeterminer();
-        Sheet<Input> sheetResult = new Sheet<>();
-        sheetResult.setId(sheet.getId());
-        List<List<Input>> listOfRows = new ArrayList<>();
-        for (List<Object> listOfObjects : sheet.getData()) {
-            List<Input> rowOfCells = new ArrayList<>();
-            for (Object object : listOfObjects) {
-                Input cell = inputTypeDeterminer.determineType(new Input(object));
-                rowOfCells.add(cell);
-            }
-            listOfRows.add(rowOfCells);
-        }
-        sheetResult.setData(listOfRows);
-        return sheetResult;
-    }
+
 }

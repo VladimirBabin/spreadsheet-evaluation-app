@@ -6,8 +6,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ErrorDto {
-
     private HttpStatus status;
+    private String message;
 
     public HttpStatus getStatus() {
         return status;
@@ -25,8 +25,6 @@ public class ErrorDto {
         this.message = message;
     }
 
-    private String message;
-
     public ErrorDto(HttpStatus status, String message) {
         super();
         this.status = status;
@@ -38,5 +36,4 @@ public class ErrorDto {
         this.status = status;
         this.message = message;
     }
-
 }

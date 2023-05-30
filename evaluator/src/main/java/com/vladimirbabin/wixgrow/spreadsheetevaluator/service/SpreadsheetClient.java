@@ -54,12 +54,13 @@ public class SpreadsheetClient {
                 .block();
     }
 
-    public void sendEvaluatedSpreadsheetAndLogResult(Spreadsheet initialSpreadsheet) {
+    public void evaluateAndSendSpreadsheet(Spreadsheet initialSpreadsheet) {
         ResultSubmission result = new ResultSubmission(properties);
         List<Sheet> resultListOfSheets = new ArrayList<>();
         for (Sheet sheet : initialSpreadsheet.getSheets()) {
             resultListOfSheets.add(sheetComputer.computeSheet(sheet));
         }
+        logger.info(resultListOfSheets.toString());
         result.setResults(resultListOfSheets);
 
         Message responseWithPasscode = client

@@ -8,10 +8,10 @@
         <version>3.0.5</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.vladimir_babin.wix_grow</groupId>
-    <artifactId>Spreadsheet_Evaluator</artifactId>
+    <groupId>com.vladimirbabin.wixgrow</groupId>
+    <artifactId>spreadsheet-evaluator</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Spreadsheet Evaluator</name>
+    <name>spreadsheet-evaluator</name>
     <description>Spreadsheet Evaluator</description>
     <properties>
         <java.version>17</java.version>

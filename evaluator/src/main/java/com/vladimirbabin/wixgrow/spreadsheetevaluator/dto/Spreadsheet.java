@@ -6,7 +6,7 @@ public class Spreadsheet {
     private String submissionUrl;
     private List<Sheet> sheets;
 
-    private Spreadsheet() {
+    public Spreadsheet() {
     }
 
     public String getSubmissionUrl() {

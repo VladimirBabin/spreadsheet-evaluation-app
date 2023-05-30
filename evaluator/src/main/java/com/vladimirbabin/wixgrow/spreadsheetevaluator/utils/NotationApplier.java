@@ -2,7 +2,6 @@ package com.vladimirbabin.wixgrow.spreadsheetevaluator.utils;
 
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Input;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Sheet;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Type;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.service.InputTypeDeterminer;
 import org.springframework.stereotype.Component;
 

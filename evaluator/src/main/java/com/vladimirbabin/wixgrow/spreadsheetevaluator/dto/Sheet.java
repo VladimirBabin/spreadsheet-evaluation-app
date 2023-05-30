@@ -6,14 +6,6 @@ public class Sheet<T> {
     private String id;
     private List<List<T>> data;
 
-    @Override
-    public String toString() {
-        return "Sheet{" +
-                "id='" + id + '\'' +
-                ", data=" + data +
-                '}';
-    }
-
     public String getId() {
         return id;
     }
@@ -46,5 +38,12 @@ public class Sheet<T> {
             exception.printStackTrace();
             throw new RuntimeException("There is no such notation in the sheet");
         }
+    }
+
+    @Override
+    public String toString() {
+        return "{\"id\":" + "\"" + id + "\"," +
+                "\"data\":" + data +
+                "}";
     }
 }
