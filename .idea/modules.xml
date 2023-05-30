@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/spreadsheet-evaluation-app.iml" filepath="$PROJECT_DIR$/.idea/spreadsheet-evaluation-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/evaluator/spreadsheet-evaluator.iml" filepath="$PROJECT_DIR$/evaluator/spreadsheet-evaluator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/swagger/spreadsheet-evaluator-swagger.iml" filepath="$PROJECT_DIR$/swagger/spreadsheet-evaluator-swagger.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hub/spreadsheet-hub.iml" filepath="$PROJECT_DIR$/hub/spreadsheet-hub.iml" />
+      <module fileurl="file://$PROJECT_DIR$/verificator/spreadsheet-verificator.iml" filepath="$PROJECT_DIR$/verificator/spreadsheet-verificator.iml" />
+    </modules>
+  </component>
+</project>
