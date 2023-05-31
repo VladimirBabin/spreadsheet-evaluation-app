@@ -8,7 +8,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -22,9 +24,9 @@ class VerificationServiceTest {
     private final VerificationService service = new VerificationService(reportWriter);
     private SpreadsheetToVerify spreadsheet;
     private final ClassLoader classLoader = getClass().getClassLoader();
-    private final File correctSheets = new File(classLoader.getResource("correct-sheets.json").getFile());
-    private final File incorrectTypeSheets = new File(classLoader.getResource("incorrect-type-sheets.json").getFile());
-    private final File incorrectValueSheets = new File(classLoader.getResource("incorrect-value-sheets.json").getFile());
+    private final InputStream correctSheets = classLoader.getResourceAsStream("correct-sheets.json");
+    private final InputStream incorrectTypeSheets = classLoader.getResourceAsStream("incorrect-type-sheets.json");
+    private final InputStream incorrectValueSheets = classLoader.getResourceAsStream("incorrect-value-sheets.json");
 
 
 
@@ -47,7 +49,7 @@ class VerificationServiceTest {
     @Test
     public void testForEmptySpreadsheet() {
         List<Sheet> objectSheets = new ArrayList<>();
-        spreadsheet.setSheets(objectSheets);
+        spreadsheet.setResults(objectSheets);
 
         VerificationResponse responseDto = service.verifySpreadsheet(spreadsheet);
         assertNull(responseDto.getMessage());
@@ -65,7 +67,7 @@ class VerificationServiceTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        spreadsheet.setSheets(objectSheets);
+        spreadsheet.setResults(objectSheets);
 
         VerificationResponse responseDto = service.verifySpreadsheet(spreadsheet);
         assertEquals("All results are correct. " +
@@ -81,7 +83,7 @@ class VerificationServiceTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        spreadsheet.setSheets(objectSheets);
+        spreadsheet.setResults(objectSheets);
 
         VerificationResponse responseDto = service.verifySpreadsheet(spreadsheet);
         assertNull(responseDto.getMessage());
@@ -126,7 +128,7 @@ class VerificationServiceTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        spreadsheet.setSheets(objectSheets);
+        spreadsheet.setResults(objectSheets);
 
         VerificationResponse responseDto = service.verifySpreadsheet(spreadsheet);
         assertNull(responseDto.getMessage());

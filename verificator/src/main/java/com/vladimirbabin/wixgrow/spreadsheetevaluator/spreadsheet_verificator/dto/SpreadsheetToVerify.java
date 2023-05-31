@@ -4,7 +4,7 @@ import java.util.List;
 
 public class SpreadsheetToVerify {
     private String email;
-    private List<Sheet> sheets;
+    private List<Sheet> results;
 
     public SpreadsheetToVerify() {}
 
@@ -16,11 +16,11 @@ public class SpreadsheetToVerify {
         this.email = email;
     }
 
-    public List<Sheet> getSheets() {
-        return sheets;
+    public List<Sheet> getResults() {
+        return results;
     }
 
-    public void setSheets(List<Sheet> results) {
-        this.sheets = results;
+    public void setResults(List<Sheet> results) {
+        this.results = results;
     }
 }

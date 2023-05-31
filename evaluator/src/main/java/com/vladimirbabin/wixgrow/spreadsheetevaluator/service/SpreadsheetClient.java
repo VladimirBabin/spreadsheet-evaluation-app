@@ -27,6 +27,8 @@ public class SpreadsheetClient {
     private final WebClient client;
     private final AppProperties properties;
     private static final Logger logger = LoggerFactory.getLogger(SpreadsheetClient.class);
+    private String responseMessage;
+
 
     public String getResponseMessage() {
         return responseMessage;
@@ -35,9 +37,6 @@ public class SpreadsheetClient {
     public void setResponseMessage(String responseMessage) {
         this.responseMessage = responseMessage;
     }
-
-    private String responseMessage;
-
 
     public SpreadsheetClient(SheetComputer sheetComputer, AppProperties properties) {
         this.client = WebClient.builder().build();
@@ -79,7 +78,7 @@ public class SpreadsheetClient {
                 .bodyToMono(Message.class)
                 .block();
 
-        if (responseWithPasscode != null) {
+        if (responseWithPasscode != null && responseWithPasscode.getMessage() != null) {
             logger.info(responseWithPasscode.getMessage());
             setResponseMessage(responseWithPasscode.getMessage());
         } else {

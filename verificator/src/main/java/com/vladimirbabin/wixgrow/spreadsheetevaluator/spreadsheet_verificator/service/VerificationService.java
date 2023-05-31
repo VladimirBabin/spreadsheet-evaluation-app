@@ -22,11 +22,11 @@ public class VerificationService {
         VerificationResponse responseDto = new VerificationResponse();
         List<Report> reports = new ArrayList<>();
 
-        if (spreadsheet == null || spreadsheet.getSheets() == null) {
+        if (spreadsheet == null || spreadsheet.getResults() == null) {
             throw new NoSubmittedResult("No result submitted, please send the result in json format");
         }
 
-        if (spreadsheet.getSheets().isEmpty()) {
+        if (spreadsheet.getResults().isEmpty()) {
             Report nullSpreadsheetReport = new Report();
             nullSpreadsheetReport.setError("invalid  result: " +
                     "the spreadsheet can't be empty");
@@ -36,7 +36,7 @@ public class VerificationService {
         }
 
         boolean containsError = false;
-        for (Sheet sheet : spreadsheet.getSheets()) {
+        for (Sheet sheet : spreadsheet.getResults()) {
             Sheet<Input> inputsSheet = sheetCellsDeterminer.replaceObjectsWithCells(sheet);
             Report report = reportWriter.check(inputsSheet);
             if (report.getError() != null) {

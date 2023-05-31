@@ -1,9 +1,13 @@
 package com.vladimirbabin.wixgrow.spreadsheetevaluator.spreadsheet_verificator.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.List;
 
 public class VerificationResponse {
+    @JsonInclude(JsonInclude.Include. NON_NULL)
     private String message;
+    @JsonInclude(JsonInclude.Include. NON_NULL)
     private List<Report> reports;
 
     public VerificationResponse() {

@@ -2,6 +2,7 @@ package com.vladimirbabin.wixgrow.spreadsheetevaluator.spreadsheet_verificator.c
 
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.spreadsheet_verificator.dto.SpreadsheetToVerify;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.spreadsheet_verificator.dto.VerificationResponse;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.spreadsheet_verificator.exception_handling.WrongResult;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.spreadsheet_verificator.service.VerificationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +21,11 @@ public class Controller {
     }
 
     @PostMapping("/verify")
-    public ResponseEntity<Object> verifySpreadsheet(@RequestBody SpreadsheetToVerify spreadsheet) {
+    public VerificationResponse verifySpreadsheet(@RequestBody SpreadsheetToVerify spreadsheet) {
         VerificationResponse responseDto = service.verifySpreadsheet(spreadsheet);
         if (responseDto.getMessage() != null) {
-            return ResponseEntity.status(HttpStatus.OK).body(responseDto.getMessage());
+            return responseDto;
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseDto.getReports());
+        throw new WrongResult(responseDto.getReports().toString());
     }
 }

@@ -1,4 +1,4 @@
-package com.vladimirbabin.wixgrow.spreadsheet_evaluator_swagger;
+package com.vladimirbabin.wixgrow.spreadsheetevaluatorswagger;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Contact;
@@ -6,7 +6,6 @@ import io.swagger.v3.oas.annotations.info.Info;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
-import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
 @ConfigurationPropertiesScan

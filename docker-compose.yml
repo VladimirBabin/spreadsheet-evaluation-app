@@ -5,16 +5,26 @@ services:
         build: ./hub
         ports:
           - '8081:8081'
-    swagger:
-        build: ./swagger
-        ports:
-            - '8090:8090'
+        container_name: hub
     evaluator:
         build: ./evaluator
         ports:
             - '8080:8080'
+        depends_on:
+          - hub
+          - verificator
+        container_name: evaluator
+    swagger:
+        build: ./swagger
+        ports:
+            - '8090:8090'
+        depends_on:
+          - hub
+          - evaluator
+        container_name: swagger
     verificator:
         build: ./verificator
         ports:
             - '8181:8181'
+        container_name: verificator
 

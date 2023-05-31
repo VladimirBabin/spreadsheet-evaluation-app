@@ -24,9 +24,8 @@ public class InputChecker {
         List<Sheet<Object>> objectSheets = new ArrayList<>();
 
         try {
-            ClassLoader classLoader = getClass().getClassLoader();
-            objectSheets = objectMapper.readValue(new File(classLoader.getResource("correct-sheets.json").getFile())
-                    , new TypeReference<List<Sheet<Object>>>(){});
+            ClassPathResource res = new ClassPathResource("correct-sheets.json");
+            objectSheets = objectMapper.readValue(res.getInputStream(), new TypeReference<List<Sheet<Object>>>(){});
         } catch (IOException e) {
             e.printStackTrace();
         }

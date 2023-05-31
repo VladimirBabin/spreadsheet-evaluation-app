@@ -1,10 +1,9 @@
-package com.vladimirbabin.wixgrow.spreadsheet_evaluator_swagger;
+package com.vladimirbabin.wixgrow.spreadsheetevaluatorswagger;
 
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 @Component
