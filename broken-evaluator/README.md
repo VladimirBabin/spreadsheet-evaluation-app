@@ -1,4 +1,4 @@
-# Spreadsheet_Evaluator
+# Broken Evaluator
 
 This is a broken implementation of evaluator.
 
@@ -15,3 +15,5 @@ There are 11 types of formulas with some of them being broken and returning the 
 - OR
 - IF
 - CONCAT (BROKEN)
+
+For more details on running, please refer to README.md in evaluator module.

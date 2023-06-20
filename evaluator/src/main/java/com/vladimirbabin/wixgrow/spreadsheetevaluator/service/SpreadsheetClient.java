@@ -1,10 +1,7 @@
 package com.vladimirbabin.wixgrow.spreadsheetevaluator.service;
 
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.AppProperties;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Message;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.ResultSubmission;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Sheet;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Spreadsheet;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.*;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.exception_handling.WrongResponseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,12 +66,12 @@ public class SpreadsheetClient {
                 .retrieve()
                 .onStatus(
                         HttpStatus.BAD_REQUEST::equals,
-                        response -> response.bodyToMono(String.class)
-                                .flatMap(errorBody -> Mono.error(new WrongResponseException(errorBody))))
+                        response -> response.bodyToMono(BadRequestDto.class)
+                                .flatMap(entity -> Mono.error(new WrongResponseException(entity.getMessage()))))
                 .onStatus(
                         HttpStatus.BAD_GATEWAY::equals,
-                        response -> response.bodyToMono(String.class)
-                                .flatMap(errorBody -> Mono.error(new WrongResponseException(errorBody))))
+                        response -> response.bodyToMono(BadRequestDto.class)
+                                .flatMap(entity -> Mono.error(new WrongResponseException(entity.getMessage()))))
                 .bodyToMono(Message.class)
                 .block();
 
