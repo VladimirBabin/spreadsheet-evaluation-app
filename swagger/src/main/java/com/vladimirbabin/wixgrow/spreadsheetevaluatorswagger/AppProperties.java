@@ -13,11 +13,20 @@ public class AppProperties {
     @NotBlank
     private String urlForSpreadsheetEvaluationService;
 
+    @NotBlank
+    private String urlForBrokenEvaluationService;
     public String getUrlForSpreadsheetEvaluationService() {
         return urlForSpreadsheetEvaluationService;
     }
 
     public void setUrlForSpreadsheetEvaluationService(String urlForSpreadsheetEvaluationService) {
         this.urlForSpreadsheetEvaluationService = urlForSpreadsheetEvaluationService;
+    }
+    public String getUrlForBrokenEvaluationService() {
+        return urlForBrokenEvaluationService;
+    }
+
+    public void setUrlForBrokenEvaluationService(String urlForBrokenEvaluationService) {
+        this.urlForBrokenEvaluationService = urlForBrokenEvaluationService;
     }
 }

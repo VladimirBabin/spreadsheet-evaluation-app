@@ -3,22 +3,52 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.0.6</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+
 	<groupId>com.vladimirbabin.wixgrow</groupId>
 	<artifactId>spreadsheet-evaluation-app</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
-	<name>spreadsheet-evaluation-app-root</name>
+	<name>spreadsheet-evaluation-app</name>
 	<description>root module</description>
+	<packaging>pom</packaging>
 
 	<properties>
 		<java.version>17</java.version>
 	</properties>
 
 	<modules>
+		<module>broken-evaluator</module>
 		<module>evaluator</module>
 		<module>hub</module>
 		<module>swagger</module>
-		<module>verificator</module>
+		<module>validator</module>
 	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter</artifactId>
+				<version>3.0.6</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+<!--	<build>-->
+<!--		<plugins>-->
+<!--			<plugin>-->
+<!--				<groupId>org.springframework.boot</groupId>-->
+<!--				<artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--				<configuration>-->
+<!--					<mainClass>com.baeldung.spring.kafka.KafkaApplication</mainClass>-->
+<!--				</configuration>-->
+<!--			</plugin>-->
+<!--		</plugins>-->
+<!--	</build>-->
 
 </project>

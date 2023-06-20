@@ -1,0 +1,14 @@
+spring.main:
+  banner-mode: 'off'
+
+server:
+  port: 8082
+
+logging.level:
+  root: INFO
+
+spreadsheet:
+  url-for-getting-the-task: 'http://hub:8081/api/sheets'
+  email-for-result-submission: 'vladimir.sol.rojo@gmail.com'
+
+#  'https://www.wix.com/_serverless/hiring-task-spreadsheet-evaluator/sheets?tag=is_less&tag=circular_reference'

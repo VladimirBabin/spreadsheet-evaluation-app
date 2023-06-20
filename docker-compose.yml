@@ -6,14 +6,25 @@ services:
         ports:
           - '8081:8081'
         container_name: hub
+
     evaluator:
         build: ./evaluator
         ports:
             - '8080:8080'
         depends_on:
           - hub
-          - verificator
+          - validator
         container_name: evaluator
+
+    broken-evaluator:
+        build: ./broken-evaluator
+        ports:
+            - '8082:8082'
+        depends_on:
+            - hub
+            - validator
+        container_name: broken-evaluator
+
     swagger:
         build: ./swagger
         ports:
@@ -21,10 +32,12 @@ services:
         depends_on:
           - hub
           - evaluator
+          - broken-evaluator
         container_name: swagger
-    verificator:
-        build: ./verificator
+
+    validator:
+        build: ./validator
         ports:
             - '8181:8181'
-        container_name: verificator
+        container_name: validator
 

@@ -2,6 +2,7 @@ package com.vladimirbabin.wixgrow.spreadsheetevaluatorswagger.service;
 
 
 import com.vladimirbabin.wixgrow.spreadsheetevaluatorswagger.AppProperties;
+import com.vladimirbabin.wixgrow.spreadsheetevaluatorswagger.dto.BadRequestDto;
 import com.vladimirbabin.wixgrow.spreadsheetevaluatorswagger.exception_handling.WrongResponseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -18,20 +19,28 @@ public class SwaggerService {
         this.properties = properties;
     }
 
-    public String getAndEvaluateSpreadsheet() {
+    public String getAndEvaluateSpreadsheet(String url) {
         return client
                 .get()
-                .uri(properties.getUrlForSpreadsheetEvaluationService())
+                .uri(url)
                 .retrieve()
                 .onStatus(
                         HttpStatus.BAD_REQUEST::equals,
-                        response -> response.bodyToMono(String.class)
-                                .flatMap(errorBody -> Mono.error(new WrongResponseException(errorBody))))
+                        response -> response.bodyToMono(BadRequestDto.class)
+                                .flatMap(entity -> Mono.error(new WrongResponseException(entity.getMessage()))))
                 .onStatus(
                         HttpStatus.BAD_GATEWAY::equals,
-                        response -> response.bodyToMono(String.class)
-                                .flatMap(errorBody -> Mono.error(new WrongResponseException(errorBody))))
+                        response -> response.bodyToMono(BadRequestDto.class)
+                                .flatMap(entity -> Mono.error(new WrongResponseException(entity.getMessage()))))
                 .bodyToMono(String.class)
                 .block();
+    }
+
+    public String getAndEvaluateBrokenSpreadsheet() {
+        return getAndEvaluateSpreadsheet(properties.getUrlForBrokenEvaluationService());
+    }
+
+    public String getAndEvaluateWorkingSpreadsheet() {
+        return getAndEvaluateSpreadsheet(properties.getUrlForSpreadsheetEvaluationService());
     }
 }

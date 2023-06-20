@@ -16,7 +16,12 @@ public class SwaggerController {
     }
 
     @GetMapping("/spreadsheet-evaluation")
-    public String computeSpreadsheetEvaluation() {
-        return service.getAndEvaluateSpreadsheet();
+    public String computeWorkingSpreadsheetEvaluation() {
+        return service.getAndEvaluateWorkingSpreadsheet();
+    }
+
+    @GetMapping("/broken-spreadsheet-evaluation")
+    public String computeBrokenSpreadsheetEvaluation() {
+        return service.getAndEvaluateBrokenSpreadsheet();
     }
 }
