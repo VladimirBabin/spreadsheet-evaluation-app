@@ -44,7 +44,7 @@ class NotationApplierTest {
             e.printStackTrace();
         }
         Input result = notationApplier.apply(formulaInfo, sheet);
-        assertEquals(Type.FORMULA, result.getType());
+        assertEquals(Type.NOTATION, result.getType());
         assertEquals("=A5", result.getValue());
     }
 

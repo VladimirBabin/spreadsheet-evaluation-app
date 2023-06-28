@@ -20,7 +20,12 @@ There are 11 types of formulas the application can work with:
 
 Each formula has parameters that the application computes as well (in case there are more formulas in parameters or in 
 case a parameter contains a reference to another cell). After the parameters are resolved, the formulas compute and
-return the result. The application also can handle multiple referencing in the cells and can detect circular reference.
+return the result. The application also can handle multiple referencing in the cells and can detect circular reference
+(if you're curious about this part, you can see that this functionality works for both working and broken evaluators
+but is implemented differently: in working it determines circular referencing by storing the information about the 
+initial notation reference and returning the error if the reference is called again, in broken it's storing all 
+references in the set and before applying formula for another notation reference it's checking weather the set
+contains the reference).
 
 ## Requirements
 For building and running the application you need:

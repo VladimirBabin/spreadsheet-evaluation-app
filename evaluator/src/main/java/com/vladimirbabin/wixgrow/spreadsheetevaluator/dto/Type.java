@@ -21,7 +21,7 @@ public enum Type {
             return false;
         }
         String stringObj = (String) value;
-        return stringObj.startsWith("=") || stringObj.contains("(");
+        return stringObj.startsWith("=(") || stringObj.contains("(");
     }),
     NOTATION(Type::isNotation),
     ERROR(value -> value.toString().startsWith("#")),
@@ -52,6 +52,6 @@ public enum Type {
             return false;
         }
         String parameter = (String) obj;
-        return parameter.matches("[A-Z][0-9]+");
+        return parameter.matches("[A-Z][0-9]+") || parameter.matches("=[A-Z][0-9]+");
     }
 }

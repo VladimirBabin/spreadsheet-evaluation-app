@@ -40,7 +40,7 @@ public class SheetComputer {
             List<Object> rowOfResultObjects = new ArrayList<>();
             for (Input cell : listOfCells) {
                 Input result;
-                if (cell.getType().equals(Type.FORMULA)) {
+                if (cell.getType().equals(Type.FORMULA) || cell.getType().equals(Type.NOTATION)) {
                     result = formulaComputer.computeFormula(cell, sheet);
                 } else {
                     result = cell;

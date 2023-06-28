@@ -43,7 +43,7 @@ class InputTypeDeterminerTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"=SUM(A1, B2)", "=A1", "=true", "=DIVIDE(A1, B1)",
+    @ValueSource(strings = {"=SUM(A1, B2)", "=IF(GT(A1, B1), A1, B1)", "=NOT(E2)", "=DIVIDE(A1, B1)",
             "=CONCAT(\"Hello\", \", \", \"World!\")"})
     public void determineFormulaTypeTest(String value) {
         Input input = new Input(value);
@@ -52,7 +52,7 @@ class InputTypeDeterminerTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"A1", "B4", "E7"})
+    @ValueSource(strings = {"A1", "B4", "E7", "=A1", "=B3"})
     public void determineNotationTypeTest(String value) {
         Input input = new Input(value);
         Input resultInput = inputTypeDeterminer.determineType(input);
