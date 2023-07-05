@@ -17,13 +17,15 @@ class EqFormulaApplierTest {
 
     private final EqFormulaApplier eqFormulaApplier = new EqFormulaApplier();
     private final InputTypeDeterminer inputTypeDeterminer = new InputTypeDeterminer();
-    private Sheet sheet;
+    private Sheet<Input> sheet;
     private Input firstCell;
     private Input secondCell;
     private Input thirdCell;
     private Input expected;
     private FormulaInfo formulaInfo;
 
+    @SuppressWarnings("unchecked")
+    //It's safe to cast to generified type for Mock object
     @BeforeEach
     void setUp() {
         sheet = Mockito.mock(Sheet.class);
@@ -35,9 +37,9 @@ class EqFormulaApplierTest {
 
     @Test
     public void applyWithTwoEqualParameters() {
-        firstCell.setValue(new BigDecimal(10.74));
+        firstCell.setValue(new BigDecimal("10.74"));
         firstCell.setType(Type.NUMERIC);
-        secondCell.setValue(new BigDecimal(10.74));
+        secondCell.setValue(new BigDecimal("10.74"));
         secondCell.setType(Type.NUMERIC);
 
         expected.setValue(true);
@@ -57,9 +59,9 @@ class EqFormulaApplierTest {
 
     @Test
     public void applyWithTwoNonEqualParameters() {
-        firstCell.setValue(new BigDecimal(10.74));
+        firstCell.setValue(new BigDecimal("10.74"));
         firstCell.setType(Type.NUMERIC);
-        secondCell.setValue(new BigDecimal(10.75));
+        secondCell.setValue(new BigDecimal("10.75"));
         secondCell.setType(Type.NUMERIC);
 
         expected.setValue(false);
@@ -94,7 +96,7 @@ class EqFormulaApplierTest {
 
         Input result = eqFormulaApplier.apply(formulaInfo, sheet);
 
-        assertTrue(result.getType().equals(Type.ERROR));
+        assertEquals(result.getType(), Type.ERROR);
         assertEquals("#ERROR: There has to be two parameters for EQ formula", result.getValue());
     }
 
@@ -111,7 +113,7 @@ class EqFormulaApplierTest {
 
         Input result = eqFormulaApplier.apply(formulaInfo, sheet);
 
-        assertTrue(result.getType().equals(Type.ERROR));
+        assertEquals(result.getType(), Type.ERROR);
         assertEquals("#ERROR: Invalid parameter type", result.getValue());
     }
 }

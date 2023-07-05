@@ -1,7 +1,6 @@
 package com.vladimirbabin.wixgrow.spreadsheetevaluatorswagger.controller;
 
 import com.vladimirbabin.wixgrow.spreadsheetevaluatorswagger.service.SwaggerService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

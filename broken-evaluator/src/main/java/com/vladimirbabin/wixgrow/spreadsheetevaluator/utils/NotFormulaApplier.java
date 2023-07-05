@@ -20,6 +20,7 @@ public class NotFormulaApplier implements FormulaApplier {
 //        implied bug - formula doesn't revert the boolean value
         Boolean resultOfNotFormula = Boolean.parseBoolean(singleParameter.getValue().toString());
         Input cellResult = new Input(resultOfNotFormula);
+        cellResult.setType(Type.BOOLEAN);
         return cellResult;
     }
 }

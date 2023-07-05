@@ -68,18 +68,6 @@ class FormulaInfoTest {
     }
 
     @Test
-    void hasSingleParameter() {
-        FormulaInfo not = new FormulaInfo("=NOT(F1)");
-        assertTrue(not.hasSingleParameter());
-
-        FormulaInfo notation = new FormulaInfo("=A1");
-        assertTrue(notation.hasSingleParameter());
-
-        FormulaInfo sum = new FormulaInfo("=SUM(A1, A2, B4)");
-        assertFalse(sum.hasSingleParameter());
-    }
-
-    @Test
     void isNotation() {
         FormulaInfo notation = new FormulaInfo("=A1");
         assertTrue(notation.isNotation());

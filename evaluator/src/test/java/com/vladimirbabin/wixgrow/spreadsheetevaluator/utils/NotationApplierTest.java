@@ -7,12 +7,11 @@ import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Sheet;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Type;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.service.InputTypeDeterminer;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.service.SheetCellsDeterminer;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-// The casts when deserializing json values are correct because the Sheet can always be generalized with Object type
+// The casts when deserializing json values are correct because the Sheet can always be generified with Object type
 @SuppressWarnings("unchecked")
 class NotationApplierTest {
 
@@ -37,7 +36,7 @@ class NotationApplierTest {
         }
         inputSheet = sheetCellsDeterminer.replaceObjectsWithCells(sheet);
         Input result = notationApplier.apply(formulaInfo, inputSheet);
-        Assertions.assertEquals(Type.NUMERIC, result.getType());
+        assertEquals(Type.NUMERIC, result.getType());
         assertEquals(5, result.getValue());
     }
 

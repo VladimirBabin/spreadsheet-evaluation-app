@@ -1,13 +1,11 @@
 package com.vladimirbabin.wixgrow.spreadsheetevaluator.service;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.AppProperties;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.*;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.exception_handling.WrongResponseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -20,6 +18,8 @@ import java.util.List;
  * After receiving them it iterates through the sheets, delegating computation of each sheet to SheetComputer
  * and sends the computation results back. After submitting the correct results it prints the response message in logger.
  */
+@SuppressWarnings("rawtypes")
+//Broken evaluator doesn't have a perfect style
 @Service
 public class SpreadsheetClient {
     private final SheetComputer sheetComputer;

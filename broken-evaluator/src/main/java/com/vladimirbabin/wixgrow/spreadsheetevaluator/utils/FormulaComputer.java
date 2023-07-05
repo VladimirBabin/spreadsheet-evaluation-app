@@ -4,8 +4,6 @@ import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Input;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Sheet;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Type;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.service.InputTypeDeterminer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +22,6 @@ public class FormulaComputer {
     private final InputTypeDeterminer inputTypeDeterminer;
 
     private final Set<String> notationsSet = new LinkedHashSet<>();
-    private Logger logger = LoggerFactory.getLogger(FormulaComputer.class);
 
     public FormulaComputer(InputTypeDeterminer inputTypeDeterminer) {
         this.inputTypeDeterminer = inputTypeDeterminer;
@@ -55,9 +52,8 @@ public class FormulaComputer {
         List<Input> resolvedParameters = resolveParameters(formulaInfo.getArrayOfParameters(), sheet);
         formulaInfo.setResolvedParameters(resolvedParameters);
 
-//      Applying the formula and determining the result type
+//      Applying the formula (formula should always return input with type not null)
         Input resultOfFormulaComputation = formulaApplier.apply(formulaInfo, sheet);
-        resultOfFormulaComputation = inputTypeDeterminer.determineType(resultOfFormulaComputation);
 
         if (resultOfFormulaComputation.getType().equals(Type.FORMULA)) {
             resultOfFormulaComputation = computeFormula(resultOfFormulaComputation, sheet);

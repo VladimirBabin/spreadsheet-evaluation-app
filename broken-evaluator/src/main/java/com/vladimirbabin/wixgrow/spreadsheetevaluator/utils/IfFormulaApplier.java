@@ -26,6 +26,7 @@ public class IfFormulaApplier implements FormulaApplier {
         } else {
             cellResult = resolvedParameters.get(2);
         }
+        cellResult.setType(Type.BOOLEAN);
         return cellResult;
     }
 }

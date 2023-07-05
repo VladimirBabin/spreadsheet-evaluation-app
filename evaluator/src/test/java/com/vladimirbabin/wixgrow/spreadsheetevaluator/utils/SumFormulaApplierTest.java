@@ -17,7 +17,7 @@ class SumFormulaApplierTest {
     private final SumFormulaApplier sumFormulaApplier = new SumFormulaApplier();
     private final InputTypeDeterminer inputTypeDeterminer = new InputTypeDeterminer();
 
-    private Sheet sheet;
+    private Sheet<Input> sheet;
     private Input firstCell;
     private Input secondCell;
     private Input thirdCell;
@@ -25,6 +25,8 @@ class SumFormulaApplierTest {
     private FormulaInfo formulaInfo;
 
     @BeforeEach
+    @SuppressWarnings("unchecked")
+    //It's safe to cast to generified type for Mock object
     void setUp() {
         sheet = Mockito.mock(Sheet.class);
         firstCell = new Input();
@@ -92,7 +94,7 @@ class SumFormulaApplierTest {
 
         Input result = sumFormulaApplier.apply(formulaInfo, sheet);
 
-        assertTrue(result.getType().equals(Type.ERROR));
+        assertEquals(result.getType(), Type.ERROR);
         assertEquals("#ERROR: Invalid parameter type", result.getValue());
     }
 
@@ -112,7 +114,7 @@ class SumFormulaApplierTest {
 
         Input result = sumFormulaApplier.apply(formulaInfo, sheet);
 
-        assertTrue(result.getType().equals(Type.ERROR));
+        assertEquals(result.getType(), Type.ERROR);
         assertEquals("#ERROR: Invalid parameter type", result.getValue());
     }
 }

@@ -2,8 +2,6 @@ package com.vladimirbabin.wixgrow.spreadsheetevaluator.dto;
 
 import org.springframework.http.HttpStatus;
 
-import java.util.Arrays;
-import java.util.List;
 
 public class ErrorDto {
     private HttpStatus status;

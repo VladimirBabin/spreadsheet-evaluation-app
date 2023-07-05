@@ -2,7 +2,6 @@ package com.vladimirbabin.wixgrow.spreadsheetevaluator.exception_handling;
 
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.BadRequestDto;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.ErrorDto;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Report;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;

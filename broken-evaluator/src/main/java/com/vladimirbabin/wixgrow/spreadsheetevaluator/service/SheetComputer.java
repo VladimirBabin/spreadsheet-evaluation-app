@@ -16,6 +16,8 @@ import java.util.List;
  * the type can be used for future computations. After that it iterates through the sheet with cells and if they
  * contain a formula - it delegates formula computation to FormulaComputer.
  */
+@SuppressWarnings({"rawtypes", "unchecked"})
+//Broken evaluator doesn't have a perfect style
 @Service
 public class SheetComputer {
     private final FormulaComputer formulaComputer;
@@ -46,7 +48,7 @@ public class SheetComputer {
             for (Input cell : listOfCells) {
                 Input result;
                 if (cell.getType().equals(Type.FORMULA)) {
-                    result = formulaComputer.computeFormula(cell, sheet);
+                    result = formulaComputer.computeFormula(cell, cellSheet);
                 } else {
                     result = cell;
                 }

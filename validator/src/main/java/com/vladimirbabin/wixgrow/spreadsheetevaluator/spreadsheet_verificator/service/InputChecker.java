@@ -15,23 +15,24 @@ import java.util.stream.Collectors;
 
 @Service
 public class InputChecker {
-    /**    matrix of spreadsheet data
-     */
-    private final ObjectMapper objectMapper = new ObjectMapper();
     private final Map<String, List<List<Input>>> mapOfInputs;
 
     public InputChecker() {
         List<Sheet<Object>> objectSheets = new ArrayList<>();
 
+        /*    deserializing the matrix of spreadsheet data
+         */
         try {
             ClassPathResource res = new ClassPathResource("correct-sheets.json");
-            objectSheets = objectMapper.readValue(res.getInputStream(), new TypeReference<List<Sheet<Object>>>(){});
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectSheets = objectMapper.readValue(res.getInputStream(), new TypeReference<>() {
+            });
         } catch (IOException e) {
             e.printStackTrace();
         }
         SheetCellsDeterminer sheetCellsDeterminer = new SheetCellsDeterminer(new InputTypeDeterminer());
         List<Sheet<Input>> inputSheets = new ArrayList<>();
-        for(Sheet sheet : objectSheets) {
+        for(Sheet<Object> sheet : objectSheets) {
             inputSheets.add(sheetCellsDeterminer.replaceObjectsWithCells(sheet));
         }
         mapOfInputs = inputSheets.stream()

@@ -16,13 +16,16 @@ class ConcatFormulaApplierTest {
 
     private final ConcatFormulaApplier concatFormulaApplier = new ConcatFormulaApplier();
     private final InputTypeDeterminer inputTypeDeterminer = new InputTypeDeterminer();
-    private Sheet sheet;
+    private Sheet<Input> sheet;
     private Input firstCell;
     private Input secondCell;
     private Input thirdCell;
     private Input expected;
     private FormulaInfo formulaInfo;
 
+
+    @SuppressWarnings("unchecked")
+    //It's safe to cast to generified type for Mock object
     @BeforeEach
     void setUp() {
         sheet = Mockito.mock(Sheet.class);
@@ -115,7 +118,7 @@ class ConcatFormulaApplierTest {
 
         Input result = concatFormulaApplier.apply(formulaInfo, sheet);
 
-        assertTrue(result.getType().equals(Type.ERROR));
+        assertEquals(result.getType(), Type.ERROR);
         assertEquals("#ERROR: Invalid parameter type", result.getValue());
     }
 }

@@ -4,6 +4,8 @@ import com.vladimirbabin.wixgrow.spreadsheetevaluator.AppProperties;
 
 import java.util.List;
 
+@SuppressWarnings("rawtypes")
+//Broken evaluator doesn't have a perfect style
 public class ResultSubmission {
     private final String email;
     private List<Sheet> results;

@@ -6,7 +6,6 @@ import java.util.List;
 
 
 public class BadRequestDto {
-
     private HttpStatus status;
     private String message;
     private List<Report> reports;

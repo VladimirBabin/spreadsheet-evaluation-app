@@ -24,6 +24,7 @@ public class DivideFormulaApplier implements FormulaApplier {
         BigDecimal denominator = new BigDecimal(resolvedParameters.get(1).getValue().toString());
         BigDecimal resultOfDivision = numerator.divide(denominator, 7, RoundingMode.FLOOR);
         Input cellResult = new Input(resultOfDivision);
+        cellResult.setType(Type.NUMERIC);
         return cellResult;
     }
 }

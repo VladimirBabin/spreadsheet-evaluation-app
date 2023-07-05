@@ -46,7 +46,7 @@ class ValidatorServiceTest {
 
     @Test
     public void testForEmptySpreadsheet() {
-        List<Sheet> objectSheets = new ArrayList<>();
+        List<Sheet<Object>> objectSheets = new ArrayList<>();
         spreadsheet.setResults(objectSheets);
 
         ValidatorResponse responseDto = service.verifySpreadsheet(spreadsheet);
@@ -59,7 +59,7 @@ class ValidatorServiceTest {
 
     @Test
     public void testForCorrectSpreadsheet() {
-        List<Sheet> objectSheets = new ArrayList<>();
+        List<Sheet<Object>> objectSheets = new ArrayList<>();
         try {
             objectSheets = objectMapper.readValue(correctSheets, new TypeReference<>() {});
         } catch (IOException e) {
@@ -75,7 +75,7 @@ class ValidatorServiceTest {
 
     @Test
     public void testForSpreadsheetWithTypeMistakes() {
-        List<Sheet> objectSheets = new ArrayList<>();
+        List<Sheet<Object>> objectSheets = new ArrayList<>();
         try {
             objectSheets = objectMapper.readValue(incorrectTypeSheets, new TypeReference<>() {});
         } catch (IOException e) {
@@ -120,7 +120,7 @@ class ValidatorServiceTest {
 
     @Test
     public void testForSpreadsheetWithValueMistakes() {
-        List<Sheet> objectSheets = new ArrayList<>();
+        List<Sheet<Object>> objectSheets = new ArrayList<>();
         try {
             objectSheets = objectMapper.readValue(incorrectValueSheets, new TypeReference<>() {});
         } catch (IOException e) {
@@ -162,5 +162,4 @@ class ValidatorServiceTest {
                 , report10.getError());
 
     }
-
 }

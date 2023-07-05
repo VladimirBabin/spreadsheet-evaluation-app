@@ -8,9 +8,6 @@ public class Input {
         this.value = value;
     }
 
-    public Input() {
-    }
-
     public Type getType() {
         return type;
     }

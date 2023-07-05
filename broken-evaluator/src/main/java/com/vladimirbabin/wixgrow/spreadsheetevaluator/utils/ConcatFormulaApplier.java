@@ -24,6 +24,8 @@ public class ConcatFormulaApplier implements FormulaApplier {
 //                implied bug
 //                .map(s -> s.replace("\"", ""))
                 .collect(Collectors.joining(""));
-        return new Input(concatenationResult);
+        Input cellResult = new Input(concatenationResult);
+        cellResult.setType(Type.STRING);
+        return cellResult;
     }
 }

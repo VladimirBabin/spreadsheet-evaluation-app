@@ -1,6 +1,5 @@
 package com.vladimirbabin.wixgrow.spreadsheetevaluator.spreadsheet_verificator.exception_handling;
 
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.spreadsheet_verificator.dto.ErrorDto;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.spreadsheet_verificator.dto.ValidatorResponse;
 
 public class WrongResult extends RuntimeException{

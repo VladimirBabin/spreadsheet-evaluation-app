@@ -73,10 +73,6 @@ public class FormulaInfo {
         return getFormulaName().equals(CONCAT);
     }
 
-    boolean hasSingleParameter() {
-        return getArrayOfParameters().size() == 1;
-    }
-
     boolean isNotation() {
         return this.cellStringOrParameterValue.matches("[A-Z][1-9]+");
     }

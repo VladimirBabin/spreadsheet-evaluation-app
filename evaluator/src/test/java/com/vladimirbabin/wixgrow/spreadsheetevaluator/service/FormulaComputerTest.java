@@ -4,8 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Input;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Sheet;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.utils.FormulaComputer;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Type;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.utils.FormulaComputer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,7 +15,7 @@ import org.springframework.test.context.TestPropertySource;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-// The casts when deserializing json values are correct because the Sheet can always be generalized with Object type
+// The casts when deserializing json values are correct because the Sheet can always be generified with Object type
 @SuppressWarnings("unchecked")
 @TestPropertySource(properties = {"spring.config.location=classpath:application-test.yml"})
 class FormulaComputerTest {

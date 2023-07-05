@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Spreadsheet {
     private String submissionUrl;
-    private List<Sheet> sheets;
+    private List<Sheet<Object>> sheets;
 
     public Spreadsheet() {
     }
@@ -17,11 +17,11 @@ public class Spreadsheet {
         this.submissionUrl = submissionUrl;
     }
 
-    public List<Sheet> getSheets() {
+    public List<Sheet<Object>> getSheets() {
         return sheets;
     }
 
-    public void setSheets(List<Sheet> sheets) {
+    public void setSheets(List<Sheet<Object>> sheets) {
         this.sheets = sheets;
     }
 

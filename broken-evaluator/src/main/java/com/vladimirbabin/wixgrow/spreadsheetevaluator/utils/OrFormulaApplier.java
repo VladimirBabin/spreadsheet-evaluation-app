@@ -28,6 +28,7 @@ public class OrFormulaApplier implements FormulaApplier {
             return errorCell("The OR formula result can't be null");
         }
         Input cellResult = new Input(resultOfAndFormula);
+        cellResult.setType(Type.BOOLEAN);
         return cellResult;
     }
 }

@@ -20,7 +20,6 @@ public class ValidatorService {
         this.reportWriter = reportWriter;
     }
 
-
     public ValidatorResponse verifySpreadsheet(SpreadsheetToVerify spreadsheet) {
         ValidatorResponse responseDto = new ValidatorResponse();
         List<Report> reports = new ArrayList<>();
@@ -40,7 +39,7 @@ public class ValidatorService {
         }
 
         boolean containsError = false;
-        for (Sheet sheet : spreadsheet.getResults()) {
+        for (Sheet<Object> sheet : spreadsheet.getResults()) {
             if (sheet.getData() == null) {
                 Report nullSheetReport = new Report();
                 nullSheetReport.setError("invalid  result: " +

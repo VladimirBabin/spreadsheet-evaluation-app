@@ -17,13 +17,15 @@ class NotFormulaApplierTest {
     private final NotFormulaApplier notFormulaApplier = new NotFormulaApplier();
     private final InputTypeDeterminer inputTypeDeterminer = new InputTypeDeterminer();
 
-    private Sheet sheet;
+    private Sheet<Input> sheet;
     private Input firstCell;
     private Input secondCell;
     private Input expected;
     private FormulaInfo formulaInfo;
 
     @BeforeEach
+    @SuppressWarnings("unchecked")
+    //It's safe to cast to generified type for Mock object
     void setUp() {
         sheet = Mockito.mock(Sheet.class);
         firstCell = new Input();
@@ -64,7 +66,7 @@ class NotFormulaApplierTest {
         formulaInfo.setResolvedParameters(parameters);
 
         Input result = notFormulaApplier.apply(formulaInfo, sheet);
-        assertTrue(result.getType().equals(Type.ERROR));
+        assertEquals(result.getType(), Type.ERROR);
         assertEquals("#ERROR: There has to be only one parameter for NOT formula"
                 , result.getValue());
     }
@@ -80,7 +82,7 @@ class NotFormulaApplierTest {
         formulaInfo.setResolvedParameters(parameters);
 
         Input result = notFormulaApplier.apply(formulaInfo, sheet);
-        assertTrue(result.getType().equals(Type.ERROR));
+        assertEquals(result.getType(), Type.ERROR);
         assertEquals("#ERROR: Invalid parameter type", result.getValue());
     }
 }

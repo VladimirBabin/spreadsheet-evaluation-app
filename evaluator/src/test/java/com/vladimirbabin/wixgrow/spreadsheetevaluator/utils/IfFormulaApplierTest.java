@@ -18,7 +18,7 @@ class IfFormulaApplierTest {
     private final IfFormulaApplier ifFormulaApplier = new IfFormulaApplier();
     private final InputTypeDeterminer inputTypeDeterminer = new InputTypeDeterminer();
 
-    private Sheet sheet;
+    private Sheet<Input> sheet;
     private Input firstCell;
     private Input secondCell;
     private Input thirdCell;
@@ -26,6 +26,8 @@ class IfFormulaApplierTest {
     private FormulaInfo formulaInfo;
 
     @BeforeEach
+    @SuppressWarnings("unchecked")
+    //It's safe to cast to generified type for Mock object
     void setUp() {
         sheet = Mockito.mock(Sheet.class);
         firstCell = new Input();
@@ -52,7 +54,7 @@ class IfFormulaApplierTest {
         Input result = ifFormulaApplier.apply(formulaInfo, sheet);
         result = inputTypeDeterminer.determineType(result);
 
-        assertTrue(result.getType().equals(Type.ERROR));
+        assertEquals(result.getType(), Type.ERROR);
         assertEquals("#ERROR: There has to be three parameters for IF formula", result.getValue());
     }
 
@@ -94,7 +96,7 @@ class IfFormulaApplierTest {
         formulaInfo.setResolvedParameters(parameters);
 
         Input result = ifFormulaApplier.apply(formulaInfo, sheet);
-        assertTrue(result.getType().equals(Type.ERROR));
+        assertEquals(result.getType(), Type.ERROR);
         assertEquals("#ERROR: Invalid parameter type: " +
                 "first argument in IF formula should be of BOOLEAN type", result.getValue());
     }

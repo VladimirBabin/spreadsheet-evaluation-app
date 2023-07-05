@@ -23,6 +23,7 @@ public class SumFormulaApplier implements FormulaApplier {
 //                implied bug - reducing from 1 instead of 0:
                 .reduce(BigDecimal.ONE, BigDecimal::add);
         Input cellResult = new Input(resultOfSum);
+        cellResult.setType(Type.NUMERIC);
         return cellResult;
     }
 }

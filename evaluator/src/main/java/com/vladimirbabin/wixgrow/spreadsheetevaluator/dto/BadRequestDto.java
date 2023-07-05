@@ -1,7 +1,6 @@
 package com.vladimirbabin.wixgrow.spreadsheetevaluator.dto;
 
 public class BadRequestDto {
-
     private String status;
     private String message;
 
