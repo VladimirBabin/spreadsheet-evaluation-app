@@ -1,6 +1,6 @@
 # Spreadsheet Evaluator App
 
-This is a dockerized Spring Boot project that bases on the Wix Growth Internship task for 2023 - to implement an application for downloading and computing a spreadsheet and sending it for verification (you can find more details on the task itself by navigating to Task.pdf in this directory). 
+This is a dockerized multimoduled Spring Boot project that bases on the Wix Growth Internship task for 2023 - to implement an application for downloading and computing a spreadsheet and sending it for verification (you can find more details on the task itself by navigating to Task.pdf in this directory). 
 
 This project goes a little further then the task itself (which was implemented in evaluator module) and creates a multimodule app consisting of services for distributing the spreadsheet for the task (hub), verifying the computed spreadsheet (validator), as well as working and broken implementations of evaluator app and a swagger module for interactive control over the whole project.
 
