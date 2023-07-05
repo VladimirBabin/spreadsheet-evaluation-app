@@ -22,6 +22,7 @@ public class SumFormulaApplier implements FormulaApplier {
                 .map(BigDecimal::new)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         Input cellResult = new Input(resultOfSum);
+        cellResult.setType(Type.NUMERIC);
         return cellResult;
     }
 }

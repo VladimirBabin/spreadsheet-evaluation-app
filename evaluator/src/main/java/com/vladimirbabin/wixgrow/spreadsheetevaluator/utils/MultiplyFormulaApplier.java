@@ -25,6 +25,7 @@ public class MultiplyFormulaApplier implements FormulaApplier {
                 .reduce(BigDecimal.ONE, BigDecimal::multiply);
 
         Input cellResult = new Input(resultOfMultiplication);
+        cellResult.setType(Type.NUMERIC);
         return cellResult;
     }
 }

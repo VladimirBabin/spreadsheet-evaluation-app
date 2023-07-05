@@ -52,8 +52,8 @@ public class SpreadsheetClient {
 
     public void evaluateAndSendSpreadsheet(Spreadsheet initialSpreadsheet) {
         ResultSubmission result = new ResultSubmission(properties);
-        List<Sheet> resultListOfSheets = new ArrayList<>();
-        for (Sheet sheet : initialSpreadsheet.getSheets()) {
+        List<Sheet<Object>> resultListOfSheets = new ArrayList<>();
+        for (Sheet<Object> sheet : initialSpreadsheet.getSheets()) {
             resultListOfSheets.add(sheetComputer.computeSheet(sheet));
         }
         logger.info(resultListOfSheets.toString());

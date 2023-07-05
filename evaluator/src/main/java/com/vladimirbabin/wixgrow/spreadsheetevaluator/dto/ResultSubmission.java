@@ -6,7 +6,7 @@ import java.util.List;
 
 public class ResultSubmission {
     private final String email;
-    private List<Sheet> results;
+    private List<Sheet<Object>> results;
 
     public ResultSubmission(AppProperties properties) {
         email = properties.getEmailForResultSubmission();
@@ -16,11 +16,11 @@ public class ResultSubmission {
         return email;
     }
 
-    public List<Sheet> getResults() {
+    public List<Sheet<Object>> getResults() {
         return results;
     }
 
-    public void setResults(List<Sheet> results) {
+    public void setResults(List<Sheet<Object>> results) {
         this.results = results;
     }
 }

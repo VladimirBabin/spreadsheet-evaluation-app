@@ -36,7 +36,11 @@ For building and running the application you need:
 There are several ways to run a Spring Boot application on your local machine. One way is to execute the main method in 
 the com.vladimirbabin.wixgrow.spreadsheetevaluator.SpreadsheetEvaluatorApplication class from your IDE.
 
-Alternatively you can use the Spring Boot Maven plugin like so:
-mvn spring-boot:run
+Alternatively you can use the Spring Boot Maven plugin and run it in your terminal:
+- mvn spring-boot:run
 
-To start the evaluation, send a GET request to http://localhost:8080/api/spreadsheet-evaluation.
+To start the evaluation, send a GET request to http://localhost:8080/api/spreadsheet-evaluation
+or simply run the following command in your terminal:
+- curl localhost:8080/api/spreadsheet-evaluation
+
+

@@ -1,24 +1,29 @@
 package com.vladimirbabin.wixgrow.spreadsheetevaluatorswagger.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import org.springframework.http.HttpStatus;
+
+import java.util.List;
+
 public class BadRequestDto {
 
-    private String status;
+    private HttpStatus status;
+    @JsonInclude(JsonInclude.Include. NON_NULL)
     private String message;
-
-    public BadRequestDto(String status, String message) {
-        this.status = status;
-        this.message = message;
-    }
+    private List<Report> reports;
 
     public BadRequestDto() {
     }
 
-    public String getStatus() {
-        return status;
+    public BadRequestDto(String message, List<Report> reports) {
+        this.message = message;
+        this.reports = reports;
     }
 
-    public void setStatus(String status) {
+    public BadRequestDto(String message, HttpStatus status, List<Report> reports) {
+        this.message = message;
         this.status = status;
+        this.reports = reports;
     }
 
     public String getMessage() {
@@ -27,5 +32,20 @@ public class BadRequestDto {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+    public HttpStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(HttpStatus status) {
+        this.status = status;
+    }
+
+    public List<Report> getReports() {
+        return reports;
+    }
+
+    public void setReports(List<Report> reports) {
+        this.reports = reports;
     }
 }

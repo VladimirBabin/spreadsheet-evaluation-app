@@ -25,6 +25,6 @@ public class Controller {
         if (responseDto.getMessage() != null) {
             return responseDto;
         }
-        throw new WrongResult(responseDto.getReports().toString());
+        throw new WrongResult(responseDto);
     }
 }

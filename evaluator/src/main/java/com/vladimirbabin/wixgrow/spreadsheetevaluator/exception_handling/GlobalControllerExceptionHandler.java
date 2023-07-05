@@ -20,6 +20,7 @@ public class GlobalControllerExceptionHandler extends ResponseEntityExceptionHan
     @ExceptionHandler({ WrongResponseException.class })
     protected ResponseEntity<Object> handleWrongResponseException(WrongResponseException ex) {
         logger.error(ex.toString());
+        ex.printStackTrace();
         ErrorDto errorDto = new ErrorDto(HttpStatus.BAD_REQUEST, ex.getMessage());
         return new ResponseEntity<>(
                 errorDto, new HttpHeaders(), errorDto.getStatus());
@@ -28,6 +29,7 @@ public class GlobalControllerExceptionHandler extends ResponseEntityExceptionHan
     @ExceptionHandler({ Exception.class })
     public ResponseEntity<Object> handleAll(Exception ex, WebRequest request) {
         logger.error(ex.toString());
+        ex.printStackTrace();
         ErrorDto errorDto = new ErrorDto(
                 HttpStatus.INTERNAL_SERVER_ERROR, ex.getLocalizedMessage(), "error occurred");
         return new ResponseEntity<>(

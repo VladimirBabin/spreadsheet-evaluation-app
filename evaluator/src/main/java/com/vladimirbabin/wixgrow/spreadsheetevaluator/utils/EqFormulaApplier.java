@@ -23,6 +23,7 @@ public class EqFormulaApplier implements FormulaApplier {
         BigDecimal second = new BigDecimal(resolvedParameters.get(1).getValue().toString());
         boolean equals = first.equals(second);
         Input cellResult = new Input(equals);
+        cellResult.setType(Type.BOOLEAN);
         return cellResult;
     }
 }

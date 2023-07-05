@@ -17,8 +17,9 @@ public class NotFormulaApplier implements FormulaApplier {
         if (!singleParameter.getType().equals(Type.BOOLEAN)) {
             return errorCell("Invalid parameter type");
         }
-        Boolean resultOfNotFormula = !Boolean.parseBoolean(singleParameter.getValue().toString());
+        boolean resultOfNotFormula = !Boolean.parseBoolean(singleParameter.getValue().toString());
         Input cellResult = new Input(resultOfNotFormula);
+        cellResult.setType(Type.BOOLEAN);
         return cellResult;
     }
 }

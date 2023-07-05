@@ -4,8 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Input;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Sheet;
-import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Type;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.utils.FormulaComputer;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Type;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,11 +15,16 @@ import org.springframework.test.context.TestPropertySource;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+// The casts when deserializing json values are correct because the Sheet can always be generalized with Object type
+@SuppressWarnings("unchecked")
 @TestPropertySource(properties = {"spring.config.location=classpath:application-test.yml"})
 class FormulaComputerTest {
 
     @Autowired
     private FormulaComputer formulaComputer;
+
+    @Autowired
+    private SheetCellsDeterminer sheetCellsDeterminer;
 
     @Value("${spreadsheet.json.sheet-13.not-with-notation}")
     private String sheetWithNotFormulaWithNotationInside;
@@ -49,7 +54,9 @@ class FormulaComputerTest {
     private String sheetWithCircularReferenceBetweenNotationAndFormula;
 
     private Input cell;
-    private Sheet sheet;
+    private Sheet<Object> sheet;
+
+    private Sheet<Input> inputSheet;
 
 
 
@@ -63,9 +70,9 @@ class FormulaComputerTest {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e.getMessage());
         }
-
-        Input result = formulaComputer.computeFormula(cell, sheet);
-        Input result2 = formulaComputer.computeFormula(cell2, sheet);
+        inputSheet = sheetCellsDeterminer.replaceObjectsWithCells(sheet);
+        Input result = formulaComputer.computeFormula(cell, inputSheet);
+        Input result2 = formulaComputer.computeFormula(cell2, inputSheet);
 
         assertEquals(Type.BOOLEAN, result.getType());
         assertEquals(true, result.getValue());
@@ -83,8 +90,8 @@ class FormulaComputerTest {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e.getMessage());
         }
-
-        Input result = formulaComputer.computeFormula(cell, sheet);
+        inputSheet = sheetCellsDeterminer.replaceObjectsWithCells(sheet);
+        Input result = formulaComputer.computeFormula(cell, inputSheet);
         assertEquals(Type.NUMERIC, result.getType());
         assertEquals(21221, result.getValue());
     }
@@ -98,8 +105,8 @@ class FormulaComputerTest {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e.getMessage());
         }
-
-        Input result = formulaComputer.computeFormula(cell, sheet);
+        inputSheet = sheetCellsDeterminer.replaceObjectsWithCells(sheet);
+        Input result = formulaComputer.computeFormula(cell, inputSheet);
         assertEquals(Type.STRING, result.getType());
         assertEquals("AN is Netherlands Antilles", result.getValue());
     }
@@ -113,8 +120,8 @@ class FormulaComputerTest {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e.getMessage());
         }
-
-        Input result = formulaComputer.computeFormula(cell, sheet);
+        inputSheet = sheetCellsDeterminer.replaceObjectsWithCells(sheet);
+        Input result = formulaComputer.computeFormula(cell, inputSheet);
         assertEquals(Type.STRING, result.getType());
         assertEquals("First", result.getValue());
     }
@@ -128,8 +135,8 @@ class FormulaComputerTest {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e.getMessage());
         }
-
-        Input result = formulaComputer.computeFormula(cell, sheet);
+        inputSheet = sheetCellsDeterminer.replaceObjectsWithCells(sheet);
+        Input result = formulaComputer.computeFormula(cell, inputSheet);
         assertEquals(Type.STRING, result.getType());
         assertEquals("First", result.getValue());
     }
@@ -143,8 +150,8 @@ class FormulaComputerTest {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e.getMessage());
         }
-
-        Input result = formulaComputer.computeFormula(cell, sheet);
+        inputSheet = sheetCellsDeterminer.replaceObjectsWithCells(sheet);
+        Input result = formulaComputer.computeFormula(cell, inputSheet);
         assertEquals(Type.STRING, result.getType());
         assertEquals("Last", result.getValue());
     }
@@ -154,12 +161,12 @@ class FormulaComputerTest {
         cell = new Input("=A1");
 
         try {
-            sheet = new ObjectMapper().readValue(sheetWithCircularReferencedNotations, Sheet.class);
+            sheet = new ObjectMapper().readValue(getSheetWithCircularReferencedSingleNotation, Sheet.class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e.getMessage());
         }
-
-        Input result = formulaComputer.computeFormula(cell, sheet);
+        inputSheet = sheetCellsDeterminer.replaceObjectsWithCells(sheet);
+        Input result = formulaComputer.computeFormula(cell, inputSheet);
         assertEquals(Type.ERROR, result.getType());
         assertEquals("#ERROR: Circular reference", result.getValue());
     }
@@ -173,8 +180,8 @@ class FormulaComputerTest {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e.getMessage());
         }
-
-        Input result = formulaComputer.computeFormula(cell, sheet);
+        inputSheet = sheetCellsDeterminer.replaceObjectsWithCells(sheet);
+        Input result = formulaComputer.computeFormula(cell, inputSheet);
         assertEquals(Type.ERROR, result.getType());
         assertEquals("#ERROR: Circular reference", result.getValue());
     }
@@ -188,8 +195,8 @@ class FormulaComputerTest {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e.getMessage());
         }
-
-        Input result = formulaComputer.computeFormula(cell, sheet);
+        inputSheet = sheetCellsDeterminer.replaceObjectsWithCells(sheet);
+        Input result = formulaComputer.computeFormula(cell, inputSheet);
         assertEquals(Type.ERROR, result.getType());
         assertEquals("#ERROR: Invalid parameter type", result.getValue());
     }

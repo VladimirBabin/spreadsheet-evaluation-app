@@ -27,7 +27,7 @@ public class SheetComputer {
         this.sheetCellsDeterminer = sheetCellsDeterminer;
     }
 
-    Sheet computeSheet(Sheet sheet) {
+    Sheet<Object> computeSheet(Sheet<Object> sheet) {
         logger.info("Before computation: " + sheet);
         if (sheet.getData() == null) {
             return sheet;
@@ -41,7 +41,7 @@ public class SheetComputer {
             for (Input cell : listOfCells) {
                 Input result;
                 if (cell.getType().equals(Type.FORMULA) || cell.getType().equals(Type.NOTATION)) {
-                    result = formulaComputer.computeFormula(cell, sheet);
+                    result = formulaComputer.computeFormula(cell, cellSheet);
                 } else {
                     result = cell;
                 }

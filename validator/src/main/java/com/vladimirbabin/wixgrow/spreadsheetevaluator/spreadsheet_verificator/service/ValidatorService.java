@@ -59,7 +59,7 @@ public class ValidatorService {
             responseDto.setReports(reports);
             for (Report report : reports) {
                 logger.error("Errors on validation:");
-                logger.info(report.toString());
+                logger.error(report.toString());
             }
         } else {
             responseDto.setMessage(

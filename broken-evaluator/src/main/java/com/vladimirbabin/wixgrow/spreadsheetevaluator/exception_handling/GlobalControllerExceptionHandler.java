@@ -1,6 +1,8 @@
 package com.vladimirbabin.wixgrow.spreadsheetevaluator.exception_handling;
 
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.BadRequestDto;
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.ErrorDto;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.dto.Report;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -19,10 +21,10 @@ public class GlobalControllerExceptionHandler extends ResponseEntityExceptionHan
 
     @ExceptionHandler({ WrongResponseException.class })
     protected ResponseEntity<Object> handleWrongResponseException(WrongResponseException ex) {
-        logger.error(ex.toString());
-        ErrorDto errorDto = new ErrorDto(HttpStatus.BAD_REQUEST, ex.getMessage());
+        BadRequestDto badRequestDto = ex.getBadRequestDto();
+        badRequestDto.setStatus(HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(
-                errorDto, new HttpHeaders(), errorDto.getStatus());
+                badRequestDto, new HttpHeaders(), badRequestDto.getStatus());
     }
 
     @ExceptionHandler({ Exception.class })

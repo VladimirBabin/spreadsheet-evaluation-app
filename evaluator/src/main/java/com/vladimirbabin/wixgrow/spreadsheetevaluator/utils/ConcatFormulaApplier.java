@@ -23,6 +23,9 @@ public class ConcatFormulaApplier implements FormulaApplier {
                 .map(Object::toString)
                 .map(s -> s.replace("\"", ""))
                 .collect(Collectors.joining(""));
-        return new Input(concatenationResult);
+
+        Input cellResult = new Input(concatenationResult);
+        cellResult.setType(Type.STRING);
+        return cellResult;
     }
 }

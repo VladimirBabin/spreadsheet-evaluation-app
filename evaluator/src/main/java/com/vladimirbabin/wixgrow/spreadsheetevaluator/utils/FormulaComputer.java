@@ -36,8 +36,8 @@ public class FormulaComputer {
             throw new UnsupportedOperationException(formulaInfo.getFormulaName() + " not supported");
         }
 
-        /** If formula is notation we check for Circular reference and set the notation as the initial one.
-         *  If it's not a notation, we resolve parameters and set them to formulaInfo.
+        /* If formula is notation we check for Circular reference and set the notation as the initial one.
+           If it's not a notation, we resolve parameters and set them to formulaInfo.
          */
         if (formulaInfo.isNotation()) {
             if (initialNotation != null && initialNotation.equals(formulaInfo.getFormulaContents())) {
@@ -55,12 +55,8 @@ public class FormulaComputer {
             formulaInfo.setResolvedParameters(resolvedParameters);
         }
 
-//      Applying the formula and determining the result type
+//      Applying the formula
         Input resultOfFormulaComputation = formulaApplier.apply(formulaInfo, sheet);
-
-        if (resultOfFormulaComputation.getType() == null) {
-            resultOfFormulaComputation = inputTypeDeterminer.determineType(resultOfFormulaComputation);
-        }
 
         Type foundResultType = resultOfFormulaComputation.getType();
         if (foundResultType.equals(Type.FORMULA) || foundResultType.equals(Type.NOTATION)) {

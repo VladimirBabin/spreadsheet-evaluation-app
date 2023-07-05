@@ -69,11 +69,11 @@ public class SpreadsheetClient {
                 .onStatus(
                         HttpStatus.BAD_REQUEST::equals,
                         response -> response.bodyToMono(BadRequestDto.class)
-                                .flatMap(entity -> Mono.error(new WrongResponseException(entity.getMessage()))))
+                                .flatMap(entity -> Mono.error(new WrongResponseException(entity))))
                 .onStatus(
                         HttpStatus.BAD_GATEWAY::equals,
                         response -> response.bodyToMono(BadRequestDto.class)
-                                .flatMap(entity -> Mono.error(new WrongResponseException(entity.getMessage()))))
+                                .flatMap(entity -> Mono.error(new WrongResponseException(entity))))
                 .bodyToMono(Message.class)
                 .block();
 

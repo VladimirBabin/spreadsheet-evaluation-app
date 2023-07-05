@@ -1,6 +1,8 @@
 package com.vladimirbabin.wixgrow.spreadsheetevaluator.spreadsheet_verificator.exception_handling;
 
 import com.vladimirbabin.wixgrow.spreadsheetevaluator.spreadsheet_verificator.dto.ErrorDto;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.spreadsheet_verificator.dto.Report;
+import com.vladimirbabin.wixgrow.spreadsheetevaluator.spreadsheet_verificator.dto.ValidatorResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
@@ -21,9 +23,16 @@ public class GlobalControllerExceptionHandler extends ResponseEntityExceptionHan
 
     @ExceptionHandler({ WrongResult.class })
     protected ResponseEntity<Object> handleWrongResultException(WrongResult ex) {
-        ErrorDto errorDto = new ErrorDto(HttpStatus.BAD_REQUEST, ex.getMessage());
+        logger.error("There are mistakes in computation. Please, check the reports: ");
+        if (ex.getValidatorResponse() != null) {
+            for (Report report : ex.getValidatorResponse().getReports()) {
+                logger.error(report.toString());
+            }
+        }
+        ValidatorResponse validatorResponse = ex.getValidatorResponse();
+        validatorResponse.setStatus(HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(
-                errorDto, new HttpHeaders(), errorDto.getStatus());
+                validatorResponse, new HttpHeaders(), validatorResponse.getStatus());
     }
 
     @ExceptionHandler({ NoSubmittedResult.class })

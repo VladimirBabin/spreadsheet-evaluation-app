@@ -2,12 +2,11 @@ package com.vladimirbabin.wixgrow.spreadsheetevaluator.dto;
 
 import org.springframework.http.HttpStatus;
 
-import java.util.Arrays;
-import java.util.List;
 
 public class ErrorDto {
     private HttpStatus status;
     private String message;
+    private String error;
 
     public HttpStatus getStatus() {
         return status;
@@ -35,5 +34,6 @@ public class ErrorDto {
         super();
         this.status = status;
         this.message = message;
+        this.error = error;
     }
 }
